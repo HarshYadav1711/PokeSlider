@@ -222,13 +222,22 @@ class PokeballCarousel {
         document.addEventListener('mousemove', (e) => this.drag(e));
         document.addEventListener('mouseup', () => this.endDrag());
         
-        // Touch drag
-        this.carousel.addEventListener('touchstart', (e) => this.startDrag(e.touches[0]));
+        // Touch drag - improved for mobile
+        this.carousel.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                this.startDrag(e.touches[0]);
+            }
+        }, { passive: false });
+        
         document.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            this.drag(e.touches[0]);
-        });
+            if (this.isDragging && e.touches.length === 1) {
+                e.preventDefault();
+                this.drag(e.touches[0]);
+            }
+        }, { passive: false });
+        
         document.addEventListener('touchend', () => this.endDrag());
+        document.addEventListener('touchcancel', () => this.endDrag());
         
         // Close overlay
         this.closeBtn.addEventListener('click', () => this.hideOverlay());
@@ -248,13 +257,23 @@ class PokeballCarousel {
             });
         }
         
-        // Pause auto-rotation on hover
+        // Pause auto-rotation on hover (desktop only)
         this.carousel.addEventListener('mouseenter', () => {
             this.autoRotate = false;
         });
         this.carousel.addEventListener('mouseleave', () => {
             this.autoRotate = true;
         });
+        
+        // Prevent zoom on double tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     }
     
     startDrag(e) {
@@ -268,7 +287,9 @@ class PokeballCarousel {
         if (!this.isDragging) return;
         
         const deltaX = e.clientX - this.startX;
-        const sensitivity = 0.5;
+        // Adjust sensitivity for mobile (more responsive on touch)
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const sensitivity = isTouch ? 0.6 : 0.5;
         this.angle = this.startAngle + (deltaX * sensitivity);
         this.updateCarousel();
     }
@@ -284,7 +305,9 @@ class PokeballCarousel {
         const balls = this.carousel.querySelectorAll('.pokeball');
         const totalBalls = balls.length;
         const angleStep = 360 / totalBalls;
-        const radius = 250;
+        // Adjust radius for mobile devices
+        const isMobile = window.innerWidth <= 768;
+        const radius = isMobile ? 180 : 250;
         
         balls.forEach((ball, index) => {
             const currentAngle = this.angle + (index * angleStep);
@@ -294,6 +317,8 @@ class PokeballCarousel {
             const z = Math.cos(radian) * radius;
             const rotateY = currentAngle;
             
+            // Use will-change for better performance on mobile
+            ball.style.willChange = 'transform';
             ball.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${-rotateY}deg)`;
             
             const normalizedAngle = ((currentAngle % 360) + 360) % 360;
