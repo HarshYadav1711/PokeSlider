@@ -1,6 +1,6 @@
 # Feature tracker — PokeSlider
 
-Maintenance rule: after **major** feature work, update this file in the same change set (or immediately after merge). Trivial bugfixes can skip.
+**Context pack (keep in sync):** After **meaningful** product or architecture changes, update **this file**, `PROJECT_CONTEXT.md`, `DECISIONS_LOG.md` (ADR when justified), and **`.cursor/rules/project-context.mdc`** (plus other `.mdc` rules if patterns change)—ideally in the **same PR** as the code. Pure typo / one-line fixes can skip.
 
 Legend: **Status** matches section. **Risk**: Low / Med / High.
 
@@ -10,7 +10,7 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 
 | Feature | Goal | Files (typical) | Dependencies | Risks | Status |
 |---------|------|-----------------|----------------|-------|--------|
-| Comparison card export | Let users export/share a visual summary of compare results | `ComparisonShareSurface.tsx`, `ComparisonModal.tsx`, new util or canvas | Possibly `html-to-image` or canvas-only — **requires ADR** | Bundle size, SSR none | Planned |
+| Comparison card export | Let users export/share a visual summary of compare results | `ComparisonShareSurface.tsx`, `ComparisonModal.tsx`, new util or canvas | Possibly `html-to-image` (already used for Team Builder) or canvas-only | Bundle size, SSR none | Planned |
 | URL-deep links | Optional shareable URLs for compare slots or open dex | router TBD, stores | New dep or lightweight hash router | Scope creep | Planned |
 
 ---
@@ -34,7 +34,8 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 | Compare | Transparent multi-category scoring | `ComparisonModal.tsx`, `comparisonScoring.ts`, `ComparisonStatBars.tsx` | Query profiles + type chart | Misinterpretation of rules → mitigated by copy | Completed |
 | Design tokens & atmosphere | Premium visual system + type tint | `design-tokens.css`, `index.css`, `AppAtmosphere.tsx` | CSS `color-mix` | Older browsers | Completed |
 | A11y foundation | Trap, carousel keyboard, tests | `useFocusTrap.ts`, `getFocusable.ts`, `carouselAngle.ts`, `*.test.ts` | Vitest | Maintenance | Completed |
-| Keyboard shortcuts | `/`, `Esc` stack | `useAppKeyboardShortcuts.ts` | — | Conflicts with inputs | Completed |
+| Team Builder | Local deterministic party of six; goals, risk, gen, locks; coverage/gaps/swaps; PNG card | `features/team-builder/*`, `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts`, `query/keys.ts` (`qk.teamBuilder`), `PokemonSummary.baseStats` in `types/pokemon.ts` + `mapSummary.ts` | PokéAPI, **`html-to-image`** | Pool sampling for "Any gen"; API etiquette | Completed |
+| Keyboard shortcuts | `/`, `Esc` stack (team builder → compare → My Dex → overlay) | `useAppKeyboardShortcuts.ts` | — | Conflicts with inputs | Completed |
 
 ---
 

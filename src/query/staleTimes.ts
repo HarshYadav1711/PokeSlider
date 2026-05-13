@@ -22,3 +22,6 @@ export const STALE_POKEDEX_MEMBERS_MS = 1000 * 60 * 60 * 24;
 export const STALE_ABILITY_MEMBERS_MS = 1000 * 60 * 60 * 12;
 export const STALE_FORM_SEARCH_INDEX_MS = 1000 * 60 * 60 * 24 * 30;
 export const STALE_SPECIES_PRIOR_MS = 1000 * 60 * 60 * 24 * 7;
+
+/** Full type chart matrix (18 `/type` payloads) — stable for a long time. */
+export const STALE_TYPE_MATCHUP_MATRIX_MS = 1000 * 60 * 60 * 24 * 30;

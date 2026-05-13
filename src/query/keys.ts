@@ -20,4 +20,8 @@ export const qk = {
   discovery: {
     summaryBatch: (batchKey: string) => ['discovery', 'summary-batch', batchKey] as const,
   },
+  teamBuilder: {
+    typeMatchup: () => ['pokeapi', 'team-builder', 'type-matchup'] as const,
+    poolSummaries: (batchKey: string) => ['team-builder', 'pool', batchKey] as const,
+  },
 } as const;

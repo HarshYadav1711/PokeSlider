@@ -2,11 +2,13 @@
 
 Human- and AI-readable summary of **identity**, **architecture**, **status**, and **safe extension**. Authoritative Cursor rules live in `.cursor/rules/` (especially `project-context.mdc`).
 
+**Doc maintenance:** Whenever you ship a **non-trivial** feature or change behavior users rely on, update this file, `FEATURE_TRACKER.md`, and `DECISIONS_LOG.md` (ADR) in the same change set; mirror material changes in `.cursor/rules/project-context.mdc` (and other `.mdc` files when patterns shift). Trivial bugfixes can skip bulk edits.
+
 ---
 
 ## Project identity
 
-**PokeSlider** is a React + Vite SPA for **exploring Poké Balls and Pokémon** using the public **PokéAPI**. The **3D Poké Ball carousel** is the hero; **My Dex** provides search, filters, and lists; **Compare** scores two Pokémon with transparent rules; **detail overlays** show species depth (stats, evolution, locations, type matchups, cry, mega).
+**PokeSlider** is a React + Vite SPA for **exploring Poké Balls and Pokémon** using the public **PokéAPI**. The **3D Poké Ball carousel** is the hero; **My Dex** provides search, filters, and lists; **Compare** scores two Pokémon with transparent rules; **Team Builder** recommends a party of six with rule-based scoring, coverage readouts, and PNG export; **detail overlays** show species depth (stats, evolution, locations, type matchups, cry, mega).
 
 **Personality:** cinematic, premium, playful-but-controlled — not noisy or gimmicky.
 
@@ -22,19 +24,21 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 | Pokémon overlay | Detail + extras queries, cry, mega compare modal, type effectiveness, locations |
 | My Dex | Tabs (browse / favorites / recents), filters, listbox + keyboard, compare A/B slots, focus trap |
 | Compare modal | Profiles, scoring table, stat bars, duel background, error + per-side retry |
+| Team Builder | Local rule-based party of six; goals, risk, gen pool, locks, synergy/coverage/gaps/swaps; PNG card via `html-to-image` |
 | Design system | `design-tokens.css`, Tailwind `@theme`, glass/focus utilities, type atmosphere via `AppAtmosphere` |
-| Accessibility | Focus trap + restoration, skip link, ARIA on terse controls, Escape ordering |
+| Accessibility | Focus trap + restoration, skip link, ARIA on terse controls, Escape stack (team builder → compare → My Dex → overlay) |
 
 ---
 
 ## Architecture decisions
 
-1. **TanStack Query** owns server state; **Zustand** owns UI navigation and small client-only lists (favorites/recents, compare slots, discovery UI).
-2. **Single QueryClient** in `AppProviders` — no per-modal clients.
-3. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
-4. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.
-5. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`.
-6. **Pure helpers** (`a11y/carouselAngle.ts`, `getFocusable.ts`, etc.) unit-tested; heavy UI tested incrementally as needed.
+1. **TanStack Query** owns server state; **Zustand** owns UI navigation and small client-only lists (favorites/recents, compare slots, discovery UI, **team builder open + locks**).
+2. **`PokemonSummary`** includes **`baseStats`** (HP/Atk/Def/SpA/SpD/Spe) from `mapPokemonSummary` for stat-aware features (e.g. Team Builder) without a second fetch shape.
+3. **Single QueryClient** in `AppProviders` — no per-modal clients.
+4. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
+5. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.
+6. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`.
+7. **Pure helpers** (`a11y/carouselAngle.ts`, `getFocusable.ts`, `features/team-builder/teamBuilderEngine.ts`, etc.) unit-tested; heavy UI tested incrementally as needed.
 
 ---
 
@@ -51,15 +55,15 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 
 - **No backend in repo** — all data from PokéAPI + static catalogs in `src/data/`.
 - **Strict TypeScript** — `noUncheckedIndexedAccess`, unused locals/params as errors.
-- **Dependency discipline** — avoid new runtime deps unless clearly justified (see `DECISIONS_LOG.md`).
+- **Dependency discipline** — avoid new runtime deps unless clearly justified (see `DECISIONS_LOG.md`). Runtime includes **`html-to-image`** (Team Builder PNG export).
 - **PokéAPI etiquette** — cache, prefetch thoughtfully, don’t hammer the API.
 
 ---
 
 ## Development priorities
 
-1. Keep **carousel + overlay + dex + compare** flows fast, accessible, and visually coherent.
-2. Extend **comparison share/export** when product-ready (marker exists on share surface).
+1. Keep **carousel + overlay + dex + compare + team builder** flows fast, accessible, and visually coherent.
+2. Extend **comparison share/export** when product-ready (marker exists on share surface; Team Builder already ships a PNG card path).
 3. Grow **tests** around pure logic and critical interaction helpers before bloating E2E.
 
 ---
@@ -75,7 +79,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 
 ## Current unfinished / deferred (see FEATURE_TRACKER)
 
-- Comparison **image export** (explicit TODO in UI copy / `data-comparison-export`).
+- Comparison **image export** (explicit TODO in UI copy / `data-comparison-export`) — Team Builder card export is separate and shipped.
 - Broader E2E coverage (not yet a dependency).
 
 ---
@@ -84,7 +88,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 
 1. **New API shape** — add mapper in `services/pokeapi/`, types in `types/`, key in `keys.ts`, stale time if non-default.
 2. **New global UI state** — prefer Query; if purely client, add minimal Zustand slice with clear name.
-3. **New modal** — copy `DetailsOverlay` / `ComparisonModal` patterns: `useFocusTrap`, `aria-modal`, initial focus selector, Escape behavior coordinated with `useAppKeyboardShortcuts`.
+3. **New modal** — copy `DetailsOverlay` / `ComparisonModal` / `TeamBuilderModal` patterns: `useFocusTrap`, `aria-modal`, initial focus selector, Escape behavior coordinated with `useAppKeyboardShortcuts` (Escape stack: team builder → compare → My Dex → overlay).
 4. **New tokens** — extend `design-tokens.css`; wire through Tailwind `@theme` only if you need first-class utilities.
 
 ---
@@ -105,4 +109,6 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 | `FEATURE_TRACKER.md` | Planned / in progress / completed / blocked / ideas |
 | `DECISIONS_LOG.md` | Why major choices were made |
 | `.cursor/rules/project-context.mdc` | Primary AI rules + onboarding block |
-| `.cursor/rules/*.mdc` | Modular deep rules |
+| `.cursor/rules/*.mdc` | Modular deep rules — update when patterns or stack change |
+
+Keep these aligned when you change product behavior (see maintenance note at top).

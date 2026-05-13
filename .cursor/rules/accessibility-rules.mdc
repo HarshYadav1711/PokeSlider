@@ -18,7 +18,7 @@ alwaysApply: false
 
 - **Carousel:** region tab stop; arrows, Home/End, Space/Enter documented in copy + `aria-describedby` hints.
 - **My Dex:** listbox pattern with `aria-activedescendant`; arrows, PageUp/PageDown, Enter; `/` focuses search (global shortcut).
-- **Escape:** global order compare → My Dex → overlay; nested mega modal stops propagation for Escape.
+- **Escape:** global order team builder → compare → My Dex → overlay; nested mega modal stops propagation for Escape.
 
 ## Screen readers
 

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 
 import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
+import { useTeamBuilderStore } from '../store/teamBuilderStore';
 import { useUiStore } from '../store/uiStore';
 
 /**
@@ -12,6 +13,12 @@ export function useAppKeyboardShortcuts() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (e.defaultPrevented) return;
+        const teamBuilderOpen = useTeamBuilderStore.getState().open;
+        if (teamBuilderOpen) {
+          useTeamBuilderStore.getState().setOpen(false);
+          e.preventDefault();
+          return;
+        }
         const compareOpen = useComparisonStore.getState().open;
         if (compareOpen) {
           useComparisonStore.getState().closeModal();

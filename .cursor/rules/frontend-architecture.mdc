@@ -12,7 +12,7 @@ alwaysApply: false
 
 - `main.tsx` → `AppProviders` → `App`.
 - Global styles: `index.css` imports Tailwind + `styles/design-tokens.css`.
-- Keyboard shortcuts: `hooks/useAppKeyboardShortcuts.ts` (document-level; respects inputs / `defaultPrevented`).
+- Keyboard shortcuts: `hooks/useAppKeyboardShortcuts.ts` (document-level; respects inputs / `defaultPrevented`). **Escape order:** team builder modal → compare modal → My Dex panel → details overlay.
 
 ## Feature boundaries
 
@@ -22,6 +22,7 @@ alwaysApply: false
 | Ball/Pokémon overlay | `features/overlay/DetailsOverlay.tsx`, `BallDetailPanel.tsx`, `PokemonDetailPanel.tsx` |
 | My Dex | `features/discovery/MyDexPanel.tsx`, `discoveryEngine.ts`, `useMyDexDiscovery.ts`, `discoveryUiStore.ts` |
 | Compare | `features/compare/*`, `store/comparisonStore.ts` |
+| Team Builder | `features/team-builder/*` (modal, `teamBuilderEngine.ts`, `useTeamBuilderData.ts`, `typeMatchupChart.ts`), `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts` |
 | Atmosphere | `providers/AppAtmosphere.tsx` (reads species types into `html[data-atmosphere]`) |
 
 ## Composition rules

@@ -16,6 +16,7 @@ alwaysApply: false
 ## Query keys
 
 - Add factories only in `src/query/keys.ts` — nested `qk.pokemon.detail(id)` style.
+- Feature-scoped groups are fine (e.g. `qk.teamBuilder.typeMatchup()`, `qk.teamBuilder.poolSummaries(batchKey)`).
 - Never inline duplicate string keys — breaks deduplication and prefetch.
 
 ## Stale times & GC

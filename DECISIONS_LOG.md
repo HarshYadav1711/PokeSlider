@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Team Builder (local rules) + `PokemonSummary.baseStats` + `html-to-image`
+
+**Decision:** Ship a **Team Builder** modal that recommends six Pokémon using a **transparent, deterministic** objective (typed goal weights, greedy marginal picks, STAB mono coverage, shared-weakness pressure, role heuristics). Extend **`PokemonSummary`** with **`baseStats`** (mapped in `mapPokemonSummary`) so all summaries carry base stats for the solver. Add **`html-to-image`** for **PNG export** of a share card. Cache a full type matchup matrix from **18 PokéAPI `/type` calls** (`qk.teamBuilder.typeMatchup`, `STALE_TYPE_MATCHUP_MATRIX_MS`).
+
+**Why:** Product asked for an “intelligent” assistant **without** paid models—rule tables and explainable deltas preserve trust. One chart fetch avoids duplicating the entire type chart in static JSON. `baseStats` avoids a second fetch per species for team logic and benefits any future stat-aware UI.
+
+**Alternatives rejected:** External LLM APIs (cost, privacy, non-determinism); embedding a full dual-type matrix by hand (maintenance / drift); canvas-only export without a small library (more code for marginal gain); keeping stats off `PokemonSummary` (extra parallel fetch shape).
+
+---
+
 ## 2026-05 — Vitest + jsdom for pure helpers
 
 **Decision:** Add Vitest + jsdom + Testing Library as **dev** dependencies; test `carouselAngle`, `getFocusableElements`, `nextTrappedIndex` without E2E.

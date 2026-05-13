@@ -22,6 +22,16 @@ export type PokemonTypeName =
 
 export type PokemonCategory = 'legendary' | 'mythical' | 'pseudoLegendary' | 'regular';
 
+/** Base stats from PokéAPI (used by team builder + discovery summaries). */
+export interface PokemonBaseStats {
+  hp: number;
+  attack: number;
+  defense: number;
+  specialAttack: number;
+  specialDefense: number;
+  speed: number;
+}
+
 /** Lightweight index row used for grids + ball suggestions */
 export interface PokemonSummary {
   id: number;
@@ -30,6 +40,7 @@ export interface PokemonSummary {
   image: string | null;
   types: PokemonTypeName[];
   baseStatTotal: number;
+  baseStats: PokemonBaseStats;
   isLegendary: boolean;
   isMythical: boolean;
   isPseudoLegendary: boolean;

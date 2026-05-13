@@ -1,8 +1,10 @@
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
 import { ComparisonModal } from './features/compare/ComparisonModal';
 import { MyDexPanel } from './features/discovery/MyDexPanel';
+import { TeamBuilderModal } from './features/team-builder/TeamBuilderModal';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
+import { useTeamBuilderStore } from './store/teamBuilderStore';
 
 export function App() {
   useAppKeyboardShortcuts();
@@ -18,6 +20,15 @@ export function App() {
       <main id="main-content" className="relative z-[2] flex min-h-dvh w-full flex-col items-stretch text-[#f4f4f8] max-lg:pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex w-full max-w-[min(100%,72rem)] flex-1 flex-col items-center px-[var(--space-section-x)] py-[var(--space-section-y)] max-md:items-stretch">
         <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
+          <div className="mb-[var(--space-4)] flex justify-center">
+            <button
+              type="button"
+              className="app-focus-ring rounded-full border border-indigo-400/35 bg-indigo-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-indigo-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-indigo-500/25"
+              onClick={() => useTeamBuilderStore.getState().setOpen(true)}
+            >
+              Open Team Builder
+            </button>
+          </div>
           <p className="mb-[var(--space-3)] text-[var(--text-eyebrow)] font-semibold uppercase tracking-[0.14em] text-white/62 [font-family:var(--font-sans)]">
             Interactive catalog
           </p>
@@ -54,6 +65,8 @@ export function App() {
       <MyDexPanel />
 
       <ComparisonModal />
+
+      <TeamBuilderModal />
       </main>
     </>
   );

@@ -1,5 +1,5 @@
 import type { PokemonSpeciesResponse, PokemonResponse, PokemonTypeSlot } from '../../types/pokeapi';
-import type { PokemonCategory, PokemonSummary, PokemonTypeName } from '../../types/pokemon';
+import type { PokemonBaseStats, PokemonCategory, PokemonSummary, PokemonTypeName } from '../../types/pokemon';
 import { isPseudoLegendary } from '../../utils/pokemonMeta';
 
 const TYPE_SET = new Set<string>([
@@ -45,6 +45,21 @@ function resolveCategory(
   return 'regular';
 }
 
+function mapBaseStats(stats: PokemonResponse['stats']): PokemonBaseStats {
+  const m: Record<string, number> = {};
+  for (const row of stats) {
+    m[row.stat.name] = row.base_stat;
+  }
+  return {
+    hp: m.hp ?? 0,
+    attack: m.attack ?? 0,
+    defense: m.defense ?? 0,
+    specialAttack: m['special-attack'] ?? 0,
+    specialDefense: m['special-defense'] ?? 0,
+    speed: m.speed ?? 0,
+  };
+}
+
 export function mapPokemonSummary(pokemon: PokemonResponse, species: PokemonSpeciesResponse): PokemonSummary {
   const baseStatTotal = pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0);
   const isLegendary = species.is_legendary;
@@ -62,6 +77,7 @@ export function mapPokemonSummary(pokemon: PokemonResponse, species: PokemonSpec
     image,
     types: mapTypes(pokemon.types),
     baseStatTotal,
+    baseStats: mapBaseStats(pokemon.stats),
     isLegendary,
     isMythical,
     isPseudoLegendary: pseudo,
