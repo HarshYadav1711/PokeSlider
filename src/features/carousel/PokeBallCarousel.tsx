@@ -1,5 +1,5 @@
+import { useCallback, useId, type KeyboardEvent } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useMemo } from 'react';
 
 import { POKEBALLS } from '../../data/pokeballs';
 import { usePokeBallCarousel } from '../../hooks/usePokeBallCarousel';
@@ -9,15 +9,72 @@ import { useUiStore } from '../../store/uiStore';
 export function PokeBallCarousel() {
   const qc = useQueryClient();
   const openBall = useUiStore((s) => s.openBall);
-  const { transforms, carouselProps, reducedMotion } = usePokeBallCarousel(POKEBALLS.length);
+  const headingId = useId();
+  const hintId = useId();
+  const liveId = useId();
 
-  const balls = useMemo(() => POKEBALLS, []);
+  const balls = POKEBALLS;
+  const ballCount = balls.length;
+  const { transforms, carouselProps, reducedMotion, activeIndex, angleStep, rotateBy, snapToIndex } =
+    usePokeBallCarousel(ballCount);
+
+  const activeBall = balls[activeIndex] ?? balls[0]!;
+
+  const onCarouselKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLElement>) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        rotateBy(-angleStep);
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        rotateBy(angleStep);
+        return;
+      }
+      if (e.key === 'Home') {
+        e.preventDefault();
+        snapToIndex(0);
+        return;
+      }
+      if (e.key === 'End') {
+        e.preventDefault();
+        snapToIndex(ballCount - 1);
+        return;
+      }
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        const b = balls[activeIndex];
+        if (b) void openBall(b.id);
+      }
+    },
+    [angleStep, activeIndex, ballCount, balls, openBall, rotateBy, snapToIndex],
+  );
 
   return (
-    <div className="relative z-10 flex w-full max-w-[min(100%,72rem)] flex-col items-center px-[var(--space-section-x)]">
+    <section
+      className="relative z-10 flex w-full max-w-[min(100%,72rem)] flex-col items-center px-[var(--space-section-x)]"
+      aria-labelledby={headingId}
+    >
+      <h2 id={headingId} className="sr-only">
+        Poké Ball carousel
+      </h2>
+      <p id={hintId} className="sr-only">
+        Use Left and Right arrow keys to rotate the rack. Home and End jump to the first or last ball. Press Space or
+        Enter to open the ball currently in front.
+      </p>
+      <div id={liveId} className="sr-only" aria-live="polite" aria-atomic="true">
+        {activeBall.name} in front
+      </div>
+
       <div
-        className="relative flex h-[min(600px,72dvh)] w-full max-w-4xl items-center justify-center [perspective:2000px] max-md:h-[min(420px,58dvh)] max-sm:h-[min(360px,52dvh)]"
-        aria-label="Poké Ball carousel"
+        tabIndex={0}
+        role="group"
+        aria-labelledby={headingId}
+        aria-describedby={hintId}
+        aria-activedescendant={`carousel-ball-${activeBall.id}`}
+        onKeyDown={onCarouselKeyDown}
+        className="app-focus-ring relative flex h-[min(600px,72dvh)] w-full max-w-4xl items-center justify-center outline-none [perspective:2000px] max-md:h-[min(420px,58dvh)] max-sm:h-[min(360px,52dvh)]"
       >
         <div
           className={[
@@ -38,17 +95,21 @@ export function PokeBallCarousel() {
           {balls.map((ball, index) => {
             const t = transforms[index] ?? { transform: 'none', active: false };
             const nextBall = balls[(index + 1) % balls.length]!;
+            const isActive = ball.id === activeBall.id;
             return (
               <button
                 key={ball.id}
+                id={`carousel-ball-${ball.id}`}
                 type="button"
+                tabIndex={-1}
+                aria-hidden={!isActive}
                 onPointerEnter={() => {
                   void prefetchBallSuggestions(qc, ball);
                   void prefetchBallSuggestions(qc, nextBall);
                 }}
                 onClick={() => openBall(ball.id)}
                 className={[
-                  'app-focus-ring absolute left-1/2 top-1/2 size-[min(140px,30vw)] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-[var(--radius-2xl)] border-0 bg-transparent p-0 [transform-style:preserve-3d] [backface-visibility:hidden]',
+                  'app-focus-ring absolute left-1/2 top-1/2 size-[min(140px,30vw)] min-h-[44px] min-w-[44px] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-[var(--radius-2xl)] border-0 bg-transparent p-0 [transform-style:preserve-3d] [backface-visibility:hidden]',
                   'max-md:size-[min(100px,26vw)] max-sm:size-[min(88px,28vw)]',
                   'transition-[transform,box-shadow,filter] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)]',
                   'motion-reduce:transition-none',
@@ -62,7 +123,7 @@ export function PokeBallCarousel() {
               >
                 <img
                   src={ball.image}
-                  alt={ball.name}
+                  alt=""
                   loading="lazy"
                   decoding="async"
                   className={[
@@ -77,6 +138,6 @@ export function PokeBallCarousel() {
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

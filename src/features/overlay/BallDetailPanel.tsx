@@ -28,11 +28,19 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
       onPointerEnter={() => {
         void prefetchPokemonDetail(qc, pokemon.id);
       }}
+      aria-label={[
+        `View ${pokemon.name} details`,
+        pokemon.isLegendary ? 'Legendary Pokémon' : null,
+        pokemon.isMythical ? 'Mythical Pokémon' : null,
+        pokemon.isPseudoLegendary ? 'Pseudo-legendary Pokémon' : null,
+      ]
+        .filter(Boolean)
+        .join(', ')}
       className="app-focus-ring relative flex flex-col items-center rounded-[var(--radius-2xl)] border border-white/12 bg-white/8 p-4 text-center transition-[transform,background-color,border-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/12 active:translate-y-0 active:scale-[0.99]"
     >
       <img
         src={src}
-        alt={pokemon.name}
+        alt=""
         loading="lazy"
         decoding="async"
         className="size-24 object-contain max-md:size-20 max-sm:size-16"
@@ -46,15 +54,15 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
       />
       <p className="mt-3 text-sm font-semibold capitalize text-white">{pokemon.name}</p>
       {pokemon.isLegendary ? (
-        <span className="absolute right-3 top-3 text-xl text-amber-300" title="Legendary">
+        <span className="absolute right-3 top-3 text-xl text-amber-300" aria-hidden title="Legendary">
           ★
         </span>
       ) : pokemon.isMythical ? (
-        <span className="absolute right-3 top-3 text-xl text-pink-300" title="Mythical">
+        <span className="absolute right-3 top-3 text-xl text-pink-300" aria-hidden title="Mythical">
           ✦
         </span>
       ) : pokemon.isPseudoLegendary ? (
-        <span className="absolute right-3 top-3 text-xl text-violet-300" title="Pseudo-Legendary">
+        <span className="absolute right-3 top-3 text-xl text-violet-300" aria-hidden title="Pseudo-Legendary">
           ◆
         </span>
       ) : null}
@@ -81,16 +89,18 @@ export function BallDetailPanel({ ball }: BallDetailPanelProps) {
         <button
           type="button"
           onClick={() => void refetch()}
-          className="app-focus-ring rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
+          className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
         >
-          Retry
+          Retry loading suggestions
         </button>
       </div>
     );
   }
 
   if (pokemon.length === 0) {
-    return <AsyncFeedback title="No Pokémon to show" description="Try again in a moment." />;
+    return (
+      <AsyncFeedback role="status" title="No Pokémon to show" description="Try again in a moment." />
+    );
   }
 
   return (

@@ -11,6 +11,7 @@ export function useAppKeyboardShortcuts() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        if (e.defaultPrevented) return;
         const compareOpen = useComparisonStore.getState().open;
         if (compareOpen) {
           useComparisonStore.getState().closeModal();

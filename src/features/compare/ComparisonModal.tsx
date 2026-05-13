@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
+import { useFocusTrap } from '../../a11y/useFocusTrap';
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import {
@@ -34,7 +35,7 @@ function MatchupLists({
 }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-      <h4 className="mb-2 text-xs font-bold uppercase tracking-wide text-white/55">{label}</h4>
+      <h4 className="mb-2 text-xs font-bold uppercase tracking-wide text-white/70">{label}</h4>
       <div className="space-y-2 text-xs text-white/85">
         <div>
           <span className="text-white/60">Weak to (2× from): </span>
@@ -99,6 +100,7 @@ function CategoryRow({ row, sideLabel }: { row: ComparisonCategoryResult; sideLa
 
 export function ComparisonModal() {
   const reduced = usePrefersReducedMotion();
+  const dialogRef = useRef<HTMLDivElement>(null);
   const open = useComparisonStore((s) => s.open);
   const closeModal = useComparisonStore((s) => s.closeModal);
   const swap = useComparisonStore((s) => s.swap);
@@ -170,6 +172,12 @@ export function ComparisonModal() {
           ? ('b' as const)
           : ('tie' as const);
 
+  useFocusTrap({
+    active: open,
+    containerRef: dialogRef,
+    initialFocusSelector: '[data-compare-initial-focus]',
+  });
+
   return (
     <AnimatePresence>
       {open ? (
@@ -186,26 +194,31 @@ export function ComparisonModal() {
           }}
         >
           <motion.div
+            ref={dialogRef}
             initial={reduced ? { opacity: 0 } : { y: 40, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { y: 24, opacity: 0, scale: 0.98 }}
             transition={dialogSpringTransition(reduced)}
             role="dialog"
-            aria-modal
+            aria-modal="true"
             aria-label="Pokémon comparison"
             onClick={(e) => e.stopPropagation()}
             className="max-h-[94dvh] w-full max-w-5xl overflow-y-auto rounded-t-[var(--radius-3xl)] border border-white/12 shadow-[var(--shadow-lg)] md:max-h-[92dvh] md:rounded-[var(--radius-3xl)]"
             style={{ background: bg }}
           >
             <div className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-white/10 bg-[rgb(6_8_14/0.55)] px-4 py-3 backdrop-blur-[var(--blur-glass)] md:px-6">
-              <h2 className="text-[var(--text-title-sm)] font-bold tracking-[var(--tracking-tight)] text-white [font-family:var(--font-display)]">
+              <h2
+                tabIndex={-1}
+                data-compare-initial-focus
+                className="text-[var(--text-title-sm)] font-bold tracking-[var(--tracking-tight)] text-white outline-none [font-family:var(--font-display)]"
+              >
                 Compare
               </h2>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => swap()}
-                  className="app-focus-ring rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/24 hover:bg-white/14 disabled:cursor-not-allowed disabled:opacity-45"
+                  className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/24 hover:bg-white/14 disabled:cursor-not-allowed disabled:opacity-45"
                   disabled={!idA || !idB}
                 >
                   Swap sides
@@ -213,10 +226,10 @@ export function ComparisonModal() {
                 <button
                   type="button"
                   onClick={() => closeModal()}
-                  className="app-focus-ring min-h-10 min-w-10 rounded-[var(--radius-pill)] border border-white/18 bg-white/8 text-lg text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/26 hover:bg-white/14"
-                  aria-label="Close comparison"
+                  className="app-focus-ring flex min-h-11 min-w-11 items-center justify-center rounded-[var(--radius-pill)] border border-white/18 bg-white/8 text-lg text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/26 hover:bg-white/14"
+                  aria-label="Close comparison dialog"
                 >
-                  ×
+                  <span aria-hidden>×</span>
                 </button>
               </div>
             </div>
@@ -235,7 +248,29 @@ export function ComparisonModal() {
               ) : null}
 
               {idA && idB && (profileA.isError || profileB.isError) ? (
-                <p className="py-8 text-center text-sm text-red-200">Could not load one or both Pokémon. Try again.</p>
+                <div className="space-y-4 py-8 text-center" role="alert">
+                  <p className="text-sm text-red-200">Could not load one or both Pokémon. You can retry each side below.</p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {profileA.isError ? (
+                      <button
+                        type="button"
+                        className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white"
+                        onClick={() => void profileA.refetch()}
+                      >
+                        Retry Pokémon A
+                      </button>
+                    ) : null}
+                    {profileB.isError ? (
+                      <button
+                        type="button"
+                        className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white"
+                        onClick={() => void profileB.refetch()}
+                      >
+                        Retry Pokémon B
+                      </button>
+                    ) : null}
+                  </div>
+                </div>
               ) : null}
 
               {ready && profileA.data && profileB.data && report && effA.data && effB.data ? (
@@ -327,7 +362,9 @@ export function ComparisonModal() {
                   )}
 
                   <details className="mb-6 rounded-2xl border border-white/10 bg-black/30 p-4">
-                    <summary className="cursor-pointer text-sm font-semibold text-white">How scoring works</summary>
+                    <summary className="app-focus-ring min-h-11 cursor-pointer rounded-[var(--radius-lg)] px-1 py-2 text-sm font-semibold text-white">
+                      How scoring works
+                    </summary>
                     <p className="mt-2 text-xs leading-relaxed text-white/75">
                       Five independent categories each award <strong>1 point</strong> to the winner, or{' '}
                       <strong>0.5 each</strong> on a tie. Abilities and evolution stage are shown for context only and do
@@ -337,8 +374,11 @@ export function ComparisonModal() {
 
                   <div className="mb-8 overflow-x-auto rounded-2xl border border-white/10">
                     <table className="w-full min-w-[520px] border-collapse text-left">
+                      <caption className="sr-only">
+                        Category-by-category comparison between {sideNames.a} and {sideNames.b}
+                      </caption>
                       <thead>
-                        <tr className="border-b border-white/15 text-xs uppercase tracking-wide text-white/55">
+                        <tr className="border-b border-white/15 text-xs uppercase tracking-wide text-white/70">
                           <th className="py-2 pr-2">Category</th>
                           <th className="px-2 py-2 text-center">{sideNames.a}</th>
                           <th className="px-2 py-2 text-center">{sideNames.b}</th>

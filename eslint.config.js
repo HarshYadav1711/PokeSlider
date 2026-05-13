@@ -19,7 +19,7 @@ const reactRules = {
 };
 
 export default tseslint.config(
-  { ignores: ['dist', 'legacy'] },
+  { ignores: ['dist', 'legacy', 'vitest.config.ts'] },
   {
     extends: typeCheckedExtends,
     files: ['src/**/*.{ts,tsx}'],

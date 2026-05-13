@@ -103,9 +103,9 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
         <button
           type="button"
           onClick={() => void detailQuery.refetch()}
-          className="app-focus-ring rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
+          className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
         >
-          Retry
+          Retry loading Pokémon
         </button>
       </div>
     );
@@ -124,7 +124,11 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
           className="mx-auto size-48 rounded-3xl border-[3px] border-white/20 bg-white/10 object-contain p-4 md:mx-0 md:size-52"
         />
         <div className="flex-1 space-y-3 text-center md:text-left">
-          <h2 className="text-3xl font-black capitalize tracking-wide text-white [font-family:var(--font-display)] md:text-4xl">
+          <h2
+            tabIndex={-1}
+            data-overlay-initial-focus
+            className="text-3xl font-black capitalize tracking-wide text-white outline-none [font-family:var(--font-display)] md:text-4xl"
+          >
             {pokemon.name}
           </h2>
           <div className="text-lg font-semibold text-white/80 [font-family:var(--font-display)]">
@@ -139,14 +143,26 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
             <button
               type="button"
               onClick={() => void play({ id: pokemon.id, cryUrl: pokemon.cryUrl })}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25"
+              className="app-focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25"
+              aria-label={
+                cryStatus === 'playing'
+                  ? 'Cry is playing'
+                  : cryStatus === 'unavailable'
+                    ? 'Cry audio unavailable for this Pokémon'
+                    : 'Play Pokémon cry'
+              }
             >
-              {cryStatus === 'playing' ? '🔊 Playing…' : cryStatus === 'unavailable' ? '🔇 Cry unavailable' : '🔊 Play Cry'}
+              <span aria-hidden>
+                {cryStatus === 'playing' ? '🔊' : cryStatus === 'unavailable' ? '🔇' : '🔊'}
+              </span>
+              <span>
+                {cryStatus === 'playing' ? 'Playing…' : cryStatus === 'unavailable' ? 'Cry unavailable' : 'Play cry'}
+              </span>
             </button>
             <button
               type="button"
               onClick={() => assignCompareSlot('a', pokemon.id)}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-violet-400/50 bg-violet-500/15 px-4 text-sm font-bold text-violet-100 transition hover:bg-violet-500/25"
+              className="app-focus-ring inline-flex min-h-11 items-center justify-center rounded-full border-2 border-violet-400/50 bg-violet-500/15 px-4 text-sm font-bold text-violet-100 transition hover:bg-violet-500/25"
               aria-label="Use in compare slot A"
             >
               Compare A
@@ -154,7 +170,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
             <button
               type="button"
               onClick={() => assignCompareSlot('b', pokemon.id)}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-sky-400/50 bg-sky-500/15 px-4 text-sm font-bold text-sky-100 transition hover:bg-sky-500/25"
+              className="app-focus-ring inline-flex min-h-11 items-center justify-center rounded-full border-2 border-sky-400/50 bg-sky-500/15 px-4 text-sm font-bold text-sky-100 transition hover:bg-sky-500/25"
               aria-label="Use in compare slot B"
             >
               Compare B
@@ -163,10 +179,12 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
               type="button"
               onClick={() => toggleFavorite(pokemon.id)}
               aria-pressed={isFav}
-              aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-amber-300/40 bg-amber-400/15 px-4 text-lg font-bold text-amber-200 transition hover:bg-amber-400/25"
+              aria-label={
+                isFav ? `Remove ${pokemon.name} from favorites` : `Add ${pokemon.name} to favorites`
+              }
+              className="app-focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-amber-300/40 bg-amber-400/15 px-4 text-lg font-bold text-amber-200 transition hover:bg-amber-400/25"
             >
-              {isFav ? '★' : '☆'}
+              <span aria-hidden>{isFav ? '★' : '☆'}</span>
             </button>
           </div>
           <div className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-white/90">
@@ -382,9 +400,15 @@ function MegaComparisonModal({
       exit={{ opacity: 0 }}
       transition={overlayBackdropTransition(reduced)}
       role="dialog"
-      aria-modal
+      aria-modal="true"
       aria-label="Mega Evolution details"
       onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') {
+          e.stopPropagation();
+          onClose();
+        }
+      }}
     >
       <motion.div
         initial={reduced ? { opacity: 0 } : { y: 36, scale: 0.96, opacity: 0 }}
@@ -448,9 +472,9 @@ function MegaComparisonModal({
         <button
           type="button"
           onClick={onClose}
-          className="app-focus-ring mt-6 w-full rounded-[var(--radius-2xl)] border border-white/20 bg-white/10 py-3 font-bold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/28 hover:bg-white/16"
+          className="app-focus-ring mt-6 min-h-11 w-full rounded-[var(--radius-2xl)] border border-white/20 bg-white/10 py-3 font-bold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/28 hover:bg-white/16"
         >
-          Close
+          Close Mega Evolution details
         </button>
       </motion.div>
     </motion.div>

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useId, useMemo, useRef } from 'react';
 
+import { useFocusTrap } from '../../a11y/useFocusTrap';
 import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
@@ -24,8 +25,10 @@ function tabClass(active: boolean): string {
 export function MyDexPanel() {
   const reduced = usePrefersReducedMotion();
   const listRef = useRef<HTMLDivElement>(null);
+  const trapRef = useRef<HTMLDivElement>(null);
   const panelId = useId().replaceAll(':', '');
   const listboxId = `${panelId}-listbox`;
+  const mainPanelId = `${panelId}-main-panel`;
 
   const panelOpen = useDiscoveryUiStore((s) => s.panelOpen);
   const setPanelOpen = useDiscoveryUiStore((s) => s.setPanelOpen);
@@ -38,6 +41,12 @@ export function MyDexPanel() {
   const resetFilters = useDiscoveryUiStore((s) => s.resetFilters);
   const activeResultIndex = useDiscoveryUiStore((s) => s.activeResultIndex);
   const setActiveResultIndex = useDiscoveryUiStore((s) => s.setActiveResultIndex);
+
+  useFocusTrap({
+    active: panelOpen,
+    containerRef: trapRef,
+    initialFocusSelector: '[data-initial-focus]',
+  });
 
   const showPokemon = useUiStore((s) => s.showPokemon);
   const toggleFavorite = useDexListsStore((s) => s.toggleFavorite);
@@ -87,6 +96,12 @@ export function MyDexPanel() {
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setActiveResultIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        setActiveResultIndex((i) => Math.min(i + 10, Math.max(displayRows.length - 1, 0)));
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        setActiveResultIndex((i) => Math.max(i - 10, 0));
       } else if (e.key === 'Enter') {
         const row = displayRows[activeResultIndex];
         if (row) {
@@ -131,7 +146,7 @@ export function MyDexPanel() {
             key="mydex"
             id={panelId}
             role="dialog"
-            aria-modal
+            aria-modal="true"
             aria-label="My Dex Pokémon browser"
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -139,6 +154,7 @@ export function MyDexPanel() {
             transition={sheetSpringTransition(reduced)}
             className="pointer-events-auto fixed inset-x-0 bottom-0 top-[min(12dvh,120px)] z-[895] flex flex-col rounded-t-[var(--radius-3xl)] border border-white/12 bg-[rgb(10_14_26/0.96)] p-[var(--space-4)] shadow-[var(--shadow-lg)] backdrop-blur-[var(--blur-overlay)] max-md:top-[10vh] md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-[var(--radius-3xl)] md:p-[var(--space-5)]"
           >
+            <div ref={trapRef} className="flex min-h-0 flex-1 flex-col">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-[var(--text-title-sm)] font-bold tracking-[var(--tracking-tight)] text-white [font-family:var(--font-display)]">
                 My Dex
@@ -179,7 +195,9 @@ export function MyDexPanel() {
                   key={id}
                   type="button"
                   role="tab"
+                  id={`${panelId}-tab-${id}`}
                   aria-selected={tab === id}
+                  aria-controls={mainPanelId}
                   className={tabClass(tab === id)}
                   onClick={() => setTab(id)}
                 >
@@ -188,11 +206,19 @@ export function MyDexPanel() {
               ))}
             </div>
 
-            <label className="mb-2 block text-[var(--text-eyebrow)] font-semibold uppercase tracking-wide text-white/58">
+            <div
+              id={mainPanelId}
+              role="tabpanel"
+              aria-labelledby={`${panelId}-tab-${tab}`}
+              className="flex min-h-0 flex-1 flex-col"
+            >
+            <label className="mb-2 block text-[var(--text-eyebrow)] font-semibold uppercase tracking-wide text-white/68" htmlFor={`${panelId}-search`}>
               Search
             </label>
             <input
+              id={`${panelId}-search`}
               data-discovery-search
+              data-initial-focus
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -204,14 +230,14 @@ export function MyDexPanel() {
             />
 
             <details className="mb-3 rounded-2xl border border-white/10 bg-white/5">
-              <summary className="cursor-pointer select-none px-4 py-3 text-sm font-semibold text-white/90">
+              <summary className="app-focus-ring cursor-pointer select-none rounded-[var(--radius-2xl)] px-4 py-3 text-sm font-semibold text-white/92 min-h-12">
                 Filters {tab === 'browse' ? '' : '(browse tab for type, region, ability)'}
               </summary>
               <div className="space-y-4 border-t border-white/10 px-3 pb-4 pt-3">
                 {tab === 'browse' ? (
                   <>
                     <fieldset>
-                      <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/55">
+                      <legend className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/68">
                         Types (any match)
                       </legend>
                       <div className="flex flex-wrap gap-1.5">
@@ -222,9 +248,12 @@ export function MyDexPanel() {
                               key={t}
                               type="button"
                               aria-pressed={on}
+                              aria-label={
+                                on ? `Remove ${t} from type filter` : `Add ${t} to type filter (any match)`
+                              }
                               onClick={() => toggleType(t)}
                               className={[
-                                'rounded-full border px-2.5 py-1 text-xs font-semibold capitalize transition',
+                                'app-focus-ring min-h-10 rounded-full border px-2.5 py-2 text-xs font-semibold capitalize transition',
                                 on ? 'border-white/40 bg-white/25 text-white' : 'border-white/15 bg-black/20 text-white/75 hover:bg-white/10',
                               ].join(' ')}
                             >
@@ -235,10 +264,10 @@ export function MyDexPanel() {
                       </div>
                     </fieldset>
 
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/55">
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
                       Generation
                       <select
-                        className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                         value={filters.generation ?? ''}
                         onChange={(e) =>
                           setFilters({
@@ -256,10 +285,10 @@ export function MyDexPanel() {
                       </select>
                     </label>
 
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/55">
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
                       Regional dex
                       <select
-                        className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                         value={filters.pokedexSlug ?? ''}
                         onChange={(e) => setFilters({ pokedexSlug: e.target.value || null })}
                         aria-label="Filter by regional Pokédex"
@@ -273,11 +302,11 @@ export function MyDexPanel() {
                       </select>
                     </label>
 
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/55">
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
                       Ability (slug)
                       <input
                         list={`${panelId}-abilities`}
-                        className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white placeholder:text-white/40"
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white placeholder:text-white/45"
                         value={filters.abilitySlug ?? ''}
                         onChange={(e) => setFilters({ abilitySlug: e.target.value.trim() || null })}
                         placeholder="e.g. overgrow"
@@ -298,10 +327,10 @@ export function MyDexPanel() {
                   </p>
                 )}
 
-                <label className="block text-xs font-semibold uppercase tracking-wide text-white/55">
+                <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
                   Rarity group
                   <select
-                    className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                    className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                     value={filters.rarity}
                     onChange={(e) =>
                       setFilters({ rarity: e.target.value as (typeof filters)['rarity'] })
@@ -316,10 +345,10 @@ export function MyDexPanel() {
                   </select>
                 </label>
 
-                <label className="block text-xs font-semibold uppercase tracking-wide text-white/55">
+                <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
                   Evolution stage (species)
                   <select
-                    className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                    className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                     value={filters.evolutionStage}
                     onChange={(e) =>
                       setFilters({ evolutionStage: e.target.value as (typeof filters)['evolutionStage'] })
@@ -333,13 +362,13 @@ export function MyDexPanel() {
                 </label>
 
                 <div className="grid grid-cols-2 gap-2">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-white/68">
                     Min BST
                     <input
                       type="number"
                       min={0}
                       max={800}
-                      className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                      className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                       value={filters.statMin ?? ''}
                       onChange={(e) =>
                         setFilters({ statMin: e.target.value === '' ? null : Number(e.target.value) })
@@ -347,13 +376,13 @@ export function MyDexPanel() {
                       aria-label="Minimum base stat total"
                     />
                   </label>
-                  <label className="text-xs font-semibold uppercase tracking-wide text-white/55">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-white/68">
                     Max BST
                     <input
                       type="number"
                       min={0}
                       max={800}
-                      className="mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                      className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
                       value={filters.statMax ?? ''}
                       onChange={(e) =>
                         setFilters({ statMax: e.target.value === '' ? null : Number(e.target.value) })
@@ -366,14 +395,14 @@ export function MyDexPanel() {
                 <button
                   type="button"
                   onClick={() => resetFilters()}
-                  className="w-full rounded-xl border border-white/15 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
+                  className="app-focus-ring w-full min-h-11 rounded-xl border border-white/15 bg-white/10 py-2.5 text-sm font-semibold text-white transition hover:bg-white/15"
                 >
                   Reset filters
                 </button>
               </div>
             </details>
 
-            <p className="mb-2 text-xs text-white/55" aria-live="polite">
+            <p className="mb-2 text-xs text-white/65" aria-live="polite">
               {isIndexingForms ? 'Indexing alternate forms (first open may take a moment)…' : null}
               {!isIndexingForms && tab === 'browse' ? `${candidateIds.length} matches` : null}
               {tab === 'favorites' ? `${candidateIds.length} favorites` : null}
@@ -393,13 +422,13 @@ export function MyDexPanel() {
               className="app-focus-ring min-h-0 flex-1 overflow-y-auto rounded-[var(--radius-2xl)] border border-white/10 bg-black/26 outline-none"
             >
               {loadingList ? (
-                <div className="space-y-2 p-3">
+                <div className="space-y-2 p-3" aria-busy="true" aria-label="Loading Pokémon list">
                   {Array.from({ length: 8 }, (_, i) => (
                     <InlineRowSkeleton key={i} className="h-16" />
                   ))}
                 </div>
               ) : displayRows.length === 0 ? (
-                <p className="p-6 text-center text-sm text-white/70">
+                <p className="p-6 text-center text-sm text-white/75" role="status">
                   No Pokémon match these filters. Try clearing search or filters.
                 </p>
               ) : (
@@ -448,7 +477,7 @@ export function MyDexPanel() {
                             <button
                               type="button"
                               aria-label={`Set ${p.name} as comparison slot A`}
-                              className="app-focus-ring min-h-9 min-w-9 rounded-[var(--radius-md)] border border-violet-400/38 bg-violet-500/14 text-xs font-bold text-violet-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-violet-500/22 active:scale-[0.97]"
+                              className="app-focus-ring min-h-11 min-w-11 rounded-[var(--radius-md)] border border-violet-400/38 bg-violet-500/14 text-xs font-bold text-violet-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-violet-500/22 active:scale-[0.97]"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 assignCompareSlot('a', p.id);
@@ -459,7 +488,7 @@ export function MyDexPanel() {
                             <button
                               type="button"
                               aria-label={`Set ${p.name} as comparison slot B`}
-                              className="app-focus-ring min-h-9 min-w-9 rounded-[var(--radius-md)] border border-sky-400/38 bg-sky-500/14 text-xs font-bold text-sky-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-sky-500/22 active:scale-[0.97]"
+                              className="app-focus-ring min-h-11 min-w-11 rounded-[var(--radius-md)] border border-sky-400/38 bg-sky-500/14 text-xs font-bold text-sky-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-sky-500/22 active:scale-[0.97]"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 assignCompareSlot('b', p.id);
@@ -470,9 +499,9 @@ export function MyDexPanel() {
                           </div>
                           <button
                             type="button"
-                            aria-label={favoriteSet.has(p.id) ? 'Remove from favorites' : 'Add to favorites'}
+                            aria-label={favoriteSet.has(p.id) ? `Remove ${p.name} from favorites` : `Add ${p.name} to favorites`}
                             aria-pressed={favoriteSet.has(p.id)}
-                            className="app-focus-ring shrink-0 rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-3 py-2 text-lg leading-none text-amber-200 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/22 hover:bg-white/14 active:scale-[0.96]"
+                            className="app-focus-ring flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-3 text-lg leading-none text-amber-200 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/22 hover:bg-white/14 active:scale-[0.96]"
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleFavorite(p.id);
@@ -488,11 +517,17 @@ export function MyDexPanel() {
               )}
             </div>
 
-            <p className="mt-2 text-center text-[11px] leading-snug text-white/45">
-              <kbd className="rounded border border-white/15 px-1">/</kbd> search ·{' '}
-              <kbd className="rounded border border-white/15 px-1">Esc</kbd> close · arrows +{' '}
-              <kbd className="rounded border border-white/15 px-1">Enter</kbd> open
+            <p className="mt-2 text-center text-[11px] leading-snug text-white/62">
+              <kbd className="rounded border border-white/18 px-1">/</kbd> focus search ·{' '}
+              <kbd className="rounded border border-white/18 px-1">Esc</kbd> close ·{' '}
+              <kbd className="rounded border border-white/18 px-1">↑</kbd>{' '}
+              <kbd className="rounded border border-white/18 px-1">↓</kbd> move highlight ·{' '}
+              <kbd className="rounded border border-white/18 px-1">PgUp</kbd>{' '}
+              <kbd className="rounded border border-white/18 px-1">PgDn</kbd> page results ·{' '}
+              <kbd className="rounded border border-white/18 px-1">Enter</kbd> open highlighted Pokémon
             </p>
+            </div>
+            </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
