@@ -1,0 +1,376 @@
+import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useMemo, useState } from 'react';
+
+import { TypeBadge } from '../../components/pokemon/TypeBadge';
+import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
+import { usePokemonCry } from '../../hooks/usePokemonCry';
+import { usePokemonDetail } from '../../hooks/usePokemonDetail';
+import { buildEvolutionChain } from '../../services/pokeapi/evolution';
+import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
+import { useUiStore } from '../../store/uiStore';
+import type {
+  DetailedPokemon,
+  EvolutionChainPokemon,
+  MegaFormSummary,
+  PokemonEncounterLocation,
+  PokemonTypeName,
+  TypeEffectivenessResult,
+} from '../../types/pokemon';
+
+interface PokemonDetailPanelProps {
+  pokemonId: number;
+}
+
+export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
+  const detailState = usePokemonDetail(pokemonId);
+  const showPokemon = useUiStore((s) => s.showPokemon);
+  const { play, status: cryStatus } = usePokemonCry();
+
+  const [extrasStatus, setExtrasStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [extrasError, setExtrasError] = useState<string | null>(null);
+  const [effectiveness, setEffectiveness] = useState<TypeEffectivenessResult | null>(null);
+  const [chain, setChain] = useState<EvolutionChainPokemon[]>([]);
+  const [megaModal, setMegaModal] = useState<MegaFormSummary | null>(null);
+
+  const pokemon = detailState.status === 'success' ? detailState.data : undefined;
+
+  useEffect(() => {
+    if (!pokemon) return;
+    let cancelled = false;
+    setExtrasStatus('loading');
+    setExtrasError(null);
+    void Promise.all([getTypeEffectiveness(pokemon.types), buildEvolutionChain(pokemon.evolutionData)])
+      .then(([eff, evo]) => {
+        if (cancelled) return;
+        setEffectiveness(eff);
+        setChain(evo);
+        setExtrasStatus('success');
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setExtrasStatus('error');
+        setExtrasError(err instanceof Error ? err.message : 'Failed to load matchups / evolution.');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [pokemon]);
+
+  useEffect(() => {
+    if (detailState.status !== 'success' || !detailState.data) return;
+    const p = detailState.data;
+    void play({ id: p.id, cryUrl: p.cryUrl });
+  }, [detailState.status, detailState.data?.id, detailState.data?.cryUrl, play, detailState.data]);
+
+  const categoryLabel = useMemo(() => {
+    if (!pokemon) return '';
+    const bits: string[] = [];
+    if (pokemon.isLegendary) bits.push('Legendary');
+    if (pokemon.isMythical) bits.push('Mythical');
+    if (pokemon.isPseudoLegendary) bits.push('Pseudo-Legendary');
+    if (bits.length === 0) bits.push('Regular');
+    return bits.join(', ');
+  }, [pokemon]);
+
+  if (detailState.status === 'idle' || detailState.status === 'loading') {
+    return <AsyncFeedback title="Loading Pokémon details…" />;
+  }
+
+  if (detailState.status === 'error' || !pokemon) {
+    return (
+      <AsyncFeedback
+        title="Something went wrong"
+        description={detailState.error ?? 'Unable to load this Pokémon.'}
+      />
+    );
+  }
+
+  const hasMega = pokemon.megaEvolutions.length > 0;
+  const finalEvo = chain[chain.length - 1];
+  const canShowMega = hasMega && finalEvo && finalEvo.id === pokemon.id;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col gap-6 rounded-3xl border-2 border-white/10 bg-white/10 p-6 backdrop-blur-md md:flex-row md:items-center">
+        <img
+          src={pokemon.image ?? ''}
+          alt={pokemon.name}
+          className="mx-auto size-48 rounded-3xl border-[3px] border-white/20 bg-white/10 object-contain p-4 md:mx-0 md:size-52"
+        />
+        <div className="flex-1 space-y-3 text-center md:text-left">
+          <h2 className="text-3xl font-black capitalize tracking-wide text-white [font-family:var(--font-display)] md:text-4xl">
+            {pokemon.name}
+          </h2>
+          <div className="text-lg font-semibold text-white/80 [font-family:var(--font-display)]">
+            #{String(pokemon.id).padStart(3, '0')}
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+            {pokemon.types.map((t) => (
+              <TypeBadge key={t} type={t} />
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => void play({ id: pokemon.id, cryUrl: pokemon.cryUrl })}
+            className="mx-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25 md:mx-0"
+          >
+            {cryStatus === 'playing' ? '🔊 Playing…' : cryStatus === 'unavailable' ? '🔇 Cry unavailable' : '🔊 Play Cry'}
+          </button>
+          <div className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-white/90">
+            <strong>Category:</strong> {categoryLabel} | <strong>Generation:</strong> {pokemon.generation} |{' '}
+            <strong>Habitat:</strong> {pokemon.habitat}
+          </div>
+        </div>
+      </div>
+
+      <section className="rounded-2xl border-l-4 border-white/30 bg-white/10 p-6 backdrop-blur-md">
+        <h3 className="mb-3 text-xl font-bold text-white">Pokédex Entry</h3>
+        <p className="leading-relaxed text-white/95">{pokemon.pokedexEntries[0] ?? 'No description available.'}</p>
+      </section>
+
+      <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
+        <h3 className="mb-4 text-xl font-bold text-white">Base Stats</h3>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-4">
+          {pokemon.stats.map((s) => (
+            <div
+              key={s.name}
+              className="rounded-xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md"
+            >
+              <div className="text-sm capitalize text-white/90">{s.name}</div>
+              <div className="mt-2 text-2xl font-black text-white">{s.value}</div>
+            </div>
+          ))}
+          <div className="rounded-xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md">
+            <div className="text-sm text-white/90">Total</div>
+            <div className="mt-2 text-2xl font-black text-white">{pokemon.baseStatTotal}</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
+        <h3 className="mb-4 text-xl font-bold text-white">Evolution Chain</h3>
+        {extrasStatus === 'loading' ? <AsyncFeedback title="Loading evolution data…" /> : null}
+        {extrasStatus === 'error' ? <AsyncFeedback title="Evolution unavailable" description={extrasError ?? ''} /> : null}
+        {extrasStatus === 'success' && chain.length === 1 && !hasMega ? (
+          <p className="text-center text-white/70">This Pokémon does not evolve.</p>
+        ) : null}
+        {extrasStatus === 'success' && (chain.length > 1 || hasMega) ? (
+          <div className="flex flex-col flex-wrap items-center justify-center gap-4 md:flex-row">
+            {chain.map((evo, index) => (
+              <div key={evo.id} className="flex flex-col items-center gap-2 md:flex-row">
+                <button
+                  type="button"
+                  onClick={() => showPokemon(evo.id)}
+                  className={[
+                    'rounded-3xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md transition hover:-translate-y-1 hover:border-white/30',
+                    evo.id === pokemon.id ? 'border-white/50 shadow-[0_0_30px_rgba(138,43,226,0.45)]' : '',
+                  ].join(' ')}
+                >
+                  {evo.image ? (
+                    <img src={evo.image} alt={evo.name} className="mx-auto size-28 object-contain md:size-32" />
+                  ) : null}
+                  <p className="mt-2 font-bold capitalize text-white">{evo.name}</p>
+                  {evo.details && index > 0 ? (
+                    <div className="mt-2 text-xs text-white/80">
+                      {[
+                        evo.details.min_level ? `Level ${evo.details.min_level}` : null,
+                        evo.details.item ? evo.details.item.name.replaceAll('-', ' ') : null,
+                        evo.details.trigger && evo.details.trigger.name !== 'level-up'
+                          ? evo.details.trigger.name.replaceAll('-', ' ')
+                          : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' • ') || 'Evolves'}
+                    </div>
+                  ) : null}
+                </button>
+                {index < chain.length - 1 ? (
+                  <div className="rotate-90 text-3xl text-white/70 md:rotate-0">→</div>
+                ) : null}
+              </div>
+            ))}
+            {canShowMega ? (
+              <div className="w-full border-t border-amber-400/30 pt-6">
+                <h4 className="mb-4 text-center text-lg font-black text-amber-300">Mega Evolutions</h4>
+                <div className="flex flex-wrap justify-center gap-4">
+                  {pokemon.megaEvolutions.map((mega) => (
+                    <button
+                      key={mega.id}
+                      type="button"
+                      onClick={() => setMegaModal(mega)}
+                      className="relative rounded-3xl border-4 border-amber-400 bg-gradient-to-br from-amber-400/25 to-orange-500/25 p-4 shadow-[0_0_30px_rgba(255,215,0,0.35)]"
+                    >
+                      <span className="absolute -right-2 -top-2 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 px-2 py-1 text-[10px] font-black text-black">
+                        MEGA
+                      </span>
+                      {mega.image ? (
+                        <img src={mega.image} alt={mega.name} className="mx-auto size-28 object-contain" />
+                      ) : null}
+                      <p className="mt-2 font-bold capitalize text-white">{mega.name.replaceAll('-', ' ')}</p>
+                      <p className="mt-1 text-xs text-white/80">
+                        <strong>Requires:</strong> {mega.megaStone}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </section>
+
+      <section className="rounded-2xl border-b-2 border-white/20 pb-6">
+        <h3 className="mb-4 text-xl font-bold text-white">Location & Encounters</h3>
+        {pokemon.locations.length === 0 ? (
+          <p className="text-white/70">Location data not available for this Pokémon.</p>
+        ) : (
+          <div className="space-y-3">
+            {Object.values(
+              pokemon.locations.reduce<Record<string, PokemonEncounterLocation[]>>((acc, loc) => {
+                const key = `${loc.game}-${loc.location}`;
+                const bucket = acc[key] ?? [];
+                bucket.push(loc);
+                acc[key] = bucket;
+                return acc;
+              }, {}),
+            ).map((group) => (
+              <div
+                key={`${group[0]!.game}-${group[0]!.location}`}
+                className="rounded-xl border-l-4 border-white/30 bg-white/10 p-4 text-sm leading-relaxed backdrop-blur-md"
+              >
+                <strong className="uppercase">{group[0]!.game.replaceAll('-', ' ')}</strong> — {group[0]!.location}
+                <div className="mt-2 text-white/90">
+                  {group.map((e) => `${e.method} (Lv. ${e.minLevel}-${e.maxLevel})`).join(', ')}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
+        <h3 className="mb-4 text-xl font-bold text-white">Type Effectiveness</h3>
+        {extrasStatus !== 'success' || !effectiveness ? (
+          <AsyncFeedback title="Loading type matchups…" />
+        ) : (
+          <div className="space-y-6">
+            <MatchupRow title="Super Effective (2×)" types={effectiveness.superEffective} />
+            <MatchupRow title="Not Very Effective (0.5×)" types={effectiveness.notVeryEffective} />
+            <MatchupRow title="No Effect (0×)" types={effectiveness.noEffect} />
+          </div>
+        )}
+      </section>
+
+      <AnimatePresence>
+        {megaModal ? (
+          <MegaComparisonModal mega={megaModal} base={pokemon} onClose={() => setMegaModal(null)} />
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function MatchupRow({ title, types }: { title: string; types: readonly PokemonTypeName[] }) {
+  return (
+    <div>
+      <h4 className="mb-2 text-sm font-bold text-white/95">{title}</h4>
+      <div className="flex flex-wrap gap-2">
+        {types.length === 0 ? <span className="text-white/60">None</span> : null}
+        {types.map((t) => (
+          <TypeBadge key={t} type={t} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MegaComparisonModal({
+  mega,
+  base,
+  onClose,
+}: {
+  mega: MegaFormSummary;
+  base: DetailedPokemon;
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      role="dialog"
+      aria-modal
+      aria-label="Mega Evolution details"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: 40, scale: 0.95, opacity: 0 }}
+        animate={{ y: 0, scale: 1, opacity: 1 }}
+        exit={{ y: 40, scale: 0.95, opacity: 0 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border-2 border-amber-400/40 bg-gradient-to-br from-[#1e3c72]/95 via-[#2a5298]/95 to-[#533483]/95 p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="mb-6 text-center text-3xl font-black capitalize text-amber-300 [font-family:var(--font-display)]">
+          {mega.name.replaceAll('-', ' ')}
+        </h3>
+        <div className="space-y-3">
+          {mega.stats.map((stat, idx) => {
+            const baseStat = base.stats[idx]?.value ?? 0;
+            const diff = stat.value - baseStat;
+            const diffClass = diff > 0 ? 'text-emerald-400' : diff < 0 ? 'text-red-400' : 'text-white';
+            return (
+              <div
+                key={stat.name}
+                className="flex items-center justify-between rounded-xl border-2 border-white/10 bg-white/10 px-4 py-3 backdrop-blur-md"
+              >
+                <span className="capitalize text-white/90">{stat.name}</span>
+                <span className="flex items-center gap-2 font-bold text-white">
+                  <span className="text-white/70">{baseStat}</span>
+                  <span>→</span>
+                  <span className={diffClass}>{stat.value}</span>
+                  {diff !== 0 ? (
+                    <span className={`text-sm ${diffClass}`}>
+                      ({diff > 0 ? '+' : ''}
+                      {diff})
+                    </span>
+                  ) : null}
+                </span>
+              </div>
+            );
+          })}
+          <div className="flex items-center justify-between rounded-xl border-2 border-amber-400/50 bg-amber-400/15 px-4 py-3">
+            <span className="font-bold text-white">Total</span>
+            <span className="font-black text-white">
+              {base.baseStatTotal} → {mega.baseStatTotal}{' '}
+              <span className="text-sm text-emerald-300">(+{mega.baseStatTotal - base.baseStatTotal})</span>
+            </span>
+          </div>
+        </div>
+        <div className="mt-6">
+          <h4 className="mb-2 font-bold text-white">Type</h4>
+          <div className="flex flex-wrap gap-2">
+            {mega.types.map((t) => (
+              <TypeBadge key={t} type={t} />
+            ))}
+          </div>
+        </div>
+        <div className="mt-6 rounded-2xl border-l-4 border-amber-400 bg-amber-400/10 p-4">
+          <h4 className="mb-2 font-bold text-amber-200">Mega Evolution Requirement</h4>
+          <p className="text-white/95">
+            <strong>Mega Stone:</strong> {mega.megaStone}
+          </p>
+          <p className="mt-2 text-sm italic text-white/90">Hold the Mega Stone and use it during battle to Mega Evolve.</p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-6 w-full rounded-2xl border-2 border-white/30 bg-white/15 py-3 font-bold text-white transition hover:bg-white/25"
+        >
+          Close
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}

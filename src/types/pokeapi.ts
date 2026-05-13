@@ -1,0 +1,103 @@
+export interface NamedApiResource {
+  name: string;
+  url: string;
+}
+
+export interface PokemonListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: NamedApiResource[];
+}
+
+export interface PokemonSprites {
+  front_default: string | null;
+  other?: {
+    'official-artwork'?: { front_default: string | null };
+    home?: { front_default: string | null };
+  };
+}
+
+export interface PokemonStat {
+  base_stat: number;
+  stat: NamedApiResource;
+}
+
+export interface PokemonTypeSlot {
+  slot: number;
+  type: NamedApiResource;
+}
+
+export interface PokemonCries {
+  latest?: string | null;
+  legacy?: string | null;
+}
+
+export interface PokemonResponse {
+  id: number;
+  name: string;
+  url?: string;
+  sprites: PokemonSprites;
+  stats: PokemonStat[];
+  types: PokemonTypeSlot[];
+  species: NamedApiResource;
+  cries?: PokemonCries | null;
+  forms?: { name: string }[];
+}
+
+export interface FlavorTextEntry {
+  flavor_text: string;
+  language: NamedApiResource;
+}
+
+export interface PokemonSpeciesResponse {
+  flavor_text_entries: FlavorTextEntry[];
+  evolution_chain: NamedApiResource;
+  is_legendary: boolean;
+  is_mythical: boolean;
+  habitat: NamedApiResource | null;
+  varieties: { is_default: boolean; pokemon: NamedApiResource }[];
+}
+
+export interface EvolutionDetail {
+  min_level: number | null;
+  item: NamedApiResource | null;
+  trigger: NamedApiResource | null;
+}
+
+export interface ChainLink {
+  species: NamedApiResource;
+  evolution_details: EvolutionDetail[];
+  evolves_to: ChainLink[];
+}
+
+export interface EvolutionChainResponse {
+  chain: ChainLink;
+}
+
+export interface EncounterDetail {
+  chance: number;
+  min_level: number;
+  max_level: number;
+  method: NamedApiResource;
+}
+
+export interface VersionEncounterDetail {
+  version: NamedApiResource;
+  encounter_details: EncounterDetail[];
+}
+
+export interface LocationAreaEncounter {
+  location_area: NamedApiResource;
+  version_details: VersionEncounterDetail[];
+}
+
+export interface TypeDamageRelations {
+  double_damage_from: NamedApiResource[];
+  half_damage_from: NamedApiResource[];
+  no_damage_from: NamedApiResource[];
+}
+
+export interface TypeResponse {
+  damage_relations: TypeDamageRelations;
+}

@@ -1,41 +1,34 @@
-# 3D Poké Ball Carousel
+# PokeSlider
 
-A beautiful 3D rotating carousel of Poké Balls with interactive overlays showing Pokémon information.
+Production-style **React 19 + Vite 8 + TypeScript** rebuild of the 3D Poké Ball carousel. Data comes from the free public [PokeAPI](https://pokeapi.co/) only (no paid APIs).
 
-## Features
+## Scripts
 
-- **3D Rotating Ring**: Circular layout using CSS `rotateY` and `translateZ` transforms
-- **10 Different Poké Balls**: Poke Ball, Great Ball, Ultra Ball, Master Ball, Premier Ball, Net Ball, Dive Ball, Nest Ball, Repeat Ball, and Timer Ball
-- **Auto-Rotation**: Idle auto-rotation that pauses on hover or interaction
-- **Drag to Spin**: Click and drag (or touch and drag on mobile) to manually rotate the carousel
-- **Interactive Overlays**: Click any Poké Ball to see:
-  - Ball description and catch rate information
-  - Pokémon commonly associated with that ball type
-  - Real-time data fetched from PokeAPI
+- `npm install` — install dependencies  
+- `npm run dev` — Vite dev server (default `http://localhost:5173`)  
+- `npm run build` — TypeScript project references + production bundle  
+- `npm run lint` — ESLint (flat config + typescript-eslint)  
+- `npm run preview` — serve the production build locally  
 
-## How to Use
+## Layout
 
-1. Simply open `index.html` in a modern web browser
-2. The carousel will automatically start rotating
-3. **Drag** the carousel to spin it manually
-4. **Click** any Poké Ball to see detailed information and associated Pokémon
-5. **Hover** over the carousel to pause auto-rotation
+| Path | Role |
+|------|------|
+| `src/data/pokeballs.ts` | Single source of truth for Poké Ball definitions |
+| `src/services/pokeapi/*` | Typed HTTP client, catalog builder, details, evolution, mega, types, locations |
+| `src/services/ballSuggestions.ts` | Deterministic “which Pokémon for this ball?” logic |
+| `src/store/*` | Zustand stores (catalog hydration + UI / overlay) |
+| `src/hooks/*` | Carousel, media query, detail fetch, cry playback |
+| `src/features/*` | Route-level UI (carousel + overlay panels) |
+| `src/components/*` | Shared UI (type badges, async feedback) |
+| `src/types/*` | Shared TypeScript models |
+| `legacy/` | Original vanilla `index.html` / `script.js` / `styles.css` (reference) |
 
-## Technical Details
+## Stack
 
-- Pure vanilla JavaScript (no dependencies)
-- CSS 3D transforms for the carousel effect
-- PokeAPI integration for Pokémon data
-- Responsive design with touch support
-- Smooth animations and transitions
+- **React 19** + **Vite 8** + **TypeScript 5.9** (strict)  
+- **Tailwind CSS 4** (`@tailwindcss/vite`, design tokens in `src/index.css`)  
+- **Motion 12** (`motion/react`) for overlay / modal motion  
+- **Zustand** for global catalog + overlay state  
 
-## Browser Support
-
-Works best in modern browsers that support:
-- CSS 3D Transforms
-- ES6+ JavaScript
-- Fetch API
-
-Enjoy exploring the world of Poké Balls! 🎾✨
-
-
+The catalog loads in the background with bounded concurrency (8 parallel species+pokemon pairs) and reports progress while the carousel stays interactive.
