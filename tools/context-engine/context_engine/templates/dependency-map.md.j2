@@ -1,0 +1,39 @@
+_Auto-generated dependency map (top-degree internal imports)._
+
+_Generated: {{ generated_at }}_
+
+## Stats
+
+- Files in graph: **{{ report.file_count }}**
+- Edges: **{{ report.edge_count }}**
+- Detected import cycles: **{{ report.cycles|length }}**
+
+## Hotspots (combined fan-in + fan-out)
+
+{% for path, score in report.hotspots -%}
+- `{{ path }}` — coupling **{{ score }}**
+{% endfor %}
+
+## Top fan-in (most imported)
+
+{% for path, count in report.top_fanin -%}
+- `{{ path }}` ← {{ count }} importers
+{% endfor %}
+
+## Top fan-out (imports most)
+
+{% for path, count in report.top_fanout -%}
+- `{{ path }}` → {{ count }} imports
+{% endfor %}
+
+{% if report.cycles -%}
+## Cycles detected ({{ report.cycles|length }})
+
+Each cycle indicates a refactor risk. Review before changing any of these files.
+
+{% for cyc in report.cycles -%}
+- `{{ cyc|join(' → ') }} → {{ cyc[0] }}`
+{% endfor %}
+{%- else -%}
+_No import cycles detected._
+{%- endif %}

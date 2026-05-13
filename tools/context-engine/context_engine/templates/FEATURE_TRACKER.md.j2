@@ -1,0 +1,47 @@
+_Auto-generated from `project-metadata/features/*.yaml`. Add or correct entries there; do not hand-edit the table._
+
+_Last scan: {{ generated_at }}_
+
+## Shipped
+
+| Feature | Confidence | Source files | Tests | Description |
+|---|---|---|---|---|
+{% for f in shipped_features -%}
+| **{{ f.name }}** | `{{ f.evidence.confidence.value }}` | {{ f.evidence.source_files|length }} | {{ f.evidence.tests|length }} | {{ (f.description or '—')|replace('|', '\\|')|truncate(140, true, '…') }} |
+{% endfor %}
+
+## In progress
+
+{% if in_progress_features -%}
+| Feature | Confidence | Source files | Description |
+|---|---|---|---|
+{% for f in in_progress_features -%}
+| **{{ f.name }}** | `{{ f.evidence.confidence.value }}` | {{ f.evidence.source_files|length }} | {{ (f.description or '—')|replace('|', '\\|')|truncate(140, true, '…') }} |
+{% endfor %}
+{%- else -%}
+_No features currently in progress._
+{%- endif %}
+
+## Planned
+
+{% if planned_features -%}
+| Feature | Description |
+|---|---|
+{% for f in planned_features -%}
+| **{{ f.name }}** | {{ (f.description or '—')|replace('|', '\\|')|truncate(160, true, '…') }} |
+{% endfor %}
+{%- else -%}
+_No features planned._
+{%- endif %}
+
+## Deprecated
+
+{% if deprecated_features -%}
+| Feature | Notes |
+|---|---|
+{% for f in deprecated_features -%}
+| **{{ f.name }}** | {{ (f.description or '—')|replace('|', '\\|')|truncate(160, true, '…') }} |
+{% endfor %}
+{%- else -%}
+_No deprecated features._
+{%- endif %}

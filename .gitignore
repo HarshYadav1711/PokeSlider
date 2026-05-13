@@ -5,3 +5,11 @@ dist
 .env
 .env.*
 !.env.example
+
+# Context Intelligence Engine
+project-metadata/.cache/
+tools/context-engine/.venv/
+tools/context-engine/**/__pycache__/
+tools/context-engine/*.egg-info/
+tools/context-engine/build/
+tools/context-engine/dist/

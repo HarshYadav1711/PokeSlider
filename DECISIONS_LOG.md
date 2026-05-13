@@ -4,6 +4,18 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Context Intelligence Engine (Python, `tools/context-engine/`)
+
+**Decision:** Introduce a Python 3.12+ engine that scans `src/` deterministically, persists structural truth in YAML/JSON under `project-metadata/`, and generates documentation + Cursor rules inside explicit `<!-- AUTO-GENERATED-START -->` / `<!-- AUTO-GENERATED-END -->` markers. The engine refuses to call a feature "shipped" without on-disk evidence and emits a confidence tier (`verified` / `partial` / `inferred` / `uncertain`) for every claim. CLI: `scan`, `generate`, `validate`, `drift-report`, `architecture-report`, `context-report`, `graph`, `watch`, `init`. TS mirror lives at `src/core/feature-registry.ts`. Full design captured in `docs/adr/0001-context-intelligence-engine.md`.
+
+**Why:** Manual onboarding docs were drifting from reality (new stores, new query keys, Team Builder and Battle Simulator surfaces). The engine makes truth machine-verifiable, gives CI a real drift gate, and lets future AI sessions load grounded context instead of guessing.
+
+**Alternatives rejected:** Hand-maintained docs (proven to drift); LLM-driven generation (non-deterministic, hallucinations); `ts-morph`-only tooling (heavier toolchain dependency for CI).
+
+**Parsing tools — deviation noted:** The brief asked for `libcst` (Python-only) to parse TypeScript. We use `tree-sitter` + `tree-sitter-typescript` for `.ts`/`.tsx` AST analysis (deterministic, structured — same "no regex parsing" intent) and keep `libcst` for any Python files, including the engine itself.
+
+---
+
 ## 2026-05 — Pokémon evolution timeline explorer (overlay)
 
 **Decision:** Replace the flat “evolution chain” row in **Pokémon detail** with a **cinematic timeline explorer** (`PokemonEvolutionTimeline.tsx`): stage strip (vertical on narrow, horizontal from `md`), focus hero card with **Motion** enter/exit (gated by `usePrefersReducedMotion`), per-stage **genus + English Pokédex flavor** (version-priority picker), **human-readable evolution conditions** from full PokéAPI `evolution_details` (not only the first row), **stat bars + deltas** vs a user-chosen baseline stage, and a **focusable `role="region"`** for arrow-key navigation. Extend **`detailExtras`** so one query returns **type effectiveness**, **`chain`** (each node now includes `types`, `stats`, `baseStatTotal`, `evolutionDetails`), and **`timelineStages`** (chain merged with species lore via parallel `/pokemon-species` fetches). Centralize trigger copy in **`utils/evolutionTriggerSummary.ts`** (Vitest-covered).

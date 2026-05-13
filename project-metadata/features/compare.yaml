@@ -1,0 +1,49 @@
+id: compare
+name: Pokémon comparison
+status: shipped
+description: Transparent rule-based scoring between two Pokémon with stat bars and
+  per-side retry on profile load failures.
+owned_routes:
+- comparison-modal
+shared_systems:
+- query-layer
+- zustand-stores
+stores:
+- useBattleSimulatorStore
+- useComparisonStore
+query_keys:
+- pokemon
+- typeMatchupChart
+dependencies: []
+tags:
+- scoring
+- explainable
+evidence:
+  source_files:
+  - path: src/features/compare/ComparisonModal.tsx
+    symbol: null
+    line: null
+  - path: src/features/compare/ComparisonShareSurface.tsx
+    symbol: null
+    line: null
+  - path: src/features/compare/ComparisonStatBars.tsx
+    symbol: null
+    line: null
+  - path: src/features/compare/compareTheme.ts
+    symbol: null
+    line: null
+  - path: src/features/compare/comparisonScoring.ts
+    symbol: null
+    line: null
+  - path: src/store/comparisonStore.ts
+    symbol: null
+    line: null
+  referenced_by: []
+  routes:
+  - comparison-modal
+  tests: []
+  confidence: partial
+  notes: null
+do_not:
+- Hide the scoring rules from users; keep the explainable breakdown visible.
+manual_notes: null

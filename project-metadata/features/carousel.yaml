@@ -1,0 +1,44 @@
+id: carousel
+name: 3D Poké Ball carousel
+status: shipped
+description: Hero 3D carousel with pointer drag, keyboard navigation, and auto-rotate
+  gated by `prefers-reduced-motion`. Front-ball selection drives the overlay.
+owned_routes:
+- carousel-hero
+shared_systems:
+- a11y
+- motion
+- query-layer
+stores:
+- useUiStore
+query_keys:
+- ballSuggestions
+dependencies: []
+tags:
+- hero
+- input
+- a11y
+evidence:
+  source_files:
+  - path: src/a11y/carouselAngle.ts
+    symbol: null
+    line: null
+  - path: src/features/carousel/PokeBallCarousel.tsx
+    symbol: null
+    line: null
+  - path: src/hooks/usePokeBallCarousel.ts
+    symbol: null
+    line: null
+  referenced_by: []
+  routes:
+  - carousel-hero
+  tests:
+  - path: src/a11y/carouselAngle.test.ts
+    symbol: null
+    line: null
+  confidence: verified
+  notes: null
+do_not:
+- Stack additional drop-shadow animations on the carousel.
+- Bypass the reduced-motion gate when auto-rotating.
+manual_notes: null

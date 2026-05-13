@@ -1,0 +1,70 @@
+_AI/contributor onboarding capsule — auto-generated. Reflects on-disk state, not aspiration._
+
+_Last scan: {{ generated_at }}{% if git_commit %} · commit `{{ git_commit[:10] }}`{% endif %}_
+
+## Identity
+
+PokeSlider — React 19 + Vite 8 + TypeScript + Tailwind 4 SPA over PokéAPI. 3D Poké Ball carousel hero, overlay panels for ball/Pokémon detail, My Dex discovery, transparent Compare, local rule-based Team Builder, and Battle Simulator. No backend in repo.
+
+## Current architecture (verified)
+
+{% for layer, files in layers.items() -%}
+- **{{ layer }}** — {{ files|length }} files{% if files|length %} (e.g. `{{ files[0].path }}`){% endif %}
+{% endfor %}
+
+## Active features
+
+{% for f in shipped_features -%}
+- **{{ f.name }}** ({{ f.evidence.confidence.value }}): {{ f.description|default('—') }}{% if f.stores %} · stores: {{ f.stores|join(', ') }}{% endif %}{% if f.query_keys %} · query keys: {{ f.query_keys|join(', ') }}{% endif %}
+{% endfor %}
+
+## Unfinished work
+
+{% if in_progress_features or planned_features -%}
+{% for f in in_progress_features -%}
+- *in progress* — **{{ f.name }}**: {{ f.description|default('—') }}
+{% endfor %}
+{% for f in planned_features -%}
+- *planned* — **{{ f.name }}**: {{ f.description|default('—') }}
+{% endfor %}
+{%- else -%}
+_None recorded._
+{%- endif %}
+
+## Dangerous modification zones
+
+{% if hotspots -%}
+{% for path, score in hotspots -%}
+- `{{ path }}` (coupling score {{ score }}) — changes here ripple widely; read consumers before refactor.
+{% endfor %}
+{%- else -%}
+_No high-coupling hotspots detected._
+{%- endif %}
+
+## Shared system boundaries
+
+{% if systems -%}
+{% for s in systems -%}
+- **{{ s.name }}** (`{{ s.layer }}`) — {{ s.purpose|default('—') }}{% if s.do_not %} · DO NOT: {{ s.do_not|join('; ') }}{% endif %}
+{% endfor %}
+{%- else -%}
+_No shared systems registered._
+{%- endif %}
+
+## Current priorities (from registry)
+
+{% if priorities -%}
+{% for item in priorities -%}
+- {{ item }}
+{% endfor %}
+{%- else -%}
+1. Keep shipped surfaces accessible and accurate.
+2. Update feature manifests in `project-metadata/features/` as code changes.
+3. Run `context-engine validate` before any large refactor.
+{%- endif %}
+
+## Quick start for an AI session
+
+1. Read `PROJECT_CONTEXT.md` and `.cursor/rules/project-context.mdc`.
+2. Skim `docs/generated/feature-map.md`, `route-map.md`, `system-map.md` for verified scope.
+3. Before claiming a feature exists, check the matching YAML in `project-metadata/features/`. If absent, the feature is **not** in the truth tier.

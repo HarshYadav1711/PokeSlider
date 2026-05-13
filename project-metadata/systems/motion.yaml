@@ -1,0 +1,17 @@
+id: motion
+name: Motion
+purpose: Motion preferences and transitions
+layer: motion
+used_by: []
+evidence:
+  source_files:
+  - path: src/motion/motionPrefs.ts
+    symbol: null
+    line: null
+  referenced_by: []
+  routes: []
+  tests: []
+  confidence: partial
+  notes: null
+do_not: []
+manual_notes: null

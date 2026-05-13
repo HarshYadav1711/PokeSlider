@@ -1,0 +1,20 @@
+id: rules-engines
+name: Deterministic rule engines
+purpose: >-
+  Pure, side-effect-free engines that power Team Builder and the Battle
+  Simulator. Reproducible inputs → outputs; covered by Vitest where logic
+  is non-trivial.
+layer: engine
+used_by:
+  - team_builder
+  - battle_sim
+evidence:
+  source_files:
+    - path: src/features/team-builder/teamBuilderEngine.ts
+    - path: src/features/battle-sim/battleSimulatorEngine.ts
+  tests:
+    - path: src/features/team-builder/teamBuilderEngine.test.ts
+    - path: src/features/battle-sim/battleSimulatorEngine.test.ts
+  confidence: verified
+do_not:
+  - Inject randomness without a deterministic seed.

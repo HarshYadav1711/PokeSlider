@@ -1,0 +1,13 @@
+_Auto-generated shared-system map._
+
+_Generated: {{ generated_at }}_
+
+| System | Layer | Purpose | Files | Confidence |
+|---|---|---|---|---|
+{% for s in systems -%}
+| **{{ s.name }}** | `{{ s.layer }}` | {{ (s.purpose or '—')|replace('|', '\\|')|truncate(140, true, '…') }} | {{ s.evidence.source_files|length }} | `{{ s.evidence.confidence.value }}` |
+{% endfor %}
+
+{% if not systems -%}
+_No systems registered. Add YAML entries in `project-metadata/systems/`._
+{%- endif %}

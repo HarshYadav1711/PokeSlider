@@ -1,0 +1,54 @@
+id: discovery
+name: My Dex discovery
+status: shipped
+description: Browse, filter, favorites, recents, and compare-from-row affordances.
+  Bottom sheet on narrow viewports, side panel on `md+`.
+owned_routes:
+- my-dex-panel
+shared_systems:
+- a11y
+- query-layer
+- zustand-stores
+stores:
+- useComparisonStore
+- useDexListsStore
+- useDiscoveryUiStore
+- useUiStore
+query_keys:
+- discovery
+- pokemon
+- pokemonList
+dependencies: []
+tags:
+- listbox
+- filters
+- persistence
+evidence:
+  source_files:
+  - path: src/features/discovery/MyDexPanel.tsx
+    symbol: null
+    line: null
+  - path: src/features/discovery/discoveryEngine.ts
+    symbol: null
+    line: null
+  - path: src/features/discovery/discoveryTypes.ts
+    symbol: null
+    line: null
+  - path: src/features/discovery/discoveryUiStore.ts
+    symbol: null
+    line: null
+  - path: src/features/discovery/useMyDexDiscovery.ts
+    symbol: null
+    line: null
+  - path: src/store/dexListsStore.ts
+    symbol: null
+    line: null
+  referenced_by: []
+  routes:
+  - my-dex-panel
+  tests: []
+  confidence: partial
+  notes: null
+do_not:
+- Replace the listbox keyboard model without updating the panel footer help text.
+manual_notes: null

@@ -1,0 +1,48 @@
+<!-- AUTO-GENERATED-START -->
+_Auto-generated mirror of `PROJECT_CONTEXT.md` onboarding capsule for Cursor rules. Edit `project-metadata/` and regenerate; do not hand-edit between markers._
+
+| Field | Current value |
+|---|---|
+| Files scanned | 198 |
+| Shipped features | 6 / 7 |
+| Systems | 7 |
+| Surfaces (routes) | 6 |
+| Tests | 6 |
+| Generated | 2026-05-13T21:33:20+00:00 |
+
+## Hard rules for AI sessions
+
+1. **Implementation truth is the source of truth.** Anything not represented in `project-metadata/` is unverified.
+2. Before claiming a feature is shipped, confirm it exists in `project-metadata/features/<id>.yaml` AND that the listed source files exist on disk.
+3. Do not introduce a second client-state store or a second AST parsing pipeline.
+4. Do not modify generated documentation by hand; edit YAML and run `context-engine generate`.
+
+## Verified layers
+
+- **a11y** — 4 files
+- **data** — 24 files
+- **design** — 2 files
+- **engine** — 3 files
+- **hooks** — 5 files
+- **motion** — 1 files
+- **providers** — 2 files
+- **query** — 6 files
+- **state** — 6 files
+- **test** — 6 files
+- **types** — 6 files
+- **ui** — 16 files
+- **unknown** — 63 files
+- **util** — 9 files
+
+
+## Dangerous modification zones
+
+- `src/types/pokemon.ts` (coupling 53)
+- `src/types/pokeapi.ts` (coupling 36)
+- `src/services/pokeapi/client.ts` (coupling 32)
+- `src/query/keys.ts` (coupling 22)
+- `src/query/staleTimes.ts` (coupling 20)
+<!-- AUTO-GENERATED-END -->
+
+<!-- MANUAL-NOTES-START -->
+<!-- MANUAL-NOTES-END -->

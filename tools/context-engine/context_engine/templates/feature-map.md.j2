@@ -1,0 +1,38 @@
+_Auto-generated feature map._
+
+_Generated: {{ generated_at }}_
+
+{% for f in features -%}
+## {{ f.name }}
+
+- **Status:** `{{ f.status.value }}` · **Confidence:** `{{ f.evidence.confidence.value }}`
+- **Stores:** {{ f.stores|join(', ') or '—' }}
+- **Query keys:** {{ f.query_keys|join(', ') or '—' }}
+- **Shared systems:** {{ f.shared_systems|join(', ') or '—' }}
+- **Source files ({{ f.evidence.source_files|length }}):**
+{%- for ref in f.evidence.source_files[:10] %}
+    - `{{ ref.path }}`{% if ref.symbol %} → `{{ ref.symbol }}`{% endif %}
+{%- endfor %}
+{%- if f.evidence.source_files|length > 10 %}
+    - …and {{ f.evidence.source_files|length - 10 }} more
+{%- endif %}
+{% if f.evidence.tests %}
+- **Tests:**
+{%- for t in f.evidence.tests %}
+    - `{{ t.path }}`
+{%- endfor %}
+{% endif %}
+{%- if f.do_not %}
+- **DO NOT:** {{ f.do_not|join('; ') }}
+{% endif %}
+
+{% if f.description -%}
+{{ f.description }}
+{%- endif %}
+
+---
+{% endfor %}
+
+{% if not features -%}
+_No features registered. Seed `project-metadata/features/` and re-run._
+{%- endif %}
