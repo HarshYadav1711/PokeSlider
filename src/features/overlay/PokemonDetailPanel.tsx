@@ -11,6 +11,7 @@ import { usePokemonCry } from '../../hooks/usePokemonCry';
 import { qk } from '../../query/keys';
 import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { buildEvolutionChain } from '../../services/pokeapi/evolution';
+import { enrichEvolutionChainWithSpeciesLore } from '../../services/pokeapi/evolutionSpeciesLore';
 import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
 import { useComparisonStore } from '../../store/comparisonStore';
@@ -18,10 +19,12 @@ import { useDexListsStore } from '../../store/dexListsStore';
 import { useUiStore } from '../../store/uiStore';
 import type {
   DetailedPokemon,
+  EvolutionTimelineStage,
   MegaFormSummary,
   PokemonEncounterLocation,
   PokemonTypeName,
 } from '../../types/pokemon';
+import { PokemonEvolutionTimeline } from './PokemonEvolutionTimeline';
 
 interface PokemonDetailPanelProps {
   pokemonId: number;
@@ -61,7 +64,8 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
         getTypeEffectiveness(p.types, signal),
         buildEvolutionChain(p.evolutionData, signal),
       ]);
-      return { effectiveness, chain };
+      const timelineStages: EvolutionTimelineStage[] = await enrichEvolutionChainWithSpeciesLore(chain, signal);
+      return { effectiveness, chain, timelineStages };
     },
     staleTime: STALE_POKEMON_DETAIL_EXTRAS_MS,
     gcTime: 1000 * 60 * 60 * 24,
@@ -69,6 +73,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
 
   const pokemon = detailQuery.data;
   const chain = extrasQuery.data?.chain ?? [];
+  const timelineStages = extrasQuery.data?.timelineStages;
   const effectiveness = extrasQuery.data?.effectiveness ?? null;
 
   useEffect(() => {
@@ -219,86 +224,46 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
       </section>
 
       <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
-        <h3 className="mb-4 text-xl font-bold text-white">Evolution Chain</h3>
-        {extrasQuery.isPending ? (
-          <div className="flex flex-col flex-wrap items-center justify-center gap-4 md:flex-row">
-            <InlineRowSkeleton className="h-40 w-32" />
-            <InlineRowSkeleton className="h-40 w-32" />
-            <InlineRowSkeleton className="h-40 w-32" />
-          </div>
-        ) : null}
-        {extrasQuery.isError ? (
-          <AsyncFeedback
-            title="Evolution unavailable"
-            description={
-              extrasQuery.error instanceof Error ? extrasQuery.error.message : 'Could not load evolution data.'
-            }
-          />
-        ) : null}
-        {extrasQuery.isSuccess && chain.length === 1 && !hasMega ? (
-          <p className="text-center text-white/70">This Pokémon does not evolve.</p>
-        ) : null}
-        {extrasQuery.isSuccess && (chain.length > 1 || hasMega) ? (
-          <div className="flex flex-col flex-wrap items-center justify-center gap-4 md:flex-row">
-            {chain.map((evo, index) => (
-              <div key={evo.id} className="flex flex-col items-center gap-2 md:flex-row">
+        <h3 className="mb-2 text-xl font-bold text-white">Evolution</h3>
+        <p className="mb-6 max-w-prose text-sm text-white/75">
+          Explore the full line with triggers, Pokédex flavor, and stat deltas between forms. Use the stage chips or
+          arrow keys to move along the chain.
+        </p>
+        <PokemonEvolutionTimeline
+          stages={timelineStages}
+          viewingPokemonId={pokemon.id}
+          reduced={reduced}
+          isExtrasPending={extrasQuery.isPending}
+          isExtrasError={extrasQuery.isError}
+          extrasErrorMessage={
+            extrasQuery.error instanceof Error ? extrasQuery.error.message : 'Could not load evolution data.'
+          }
+          onOpenPokemon={(id) => showPokemon(id)}
+        />
+        {extrasQuery.isSuccess && canShowMega ? (
+          <div className="mt-10 border-t border-amber-400/30 pt-8">
+            <h4 className="mb-4 text-center text-lg font-black text-amber-300">Mega Evolutions</h4>
+            <div className="flex flex-wrap justify-center gap-4">
+              {pokemon.megaEvolutions.map((mega) => (
                 <button
+                  key={mega.id}
                   type="button"
-                  onClick={() => showPokemon(evo.id)}
-                  className={[
-                    'app-focus-ring rounded-[var(--radius-3xl)] border border-white/12 bg-white/8 p-4 text-center transition-[transform,border-color,background-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 hover:border-white/24 hover:bg-white/12',
-                    evo.id === pokemon.id ? 'border-white/35 shadow-[var(--shadow-carousel-active)]' : '',
-                  ].join(' ')}
+                  onClick={() => setMegaModal(mega)}
+                  className="app-focus-ring relative rounded-[var(--radius-3xl)] border border-amber-400/45 bg-gradient-to-br from-amber-400/18 to-orange-500/14 p-4 shadow-[var(--shadow-md)] transition-[transform,border-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 active:scale-[0.99]"
                 >
-                  {evo.image ? (
-                    <img src={evo.image} alt={evo.name} className="mx-auto size-28 object-contain md:size-32" />
+                  <span className="absolute -right-2 -top-2 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 px-2 py-1 text-[10px] font-black text-black">
+                    MEGA
+                  </span>
+                  {mega.image ? (
+                    <img src={mega.image} alt={mega.name} className="mx-auto size-28 object-contain" />
                   ) : null}
-                  <p className="mt-2 font-bold capitalize text-white">{evo.name}</p>
-                  {evo.details && index > 0 ? (
-                    <div className="mt-2 text-xs text-white/80">
-                      {[
-                        evo.details.min_level ? `Level ${evo.details.min_level}` : null,
-                        evo.details.item ? evo.details.item.name.replaceAll('-', ' ') : null,
-                        evo.details.trigger && evo.details.trigger.name !== 'level-up'
-                          ? evo.details.trigger.name.replaceAll('-', ' ')
-                          : null,
-                      ]
-                        .filter(Boolean)
-                        .join(' • ') || 'Evolves'}
-                    </div>
-                  ) : null}
+                  <p className="mt-2 font-bold capitalize text-white">{mega.name.replaceAll('-', ' ')}</p>
+                  <p className="mt-1 text-xs text-white/80">
+                    <strong>Requires:</strong> {mega.megaStone}
+                  </p>
                 </button>
-                {index < chain.length - 1 ? (
-                  <div className="rotate-90 text-3xl text-white/70 md:rotate-0">→</div>
-                ) : null}
-              </div>
-            ))}
-            {canShowMega ? (
-              <div className="w-full border-t border-amber-400/30 pt-6">
-                <h4 className="mb-4 text-center text-lg font-black text-amber-300">Mega Evolutions</h4>
-                <div className="flex flex-wrap justify-center gap-4">
-                  {pokemon.megaEvolutions.map((mega) => (
-                    <button
-                      key={mega.id}
-                      type="button"
-                      onClick={() => setMegaModal(mega)}
-                      className="app-focus-ring relative rounded-[var(--radius-3xl)] border border-amber-400/45 bg-gradient-to-br from-amber-400/18 to-orange-500/14 p-4 shadow-[var(--shadow-md)] transition-[transform,border-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 active:scale-[0.99]"
-                    >
-                      <span className="absolute -right-2 -top-2 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 px-2 py-1 text-[10px] font-black text-black">
-                        MEGA
-                      </span>
-                      {mega.image ? (
-                        <img src={mega.image} alt={mega.name} className="mx-auto size-28 object-contain" />
-                      ) : null}
-                      <p className="mt-2 font-bold capitalize text-white">{mega.name.replaceAll('-', ' ')}</p>
-                      <p className="mt-1 text-xs text-white/80">
-                        <strong>Requires:</strong> {mega.megaStone}
-                      </p>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
+              ))}
+            </div>
           </div>
         ) : null}
       </section>

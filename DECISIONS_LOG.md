@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Pokémon evolution timeline explorer (overlay)
+
+**Decision:** Replace the flat “evolution chain” row in **Pokémon detail** with a **cinematic timeline explorer** (`PokemonEvolutionTimeline.tsx`): stage strip (vertical on narrow, horizontal from `md`), focus hero card with **Motion** enter/exit (gated by `usePrefersReducedMotion`), per-stage **genus + English Pokédex flavor** (version-priority picker), **human-readable evolution conditions** from full PokéAPI `evolution_details` (not only the first row), **stat bars + deltas** vs a user-chosen baseline stage, and a **focusable `role="region"`** for arrow-key navigation. Extend **`detailExtras`** so one query returns **type effectiveness**, **`chain`** (each node now includes `types`, `stats`, `baseStatTotal`, `evolutionDetails`), and **`timelineStages`** (chain merged with species lore via parallel `/pokemon-species` fetches). Centralize trigger copy in **`utils/evolutionTriggerSummary.ts`** (Vitest-covered).
+
+**Why:** Meets product goals (premium, collectible, scannable) without new paid APIs or animation stacks; keeps **one cached payload** for evolution + matchups to avoid duplicate `/pokemon/{name}` fetches for the same overlay session.
+
+**Alternatives rejected:** Separate `evolutionTimeline` query key (extra cache surface + duplicate Pokémon fetches unless carefully deduped); pulling only first `evolution_details` entry (loses trade, friendship, item, location, etc.); skipping species fetches (no per-stage flavor).
+
+---
+
 ## 2026-05 — Team Builder (local rules) + `PokemonSummary.baseStats` + `html-to-image`
 
 **Decision:** Ship a **Team Builder** modal that recommends six Pokémon using a **transparent, deterministic** objective (typed goal weights, greedy marginal picks, STAB mono coverage, shared-weakness pressure, role heuristics). Extend **`PokemonSummary`** with **`baseStats`** (mapped in `mapPokemonSummary`) so all summaries carry base stats for the solver. Add **`html-to-image`** for **PNG export** of a share card. Cache a full type matchup matrix from **18 PokéAPI `/type` calls** (`qk.teamBuilder.typeMatchup`, `STALE_TYPE_MATCHUP_MATRIX_MS`).

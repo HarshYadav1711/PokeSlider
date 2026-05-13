@@ -2,13 +2,13 @@
 
 Human- and AI-readable summary of **identity**, **architecture**, **status**, and **safe extension**. Authoritative Cursor rules live in `.cursor/rules/` (especially `project-context.mdc`).
 
-**Doc maintenance:** Whenever you ship a **non-trivial** feature or change behavior users rely on, update this file, `FEATURE_TRACKER.md`, and `DECISIONS_LOG.md` (ADR) in the same change set; mirror material changes in `.cursor/rules/project-context.mdc` (and other `.mdc` files when patterns shift). Trivial bugfixes can skip bulk edits.
+**Doc maintenance:** Whenever you ship a **non-trivial** feature or change behavior users rely on, update this file, `FEATURE_TRACKER.md`, and `DECISIONS_LOG.md` (ADR) in the same change set; mirror material changes in `.cursor/rules/project-context.mdc` (and other `.mdc` files when patterns shift). Trivial bugfixes can skip bulk edits. **Ship context updates in the same deliverable as the code** for any user-visible or data-flow change (e.g. overlay surfaces, new query payloads, evolution timeline behavior).
 
 ---
 
 ## Project identity
 
-**PokeSlider** is a React + Vite SPA for **exploring Poké Balls and Pokémon** using the public **PokéAPI**. The **3D Poké Ball carousel** is the hero; **My Dex** provides search, filters, and lists; **Compare** scores two Pokémon with transparent rules; **Team Builder** recommends a party of six with rule-based scoring, coverage readouts, and PNG export; **detail overlays** show species depth (stats, evolution, locations, type matchups, cry, mega).
+**PokeSlider** is a React + Vite SPA for **exploring Poké Balls and Pokémon** using the public **PokéAPI**. The **3D Poké Ball carousel** is the hero; **My Dex** provides search, filters, and lists; **Compare** scores two Pokémon with transparent rules; **Team Builder** recommends a party of six with rule-based scoring, coverage readouts, and PNG export; **detail overlays** show species depth (stats, **cinematic evolution timeline** with triggers + per-stage Pokédex flavor + stat deltas, locations, type matchups, cry, mega).
 
 **Personality:** cinematic, premium, playful-but-controlled — not noisy or gimmicky.
 
@@ -21,7 +21,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 | Build / lint / unit tests | `npm run build`, `npm run lint`, `npm run test` (Vitest + a11y/math tests) |
 | Carousel | Pointer drag, auto-rotate (respects reduced motion), keyboard region, live region for front ball |
 | Ball overlay | Suggestions grid, prefetch on interaction |
-| Pokémon overlay | Detail + extras queries, cry, mega compare modal, type effectiveness, locations |
+| Pokémon overlay | Detail + extras queries (type chart + **evolution timeline stages**: chain, stats/types per stage, species lore), cry, mega compare modal, locations |
 | My Dex | Tabs (browse / favorites / recents), filters, listbox + keyboard, compare A/B slots, focus trap |
 | Compare modal | Profiles, scoring table, stat bars, duel background, error + per-side retry |
 | Team Builder | Local rule-based party of six; goals, risk, gen pool, locks, synergy/coverage/gaps/swaps; PNG card via `html-to-image` |
@@ -38,7 +38,8 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 4. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
 5. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.
 6. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`.
-7. **Pure helpers** (`a11y/carouselAngle.ts`, `getFocusable.ts`, `features/team-builder/teamBuilderEngine.ts`, etc.) unit-tested; heavy UI tested incrementally as needed.
+7. **Pure helpers** (`a11y/carouselAngle.ts`, `getFocusable.ts`, `utils/evolutionTriggerSummary.ts`, `features/team-builder/teamBuilderEngine.ts`, etc.) unit-tested; heavy UI tested incrementally as needed.
+8. **Pokémon detail extras** (`qk.pokemon.detailExtras`) returns type effectiveness, the resolved **evolution chain** (with stats/types and full `evolution_details`), and **`timelineStages`** (chain + English flavor + genus per stage) so the UI does not double-fetch chain members.
 
 ---
 

@@ -57,6 +57,7 @@ export interface PokemonResponse {
 export interface FlavorTextEntry {
   flavor_text: string;
   language: NamedApiResource;
+  version?: NamedApiResource;
 }
 
 export interface PokemonSpeciesResponse {
@@ -67,12 +68,29 @@ export interface PokemonSpeciesResponse {
   is_mythical: boolean;
   habitat: NamedApiResource | null;
   varieties: { is_default: boolean; pokemon: NamedApiResource }[];
+  /** Localized category line, e.g. "Seed Pokémon" */
+  genus?: string;
 }
 
 export interface EvolutionDetail {
   min_level: number | null;
   item: NamedApiResource | null;
   trigger: NamedApiResource | null;
+  gender?: number | null;
+  held_item?: NamedApiResource | null;
+  known_move?: NamedApiResource | null;
+  known_move_type?: NamedApiResource | null;
+  location?: NamedApiResource | null;
+  min_happiness?: number | null;
+  min_beauty?: number | null;
+  min_affection?: number | null;
+  needs_overworld_rain?: boolean;
+  party_species?: NamedApiResource | null;
+  party_type?: NamedApiResource | null;
+  relative_physical_stats?: number | null;
+  time_of_day?: string;
+  trade_species?: NamedApiResource | null;
+  turn_upside_down?: boolean;
 }
 
 export interface ChainLink {
@@ -82,6 +100,7 @@ export interface ChainLink {
 }
 
 export interface EvolutionChainResponse {
+  id?: number;
   chain: ChainLink;
 }
 

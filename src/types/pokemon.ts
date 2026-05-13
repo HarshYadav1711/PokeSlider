@@ -119,8 +119,23 @@ export interface EvolutionChainPokemon {
   id: number;
   name: string;
   image: string | null;
+  /** Depth in the evolution tree from the chain root (0 = base). */
   level: number;
+  /** First evolution detail entry (legacy / compact UIs). */
   details: EvolutionDetail | null;
+  /** All evolution detail objects for this stage (multiple valid methods). */
+  evolutionDetails: EvolutionDetail[];
+  types: PokemonTypeName[];
+  stats: PokemonStatRow[];
+  baseStatTotal: number;
+}
+
+/** One stage in the cinematic evolution explorer (chain + species flavor). */
+export interface EvolutionTimelineStage extends EvolutionChainPokemon {
+  genus: string;
+  flavorText: string;
+  /** Human-readable lines describing how this stage is reached (empty for the chain root). */
+  evolutionHintLines: string[];
 }
 
 export interface TypeEffectivenessResult {

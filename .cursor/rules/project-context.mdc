@@ -9,11 +9,11 @@ alwaysApply: true
 
 | Field | Current state |
 |--------|----------------|
-| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Data from **PokéAPI**. |
+| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Pokémon overlay includes a **cinematic evolution timeline** (triggers, per-stage Pokédex flavor, stat deltas). Data from **PokéAPI**. |
 | **Stack** | React **19**, Vite **8**, TypeScript **5.9**, Tailwind **4** (`@tailwindcss/vite`), **Motion** 12, **TanStack Query v5**, **Zustand** 5, **`html-to-image`** (export). Tests: **Vitest** + jsdom + **Testing Library**. |
 | **Priorities** | Premium calm UI, **a11y** (focus trap, keyboard, SR), **reduced motion**, performance (prefetch, stale times), maintainable small modules. |
 | **Blockers** | None tracked in-repo. |
-| **Immediate next tasks** | See `FEATURE_TRACKER.md` → Planned / In progress. Optional: comparison **image export** (`data-comparison-export` surface exists). **Keep context docs in sync** when changing behavior (see §26). |
+| **Immediate next tasks** | See `FEATURE_TRACKER.md` → Planned / In progress. Optional: comparison **image export** (`data-comparison-export` surface exists). **Keep context docs in sync** when changing behavior (see §26)—same PR as code for non-trivial work. |
 
 **Modular rules:** `frontend-architecture.mdc`, `ui-system.mdc`, `performance-rules.mdc`, `typescript-rules.mdc`, `accessibility-rules.mdc`, `animation-rules.mdc`, `api-rules.mdc`.
 
@@ -23,7 +23,7 @@ alwaysApply: true
 
 ## 1. Project overview
 
-**PokeSlider** is a single-page Vite + React app: users spin a carousel of canonical Poké Balls, open a ball for lore + suggested species, browse/filter national dex data in **My Dex**, open full **Pokémon detail** (stats, evolution, locations, type chart, cry), run a **transparent rules** comparison between two species, and use **Team Builder** to assemble a six-Pokémon party with explainable scoring, coverage readouts, and a shareable PNG card—all **without** external AI APIs.
+**PokeSlider** is a single-page Vite + React app: users spin a carousel of canonical Poké Balls, open a ball for lore + suggested species, browse/filter national dex data in **My Dex**, open full **Pokémon detail** (stats, **evolution timeline explorer**, locations, type chart, cry), run a **transparent rules** comparison between two species, and use **Team Builder** to assemble a six-Pokémon party with explainable scoring, coverage readouts, and a shareable PNG card—all **without** external AI APIs.
 
 ---
 
@@ -71,7 +71,7 @@ src/
     compare/      # comparison modal, scoring, stat bars, share surface
     discovery/    # My Dex UI + engine + stores + hooks
     team-builder/ # local rule-based team modal, engine, type chart hook
-    overlay/      # Details overlay, ball + Pokémon panels
+    overlay/      # Details overlay, ball + Pokémon panels (incl. PokemonEvolutionTimeline)
   hooks/          # carousel, media query, shortcuts, cry, reduced motion
   motion/         # transition helpers
   providers/      # QueryClient, AppAtmosphere
@@ -80,7 +80,7 @@ src/
   store/          # zustand stores
   styles/         # design-tokens.css
   types/          # domain + API-facing types
-  utils/          # small pure helpers (gradients, arrays, meta)
+  utils/          # small pure helpers (gradients, arrays, meta, evolutionTriggerSummary + tests)
 ```
 
 ---
@@ -103,6 +103,7 @@ Avoid duplicating Query cache into Zustand.
 - Typed `PokeApiError`; retry policy in `createQueryClient.ts` (no retry loop on 404).
 - Heavy reads batched in **service** modules under `services/pokeapi/`.
 - **`PokemonSummary`** always includes **`baseStats`** from `mapPokemonSummary` so consumers (My Dex grids, Team Builder) share one shape.
+- **`qk.pokemon.detailExtras`** returns type matchups plus **evolution `chain`** and enriched **`timelineStages`** (species flavor + trigger summaries) in one fetch cycle—avoid parallel duplicate chain fetches.
 - Prefetch on meaningful hover / open transitions (`query/prefetch.ts`).
 
 ---
@@ -175,7 +176,7 @@ Avoid duplicating Query cache into Zustand.
 ## 16. Completed (representative)
 
 - Carousel + drag + keyboard + reduced auto-rotate.
-- Overlay ball + Pokémon detail (cry, mega modal, type chart, locations).
+- Overlay ball + Pokémon detail (cry, mega modal, type chart, locations, **evolution timeline explorer**).
 - My Dex browse/favorites/recents + filters + compare A/B from rows.
 - Compare modal + scoring + stat bars + duel-themed background.
 - Team Builder modal + deterministic engine + type matrix query + Vitest for engine/pool filters.
@@ -256,7 +257,7 @@ Avoid duplicating Query cache into Zustand.
 
 ## 26. AI handoff maintenance (mandatory after major work)
 
-When a **major feature** or **architectural** change lands—or whenever **meaningful product behavior** changes—update in the same PR or immediately after:
+When a **major feature** or **architectural** change lands—or whenever **meaningful product behavior** changes—update in the **same PR** as the code (or immediately after, never “later” without a tracked follow-up):
 
 1. `PROJECT_CONTEXT.md` — status + architecture bullets.
 2. `FEATURE_TRACKER.md` — move rows; adjust risks/files.

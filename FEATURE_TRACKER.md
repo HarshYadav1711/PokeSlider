@@ -1,6 +1,6 @@
 # Feature tracker — PokeSlider
 
-**Context pack (keep in sync):** After **meaningful** product or architecture changes, update **this file**, `PROJECT_CONTEXT.md`, `DECISIONS_LOG.md` (ADR when justified), and **`.cursor/rules/project-context.mdc`** (plus other `.mdc` rules if patterns change)—ideally in the **same PR** as the code. Pure typo / one-line fixes can skip.
+**Context pack (keep in sync):** After **meaningful** product or architecture changes, update **this file**, `PROJECT_CONTEXT.md`, `DECISIONS_LOG.md` (ADR when justified), and **`.cursor/rules/project-context.mdc`** (plus other `.mdc` rules if patterns change)—ideally in the **same PR** as the code. Treat the context pack as **part of the definition of done** for non-trivial work—not an optional follow-up. Pure typo / one-line fixes can skip.
 
 Legend: **Status** matches section. **Risk**: Low / Med / High.
 
@@ -30,6 +30,7 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 | 3D carousel | Hero interaction, spin, front ball | `PokeBallCarousel.tsx`, `usePokeBallCarousel.ts` | Motion (CSS mostly), pointer | Motion sickness → mitigated by reduced motion | Completed |
 | Ball detail overlay | Lore + suggested Pokémon | `DetailsOverlay.tsx`, `BallDetailPanel.tsx`, ball queries | Query, pokeapi services | API rate | Completed |
 | Pokémon detail | Full dex page in overlay | `PokemonDetailPanel.tsx`, `detailedPokemon.ts`, extras query | Query | Large payloads | Completed |
+| Evolution timeline explorer | Cinematic chain UI: triggers, per-stage Pokédex flavor + genus, stat deltas vs baseline, Motion transitions, keyboard region; extras query returns `timelineStages` | `PokemonEvolutionTimeline.tsx`, `evolution.ts`, `evolutionSpeciesLore.ts`, `utils/evolutionTriggerSummary.ts` (+ test), `PokemonDetailPanel.tsx` | Query (`detailExtras`), PokéAPI | Extra parallel `/pokemon-species` calls per chain member; mitigated by extras `staleTime` | Completed |
 | My Dex | Browse/filter/favorites/recents | `MyDexPanel.tsx`, `discoveryEngine.ts`, `useMyDexDiscovery.ts` | Zustand discovery store | Client perf on huge lists | Completed |
 | Compare | Transparent multi-category scoring | `ComparisonModal.tsx`, `comparisonScoring.ts`, `ComparisonStatBars.tsx` | Query profiles + type chart | Misinterpretation of rules → mitigated by copy | Completed |
 | Design tokens & atmosphere | Premium visual system + type tint | `design-tokens.css`, `index.css`, `AppAtmosphere.tsx` | CSS `color-mix` | Older browsers | Completed |
