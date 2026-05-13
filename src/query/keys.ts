@@ -3,6 +3,7 @@ export const qk = {
     nationalIndex: () => ['pokeapi', 'pokemon', 'national-index', 1025] as const,
     summary: (id: number) => ['pokeapi', 'pokemon', 'summary', id] as const,
     detail: (id: number) => ['pokeapi', 'pokemon', 'detail', id] as const,
+    comparisonProfile: (id: number) => ['pokeapi', 'pokemon', 'compare-profile', id] as const,
     detailExtras: (id: number) => ['pokeapi', 'pokemon', 'detail-extras', id] as const,
     typeMembers: (type: string) => ['pokeapi', 'type', 'members', type] as const,
     generationMembers: (genId: number) => ['pokeapi', 'generation', 'members', genId] as const,

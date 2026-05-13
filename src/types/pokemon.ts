@@ -81,6 +81,29 @@ export interface DetailedPokemon {
   cryUrl: string | null;
 }
 
+export interface PokemonComparisonAbility {
+  name: string;
+  isHidden: boolean;
+  slot: number;
+}
+
+/** Minimal fields for VS compare (no locations / mega / cries). */
+export interface PokemonComparisonProfile {
+  id: number;
+  name: string;
+  image: string | null;
+  types: PokemonTypeName[];
+  stats: PokemonStatRow[];
+  baseStatTotal: number;
+  /** PokéAPI height in meters (decimeters ÷ 10). */
+  heightM: number;
+  /** PokéAPI weight in kilograms (hectograms ÷ 10). */
+  weightKg: number;
+  abilities: PokemonComparisonAbility[];
+  /** True if species has a prior evolution (`evolves_from_species`). */
+  hasPriorEvolution: boolean;
+}
+
 export interface EvolutionChainPokemon {
   id: number;
   name: string;

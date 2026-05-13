@@ -11,6 +11,7 @@ import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../q
 import { buildEvolutionChain } from '../../services/pokeapi/evolution';
 import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
+import { useComparisonStore } from '../../store/comparisonStore';
 import { useDexListsStore } from '../../store/dexListsStore';
 import { useUiStore } from '../../store/uiStore';
 import type {
@@ -29,6 +30,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
   const showPokemon = useUiStore((s) => s.showPokemon);
   const { play, status: cryStatus } = usePokemonCry();
 
+  const assignCompareSlot = useComparisonStore((s) => s.assignSlot);
   const toggleFavorite = useDexListsStore((s) => s.toggleFavorite);
   const favoriteIds = useDexListsStore((s) => s.favoriteIds);
   const isFav = useMemo(() => favoriteIds.includes(pokemonId), [favoriteIds, pokemonId]);
@@ -137,6 +139,22 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25"
             >
               {cryStatus === 'playing' ? '🔊 Playing…' : cryStatus === 'unavailable' ? '🔇 Cry unavailable' : '🔊 Play Cry'}
+            </button>
+            <button
+              type="button"
+              onClick={() => assignCompareSlot('a', pokemon.id)}
+              className="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-violet-400/50 bg-violet-500/15 px-4 text-sm font-bold text-violet-100 transition hover:bg-violet-500/25"
+              aria-label="Use in compare slot A"
+            >
+              Compare A
+            </button>
+            <button
+              type="button"
+              onClick={() => assignCompareSlot('b', pokemon.id)}
+              className="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-sky-400/50 bg-sky-500/15 px-4 text-sm font-bold text-sky-100 transition hover:bg-sky-500/25"
+              aria-label="Use in compare slot B"
+            >
+              Compare B
             </button>
             <button
               type="button"

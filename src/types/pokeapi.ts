@@ -33,6 +33,12 @@ export interface PokemonCries {
   legacy?: string | null;
 }
 
+export interface PokemonAbilitySlot {
+  is_hidden: boolean;
+  slot: number;
+  ability: NamedApiResource;
+}
+
 export interface PokemonResponse {
   id: number;
   name: string;
@@ -43,6 +49,9 @@ export interface PokemonResponse {
   species: NamedApiResource;
   cries?: PokemonCries | null;
   forms?: { name: string }[];
+  height: number;
+  weight: number;
+  abilities?: PokemonAbilitySlot[];
 }
 
 export interface FlavorTextEntry {

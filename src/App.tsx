@@ -1,4 +1,5 @@
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
+import { ComparisonModal } from './features/compare/ComparisonModal';
 import { MyDexPanel } from './features/discovery/MyDexPanel';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
@@ -30,6 +31,8 @@ export function App() {
       <DetailsOverlay />
 
       <MyDexPanel />
+
+      <ComparisonModal />
     </div>
   );
 }

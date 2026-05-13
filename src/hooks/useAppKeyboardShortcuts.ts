@@ -1,15 +1,22 @@
 import { useEffect } from 'react';
 
+import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
 import { useUiStore } from '../store/uiStore';
 
 /**
- * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` closes My Dex or the details overlay.
+ * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` closes compare, My Dex, or the details overlay.
  */
 export function useAppKeyboardShortcuts() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        const compareOpen = useComparisonStore.getState().open;
+        if (compareOpen) {
+          useComparisonStore.getState().closeModal();
+          e.preventDefault();
+          return;
+        }
         const dexOpen = useDiscoveryUiStore.getState().panelOpen;
         if (dexOpen) {
           useDiscoveryUiStore.getState().setPanelOpen(false);

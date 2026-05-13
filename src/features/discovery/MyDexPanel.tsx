@@ -4,8 +4,9 @@ import { useCallback, useEffect, useId, useMemo, useRef } from 'react';
 import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { InlineRowSkeleton } from '../../components/ui/PanelSkeletons';
-import { useUiStore } from '../../store/uiStore';
+import { useComparisonStore } from '../../store/comparisonStore';
 import { useDexListsStore } from '../../store/dexListsStore';
+import { useUiStore } from '../../store/uiStore';
 import { useDiscoveryUiStore } from './discoveryUiStore';
 import { useAbilitySlugListQuery, useMyDexDiscovery, usePokedexSlugListQuery } from './useMyDexDiscovery';
 
@@ -37,6 +38,8 @@ export function MyDexPanel() {
   const toggleFavorite = useDexListsStore((s) => s.toggleFavorite);
   const favoriteIds = useDexListsStore((s) => s.favoriteIds);
   const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
+
+  const assignCompareSlot = useComparisonStore((s) => s.assignSlot);
 
   const {
     displayRows,
@@ -131,18 +134,28 @@ export function MyDexPanel() {
             transition={{ type: 'spring', stiffness: 320, damping: 30 }}
             className="pointer-events-auto fixed inset-x-0 bottom-0 top-[8vh] z-[895] flex flex-col rounded-t-3xl border border-white/15 bg-[#0f172a]/97 p-4 shadow-[0_-12px_48px_rgba(0,0,0,0.45)] backdrop-blur-xl max-md:top-[10vh] md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-3xl md:border md:p-5"
           >
-            <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-lg font-bold tracking-tight text-white [font-family:var(--font-display)]">
                 My Dex
               </h2>
-              <button
-                type="button"
-                onClick={() => setPanelOpen(false)}
-                className="min-h-11 min-w-11 rounded-full border border-white/20 bg-white/10 text-lg text-white transition hover:bg-white/20"
-                aria-label="Close My Dex"
-              >
-                ×
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => useComparisonStore.getState().openModal()}
+                  className="rounded-full border border-white/20 bg-violet-500/20 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-500/30"
+                  aria-label="Open Pokémon comparison"
+                >
+                  Compare
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPanelOpen(false)}
+                  className="min-h-11 min-w-11 rounded-full border border-white/20 bg-white/10 text-lg text-white transition hover:bg-white/20"
+                  aria-label="Close My Dex"
+                >
+                  ×
+                </button>
+              </div>
             </div>
 
             <div
@@ -426,6 +439,30 @@ export function MyDexPanel() {
                               <span className="mt-1 block text-xs text-white/60">BST {p.baseStatTotal}</span>
                             </span>
                           </button>
+                          <div className="flex shrink-0 flex-col gap-1">
+                            <button
+                              type="button"
+                              aria-label={`Set ${p.name} as comparison slot A`}
+                              className="min-h-9 min-w-9 rounded-lg border border-violet-400/40 bg-violet-500/15 text-xs font-bold text-violet-100 hover:bg-violet-500/25"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                assignCompareSlot('a', p.id);
+                              }}
+                            >
+                              A
+                            </button>
+                            <button
+                              type="button"
+                              aria-label={`Set ${p.name} as comparison slot B`}
+                              className="min-h-9 min-w-9 rounded-lg border border-sky-400/40 bg-sky-500/15 text-xs font-bold text-sky-100 hover:bg-sky-500/25"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                assignCompareSlot('b', p.id);
+                              }}
+                            >
+                              B
+                            </button>
+                          </div>
                           <button
                             type="button"
                             aria-label={favoriteSet.has(p.id) ? 'Remove from favorites' : 'Add to favorites'}
