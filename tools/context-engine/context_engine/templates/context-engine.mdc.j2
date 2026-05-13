@@ -1,12 +1,11 @@
-<!-- AUTO-GENERATED-START -->
 _Auto-generated. Mirror of the AI onboarding capsule. Edit `project-metadata/` and run `context-engine generate`._
 
 | Field | Value |
 |---|---|
-| Files scanned | 120 |
-| Shipped features | 6 / 7 |
-| Tests | 6 |
-| Generated | 2026-05-13T21:44:13+00:00 |
+| Files scanned | {{ stats.file_count }} |
+| Shipped features | {{ stats.shipped_count }} / {{ stats.feature_count }} |
+| Tests | {{ stats.test_count }} |
+| Generated | {{ generated_at }} |
 
 ## Hard rules
 
@@ -17,18 +16,18 @@ _Auto-generated. Mirror of the AI onboarding capsule. Edit `project-metadata/` a
 
 ## Shipped features
 
-- **3D Poké Ball carousel** _(verified)_
-- **Battle Simulator** _(verified)_
-- **Details overlay (ball + Pokémon)** _(verified)_
-- **My Dex discovery** _(partial)_
-- **Pokémon comparison** _(partial)_
-- **Team Builder (local rule-based)** _(verified)_
-
+{% if shipped_features -%}
+{% for f in shipped_features -%}
+- **{{ f.name }}** _({{ f.confidence.value }})_
+{% endfor -%}
+{% else -%}
+_None registered._
+{%- endif %}
 
 ## Shared systems
 
-a11y, motion, query-layer, rules-engines, zustand-stores
-<!-- AUTO-GENERATED-END -->
-
-<!-- MANUAL-NOTES-START -->
-<!-- MANUAL-NOTES-END -->
+{% if shared_systems -%}
+{{ shared_systems|join(', ') }}
+{%- else -%}
+_None._
+{%- endif %}

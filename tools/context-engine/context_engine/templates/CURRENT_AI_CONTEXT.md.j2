@@ -1,70 +1,45 @@
-_AI/contributor onboarding capsule — auto-generated. Reflects on-disk state, not aspiration._
+_Auto-generated AI/contributor onboarding snapshot. Reflects on-disk state, not aspiration._
 
-_Last scan: {{ generated_at }}{% if git_commit %} · commit `{{ git_commit[:10] }}`{% endif %}_
+_Scan: {{ generated_at }}{% if git_commit %} · commit `{{ git_commit[:10] }}`{% endif %}_
 
 ## Identity
 
-PokeSlider — React 19 + Vite 8 + TypeScript + Tailwind 4 SPA over PokéAPI. 3D Poké Ball carousel hero, overlay panels for ball/Pokémon detail, My Dex discovery, transparent Compare, local rule-based Team Builder, and Battle Simulator. No backend in repo.
-
-## Current architecture (verified)
-
-{% for layer, files in layers.items() -%}
-- **{{ layer }}** — {{ files|length }} files{% if files|length %} (e.g. `{{ files[0].path }}`){% endif %}
-{% endfor %}
+PokeSlider — React 19 + Vite 8 + TypeScript + Tailwind 4 over PokéAPI. 3D Poké Ball carousel hero, overlay panels (ball + Pokémon detail), My Dex discovery, transparent Compare, rule-based Team Builder, Battle Simulator. No backend in repo.
 
 ## Active features
 
+{% if shipped_features -%}
 {% for f in shipped_features -%}
-- **{{ f.name }}** ({{ f.evidence.confidence.value }}): {{ f.description|default('—') }}{% if f.stores %} · stores: {{ f.stores|join(', ') }}{% endif %}{% if f.query_keys %} · query keys: {{ f.query_keys|join(', ') }}{% endif %}
-{% endfor %}
+- **{{ f.name }}** _({{ f.confidence.value }})_ — {{ f.description or '—' }}{% if f.stores %} · stores: `{{ f.stores|join('`, `') }}`{% endif %}{% if f.shared_systems %} · systems: {{ f.shared_systems|join(', ') }}{% endif %}
+{% endfor -%}
+{% else -%}
+_No shipped features recorded — seed `project-metadata/features/` first._
+{%- endif %}
 
-## Unfinished work
+## Unfinished
 
 {% if in_progress_features or planned_features -%}
 {% for f in in_progress_features -%}
-- *in progress* — **{{ f.name }}**: {{ f.description|default('—') }}
-{% endfor %}
+- _in progress_ — **{{ f.name }}**: {{ f.description or '—' }}
+{% endfor -%}
 {% for f in planned_features -%}
-- *planned* — **{{ f.name }}**: {{ f.description|default('—') }}
-{% endfor %}
-{%- else -%}
+- _planned_ — **{{ f.name }}**: {{ f.description or '—' }}
+{% endfor -%}
+{% else -%}
 _None recorded._
 {%- endif %}
 
-## Dangerous modification zones
+## Shared systems referenced
 
-{% if hotspots -%}
-{% for path, score in hotspots -%}
-- `{{ path }}` (coupling score {{ score }}) — changes here ripple widely; read consumers before refactor.
-{% endfor %}
+{% if shared_systems -%}
+{{ shared_systems|join(', ') }}
 {%- else -%}
-_No high-coupling hotspots detected._
+_None referenced._
 {%- endif %}
 
-## Shared system boundaries
+## Hard rules for AI sessions
 
-{% if systems -%}
-{% for s in systems -%}
-- **{{ s.name }}** (`{{ s.layer }}`) — {{ s.purpose|default('—') }}{% if s.do_not %} · DO NOT: {{ s.do_not|join('; ') }}{% endif %}
-{% endfor %}
-{%- else -%}
-_No shared systems registered._
-{%- endif %}
-
-## Current priorities (from registry)
-
-{% if priorities -%}
-{% for item in priorities -%}
-- {{ item }}
-{% endfor %}
-{%- else -%}
-1. Keep shipped surfaces accessible and accurate.
-2. Update feature manifests in `project-metadata/features/` as code changes.
-3. Run `context-engine validate` before any large refactor.
-{%- endif %}
-
-## Quick start for an AI session
-
-1. Read `PROJECT_CONTEXT.md` and `.cursor/rules/project-context.mdc`.
-2. Skim `docs/generated/feature-map.md`, `route-map.md`, `system-map.md` for verified scope.
-3. Before claiming a feature exists, check the matching YAML in `project-metadata/features/`. If absent, the feature is **not** in the truth tier.
+1. **Implementation truth is the source of truth.** Anything not represented in `project-metadata/features/<id>.yaml` is unverified.
+2. Before claiming a feature is shipped, confirm a matching YAML manifest exists with `source_files` that resolve on disk.
+3. Edit YAML; never hand-edit AUTO-GENERATED regions. Run `context-engine generate` to refresh.
+4. MANUAL-NOTES blocks are preserved verbatim — record context there if needed.

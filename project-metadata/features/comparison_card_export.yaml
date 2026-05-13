@@ -1,26 +1,16 @@
 id: comparison_card_export
 name: Comparison card export
 status: planned
-description: >-
-  Export the Comparison Modal as a shareable image. The hook surface already
+description: Export the Comparison Modal as a shareable image. The hook surface already
   exists via `data-comparison-export` on `ComparisonShareSurface`.
-owned_routes:
-  - comparison-modal
+stores: []
 shared_systems:
-  - query-layer
-stores:
-  - useComparisonStore
-query_keys: []
+- query-layer
 dependencies:
-  - compare
-tags:
-  - export
-  - share
-evidence:
-  source_files:
-    - path: src/features/compare/ComparisonShareSurface.tsx
-  tests: []
-  routes: []
-  confidence: inferred
-  notes: >-
-    Marker DOM exists but no encoder/exporter integration is present yet.
+- compare
+source_files:
+- src/features/compare/ComparisonShareSurface.tsx
+tests: []
+confidence: partial
+do_not: []
+manual_notes: Marker DOM exists but no encoder/exporter integration is present yet.

@@ -4,55 +4,25 @@ status: shipped
 description: Deterministic party-of-six recommender with goal weights, risk tolerance,
   generation pool, locks, coverage/gaps/swap suggestions, and PNG card export via
   `html-to-image`.
-owned_routes:
-- team-builder-modal
+stores:
+- useDexListsStore
+- useTeamBuilderStore
 shared_systems:
 - rules-engines
 - query-layer
 - zustand-stores
-stores:
-- useDexListsStore
-- useTeamBuilderStore
-query_keys:
-- pokemon
-- teamBuilder
 dependencies: []
-tags:
-- engine
-- share-export
-evidence:
-  source_files:
-  - path: src/features/team-builder/TeamBuilderModal.tsx
-    symbol: null
-    line: null
-  - path: src/features/team-builder/teamBuilderEngine.ts
-    symbol: null
-    line: null
-  - path: src/features/team-builder/teamBuilderTypes.ts
-    symbol: null
-    line: null
-  - path: src/features/team-builder/typeMatchupChart.ts
-    symbol: null
-    line: null
-  - path: src/features/team-builder/useTeamBuilderData.ts
-    symbol: null
-    line: null
-  - path: src/services/pokeapi/typeMatchupChart.ts
-    symbol: null
-    line: null
-  - path: src/store/teamBuilderStore.ts
-    symbol: null
-    line: null
-  referenced_by: []
-  routes:
-  - team-builder-modal
-  tests:
-  - path: src/features/team-builder/teamBuilderEngine.test.ts
-    symbol: null
-    line: null
-  confidence: verified
-  notes: null
+source_files:
+- src/features/team-builder/TeamBuilderModal.tsx
+- src/features/team-builder/teamBuilderEngine.ts
+- src/features/team-builder/teamBuilderTypes.ts
+- src/features/team-builder/typeMatchupChart.ts
+- src/features/team-builder/useTeamBuilderData.ts
+- src/services/pokeapi/typeMatchupChart.ts
+- src/store/teamBuilderStore.ts
+tests:
+- src/features/team-builder/teamBuilderEngine.test.ts
+confidence: verified
 do_not:
 - Introduce non-deterministic suggestions; the engine must be reproducible.
 - Fetch the type matchup chart outside `qk.teamBuilder.typeMatchup`.
-manual_notes: null

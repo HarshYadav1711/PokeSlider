@@ -2,43 +2,18 @@ id: battle_sim
 name: Battle Simulator
 status: shipped
 description: Local, rule-based battle simulator presented as a modal surface.
-owned_routes:
-- battle-simulator-modal
-shared_systems:
-- rules-engines
-- zustand-stores
 stores:
-- useBattleSimulatorStore
-query_keys:
-- pokemon
-- teamBuilder
-dependencies: []
-tags:
-- engine
-- modal
-evidence:
-  source_files:
-  - path: src/features/battle-sim/BattleSimulatorModal.tsx
-    symbol: null
-    line: null
-  - path: src/features/battle-sim/battleSimulatorEngine.ts
-    symbol: null
-    line: null
-  - path: src/features/battle-sim/battleSimulatorTypes.ts
-    symbol: null
-    line: null
-  - path: src/store/battleSimulatorStore.ts
-    symbol: null
-    line: null
-  referenced_by: []
-  routes:
-  - battle-simulator-modal
-  tests:
-  - path: src/features/battle-sim/battleSimulatorEngine.test.ts
-    symbol: null
-    line: null
-  confidence: verified
-  notes: null
+  - useBattleSimulatorStore
+shared_systems:
+  - rules-engines
+  - zustand-stores
+source_files:
+  - src/features/battle-sim/BattleSimulatorModal.tsx
+  - src/features/battle-sim/battleSimulatorEngine.ts
+  - src/features/battle-sim/battleSimulatorTypes.ts
+  - src/store/battleSimulatorStore.ts
+tests:
+  - src/features/battle-sim/battleSimulatorEngine.test.ts
+confidence: verified
 do_not:
-- Couple the simulator engine to overlay or compare scoring.
-manual_notes: null
+  - Couple the simulator engine to overlay or compare scoring.

@@ -1,61 +1,28 @@
 id: overlay
 name: Details overlay (ball + Pokémon)
 status: shipped
-description: 'Two-panel overlay surface: ball lore + suggested species, and full Pokémon
-  detail (stats, type matchups, evolution timeline explorer, locations, cry, mega
-  compare).'
-owned_routes:
-- details-overlay
-shared_systems:
-- a11y
-- motion
-- query-layer
+description: 'Two-panel overlay: ball lore + suggested species, and full Pokémon detail
+  (stats, type matchups, evolution timeline explorer, locations, cry, mega).'
 stores:
 - useComparisonStore
 - useDexListsStore
 - useUiStore
-query_keys:
-- ball
-- detailExtras
-- pokemon
-dependencies: []
-tags:
-- modal
-- dense-data
+shared_systems:
 - a11y
-evidence:
-  source_files:
-  - path: src/features/overlay/BallDetailPanel.tsx
-    symbol: null
-    line: null
-  - path: src/features/overlay/DetailsOverlay.tsx
-    symbol: null
-    line: null
-  - path: src/features/overlay/PokemonDetailPanel.tsx
-    symbol: null
-    line: null
-  - path: src/features/overlay/PokemonEvolutionTimeline.tsx
-    symbol: null
-    line: null
-  - path: src/services/pokeapi/evolution.ts
-    symbol: null
-    line: null
-  - path: src/services/pokeapi/evolutionSpeciesLore.ts
-    symbol: null
-    line: null
-  - path: src/utils/evolutionTriggerSummary.ts
-    symbol: null
-    line: null
-  referenced_by: []
-  routes:
-  - details-overlay
-  tests:
-  - path: src/utils/evolutionTriggerSummary.test.ts
-    symbol: null
-    line: null
-  confidence: verified
-  notes: null
+- motion
+- query-layer
+dependencies: []
+source_files:
+- src/features/overlay/BallDetailPanel.tsx
+- src/features/overlay/DetailsOverlay.tsx
+- src/features/overlay/PokemonDetailPanel.tsx
+- src/features/overlay/PokemonEvolutionTimeline.tsx
+- src/services/pokeapi/evolution.ts
+- src/services/pokeapi/evolutionSpeciesLore.ts
+- src/utils/evolutionTriggerSummary.ts
+tests:
+- src/utils/evolutionTriggerSummary.test.ts
+confidence: verified
 do_not:
 - Add a second focus trap inside the overlay; keep the existing trap.
 - Fetch evolution chain members outside of `qk.pokemon.detailExtras`.
-manual_notes: null

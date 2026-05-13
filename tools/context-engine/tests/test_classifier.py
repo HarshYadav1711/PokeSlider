@@ -1,61 +1,60 @@
-"""Sanity checks for the file classifier — these are the truth tier for
-folder-based assumptions."""
+"""Sanity checks for the file classifier."""
 
 from __future__ import annotations
 
-from context_engine.scanner.classifier import classify_path
-from context_engine.schemas.snapshot import FileRole
+from context_engine.scanner import classify
+from context_engine.schemas import FileRole
 
 
 def test_feature_engine_is_engine() -> None:
-    c = classify_path("src/features/team-builder/teamBuilderEngine.ts")
-    assert c.role == FileRole.engine
-    assert c.feature_id == "team_builder"
-    assert c.is_test is False
+    role, feature_id, is_test = classify("src/features/team-builder/teamBuilderEngine.ts")
+    assert role == FileRole.engine
+    assert feature_id == "team_builder"
+    assert is_test is False
 
 
-def test_feature_engine_test_is_test() -> None:
-    c = classify_path("src/features/team-builder/teamBuilderEngine.test.ts")
-    assert c.is_test is True
-    assert c.role == FileRole.test
+def test_engine_test_file_is_test() -> None:
+    role, _, is_test = classify("src/features/team-builder/teamBuilderEngine.test.ts")
+    assert is_test is True
+    assert role == FileRole.test
 
 
 def test_overlay_tsx_is_overlay() -> None:
-    c = classify_path("src/features/overlay/PokemonDetailPanel.tsx")
-    assert c.role == FileRole.overlay
+    role, _, _ = classify("src/features/overlay/PokemonDetailPanel.tsx")
+    assert role == FileRole.overlay
 
 
 def test_feature_modal_tsx_is_component() -> None:
-    c = classify_path("src/features/compare/ComparisonModal.tsx")
-    assert c.role == FileRole.component
+    role, _, _ = classify("src/features/compare/ComparisonModal.tsx")
+    assert role == FileRole.component
 
 
 def test_zustand_store_is_store() -> None:
-    c = classify_path("src/store/teamBuilderStore.ts")
-    assert c.role == FileRole.store
+    role, _, _ = classify("src/store/teamBuilderStore.ts")
+    assert role == FileRole.store
 
 
 def test_query_layer_is_query() -> None:
-    c = classify_path("src/query/keys.ts")
-    assert c.role == FileRole.query
+    role, _, _ = classify("src/query/keys.ts")
+    assert role == FileRole.query
 
 
 def test_a11y_helpers_are_a11y() -> None:
-    c = classify_path("src/a11y/useFocusTrap.ts")
-    assert c.role == FileRole.a11y
+    role, _, _ = classify("src/a11y/useFocusTrap.ts")
+    assert role == FileRole.a11y
 
 
 def test_types_file_is_types() -> None:
-    c = classify_path("src/types/pokemon.ts")
-    assert c.role == FileRole.types
+    role, _, _ = classify("src/types/pokemon.ts")
+    assert role == FileRole.types
 
 
 def test_feature_types_is_types() -> None:
-    c = classify_path("src/features/team-builder/teamBuilderTypes.ts")
-    assert c.role == FileRole.types
-    assert c.feature_id == "team_builder"
+    role, feature_id, _ = classify("src/features/team-builder/teamBuilderTypes.ts")
+    assert role == FileRole.types
+    assert feature_id == "team_builder"
 
 
 def test_feature_util_falls_back_to_util() -> None:
-    c = classify_path("src/features/compare/comparisonScoring.ts")
-    assert c.role == FileRole.util
+    role, _, _ = classify("src/features/compare/comparisonScoring.ts")
+    assert role == FileRole.util

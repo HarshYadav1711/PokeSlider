@@ -1,9 +1,0 @@
-_Auto-generated component map (`.tsx` files that export components)._
-
-_Generated: {{ generated_at }}_
-
-| File | Components exported | Feature | JSX consumers |
-|---|---|---|---|
-{% for row in rows -%}
-| `{{ row.path }}` | {{ row.components|join(', ') }} | {{ row.feature_id or '—' }} | {{ row.consumer_count }} |
-{% endfor %}

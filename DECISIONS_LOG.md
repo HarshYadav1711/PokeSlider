@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Simplify the Context Engine (v0.2.0)
+
+**Decision:** Collapse the Context Intelligence Engine into a flat, ~1000-LOC Python package with 4 CLI commands (`scan`, `generate`, `validate`, `watch`), 4 generated artifacts (`PROJECT_CONTEXT.md`, `FEATURE_TRACKER.md`, `CURRENT_AI_CONTEXT.md`, `.cursor/rules/context-engine.mdc`), and 3 validators (`MISSING_FILE`, `SHIPPED_NO_EVIDENCE`, `UNKNOWN_DEPENDENCY`). Removed the dependency-graph layer (networkx + Mermaid/DOT exports + coupling hotspots), the libcst Python parser (never used in the pipeline), GitPython (subprocess `git` is enough), system / route / decision YAML registries (folded into free-form strings on a feature manifest), and the noisy validators (orphan components, dead routes, unused stores). Sub-packages collapsed into single-file modules (`schemas.py`, `scanner.py`, `parser.py`, `generator.py`, `validator.py`, `registry.py`, `cache.py`, `watcher.py`, `markers.py`, `cli.py`).
+
+**Why:** The first version of the engine drifted into platform territory — it had more abstractions than this repo can repay. The truth contract (anti-hallucination, evidence-required, safe-merge markers) is preserved; the surface area is roughly halved. Easier to read, easier to maintain, faster to run, less for contributors (and future AI sessions) to internalize.
+
+**Alternatives rejected:** Keep the previous engine (overhead grows faster than the codebase); rewrite from scratch (the truth-contract logic was sound, only the surface area was wrong).
+
+---
+
 ## 2026-05 — Context Intelligence Engine (Python, `tools/context-engine/`)
 
 **Decision:** Introduce a Python 3.12+ engine that scans `src/` deterministically, persists structural truth in YAML/JSON under `project-metadata/`, and generates documentation + Cursor rules inside explicit `<!-- AUTO-GENERATED-START -->` / `<!-- AUTO-GENERATED-END -->` markers. The engine refuses to call a feature "shipped" without on-disk evidence and emits a confidence tier (`verified` / `partial` / `inferred` / `uncertain`) for every claim. CLI: `scan`, `generate`, `validate`, `drift-report`, `architecture-report`, `context-report`, `graph`, `watch`, `init`. TS mirror lives at `src/core/feature-registry.ts`. Full design captured in `docs/adr/0001-context-intelligence-engine.md`.

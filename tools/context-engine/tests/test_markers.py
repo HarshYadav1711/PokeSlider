@@ -1,8 +1,4 @@
-"""Safety contract tests for the AUTO-GENERATED / MANUAL-NOTES markers.
-
-These are the most important tests in the engine: if the marker system
-silently overwrites human prose, every other guarantee collapses.
-"""
+"""The single most important safety contract — never overwrite human prose."""
 
 from __future__ import annotations
 
@@ -10,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from context_engine.utils.markers import (
+from context_engine.markers import (
     AUTO_END,
     AUTO_START,
     MANUAL_END,
@@ -64,10 +60,6 @@ def test_does_not_overwrite_file_without_markers(tmp_path: Path) -> None:
     assert result.path != target
     assert result.path.name.endswith(".generated.md")
     assert target.read_text(encoding="utf-8") == original
-
-
-def test_extract_manual_notes_returns_none_when_absent() -> None:
-    assert extract_manual_notes("nothing in here") is None
 
 
 def test_extract_manual_notes_returns_inner_body() -> None:
