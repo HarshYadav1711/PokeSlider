@@ -14,6 +14,7 @@ import { qk } from '../../query/keys';
 import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { fetchPokemonComparisonProfile } from '../../services/pokeapi/comparisonProfile';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
+import { useBattleSimulatorStore } from '../../store/battleSimulatorStore';
 import { useComparisonStore } from '../../store/comparisonStore';
 import type { PokemonTypeName } from '../../types/pokemon';
 
@@ -215,6 +216,17 @@ export function ComparisonModal() {
                 Compare
               </h2>
               <div className="flex flex-wrap items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!idA || !idB) return;
+                    useBattleSimulatorStore.getState().openWithCombatants(idA, idB);
+                  }}
+                  className="app-focus-ring min-h-11 rounded-[var(--radius-pill)] border border-indigo-300/35 bg-indigo-500/18 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-indigo-50 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-indigo-200/45 hover:bg-indigo-500/26 disabled:cursor-not-allowed disabled:opacity-45"
+                  disabled={!idA || !idB}
+                >
+                  Battle preview
+                </button>
                 <button
                   type="button"
                   onClick={() => swap()}

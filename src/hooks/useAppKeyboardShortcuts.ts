@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { useBattleSimulatorStore } from '../store/battleSimulatorStore';
 import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
 import { useTeamBuilderStore } from '../store/teamBuilderStore';
@@ -16,6 +17,12 @@ export function useAppKeyboardShortcuts() {
         const teamBuilderOpen = useTeamBuilderStore.getState().open;
         if (teamBuilderOpen) {
           useTeamBuilderStore.getState().setOpen(false);
+          e.preventDefault();
+          return;
+        }
+        const battleOpen = useBattleSimulatorStore.getState().open;
+        if (battleOpen) {
+          useBattleSimulatorStore.getState().close();
           e.preventDefault();
           return;
         }

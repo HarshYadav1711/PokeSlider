@@ -1,4 +1,5 @@
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
+import { BattleSimulatorModal } from './features/battle-sim/BattleSimulatorModal';
 import { ComparisonModal } from './features/compare/ComparisonModal';
 import { MyDexPanel } from './features/discovery/MyDexPanel';
 import { TeamBuilderModal } from './features/team-builder/TeamBuilderModal';
@@ -65,6 +66,8 @@ export function App() {
       <MyDexPanel />
 
       <ComparisonModal />
+
+      <BattleSimulatorModal />
 
       <TeamBuilderModal />
       </main>
