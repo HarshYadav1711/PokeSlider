@@ -28,7 +28,7 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
       onPointerEnter={() => {
         void prefetchPokemonDetail(qc, pokemon.id);
       }}
-      className="relative flex flex-col items-center rounded-2xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md transition hover:-translate-y-1 hover:border-white/30 hover:bg-white/20"
+      className="app-focus-ring relative flex flex-col items-center rounded-[var(--radius-2xl)] border border-white/12 bg-white/8 p-4 text-center transition-[transform,background-color,border-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 hover:border-white/22 hover:bg-white/12 active:translate-y-0 active:scale-[0.99]"
     >
       <img
         src={src}
@@ -81,7 +81,7 @@ export function BallDetailPanel({ ball }: BallDetailPanelProps) {
         <button
           type="button"
           onClick={() => void refetch()}
-          className="rounded-full border border-white/30 bg-white/15 px-6 py-2 font-semibold text-white transition hover:bg-white/25"
+          className="app-focus-ring rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
         >
           Retry
         </button>

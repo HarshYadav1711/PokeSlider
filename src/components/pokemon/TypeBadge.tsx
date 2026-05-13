@@ -8,7 +8,7 @@ interface TypeBadgeProps {
 export function TypeBadge({ type }: TypeBadgeProps) {
   return (
     <span
-      className="inline-flex items-center rounded-full border-2 border-white/20 px-4 py-1 text-sm font-bold capitalize text-white shadow-md"
+      className="inline-flex items-center rounded-[var(--radius-pill)] border border-white/14 px-3 py-0.5 text-[var(--text-body-sm)] font-semibold capitalize text-white shadow-[var(--shadow-sm)] [font-family:var(--font-sans)]"
       style={{ background: TYPE_GRADIENT[type] }}
     >
       {type}

@@ -9,23 +9,25 @@ import { useUiStore } from '../../store/uiStore';
 export function PokeBallCarousel() {
   const qc = useQueryClient();
   const openBall = useUiStore((s) => s.openBall);
-  const { transforms, carouselProps } = usePokeBallCarousel(POKEBALLS.length);
+  const { transforms, carouselProps, reducedMotion } = usePokeBallCarousel(POKEBALLS.length);
 
   const balls = useMemo(() => POKEBALLS, []);
 
   return (
-    <div className="relative z-10 flex w-full max-w-6xl flex-col items-center px-4">
+    <div className="relative z-10 flex w-full max-w-[min(100%,72rem)] flex-col items-center px-[var(--space-section-x)]">
       <div
-        className="relative flex h-[600px] w-full max-w-4xl items-center justify-center [perspective:2000px] max-md:h-[400px] max-sm:h-[350px]"
+        className="relative flex h-[min(600px,72dvh)] w-full max-w-4xl items-center justify-center [perspective:2000px] max-md:h-[min(420px,58dvh)] max-sm:h-[min(360px,52dvh)]"
         aria-label="Poké Ball carousel"
       >
         <div
-          className="pointer-events-none absolute size-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,transparent_70%)] max-md:size-[300px]"
-          style={{ animation: 'pulse-ring 3s ease-in-out infinite' }}
+          className={[
+            'pointer-events-none absolute rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.06)_0%,transparent_68%)] max-md:size-[min(300px,85vw)]',
+            reducedMotion ? 'size-[min(420px,90vw)] opacity-40' : 'motion-carousel-halo size-[min(480px,92vw)]',
+          ].join(' ')}
           aria-hidden
         />
         <div
-          className="relative z-[1] size-[200px] [transform-style:preserve-3d] max-md:size-[150px] max-sm:size-[120px]"
+          className="relative z-[1] size-[min(200px,42vw)] [transform-style:preserve-3d] max-md:size-[min(150px,38vw)] max-sm:size-[min(120px,36vw)]"
           onPointerEnter={carouselProps.onPointerEnter}
           onPointerLeave={carouselProps.onPointerLeave}
           onPointerDown={(event) => {
@@ -46,11 +48,14 @@ export function PokeBallCarousel() {
                 }}
                 onClick={() => openBall(ball.id)}
                 className={[
-                  'absolute left-1/2 top-1/2 size-[140px] -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0 bg-transparent p-0 transition-all duration-300 [transform-style:preserve-3d] [backface-visibility:hidden]',
-                  'max-md:size-[100px] max-sm:size-[80px]',
+                  'app-focus-ring absolute left-1/2 top-1/2 size-[min(140px,30vw)] -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-[var(--radius-2xl)] border-0 bg-transparent p-0 [transform-style:preserve-3d] [backface-visibility:hidden]',
+                  'max-md:size-[min(100px,26vw)] max-sm:size-[min(88px,28vw)]',
+                  'transition-[transform,box-shadow,filter] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)]',
+                  'motion-reduce:transition-none',
                   t.active
-                    ? 'z-10 scale-[1.3] drop-shadow-[0_0_30px_rgba(255,255,255,0.9)] [animation:active-pulse_2s_ease-in-out_infinite]'
-                    : 'z-[1] hover:scale-110 hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]',
+                    ? 'z-10 scale-[1.22] [filter:drop-shadow(0_10px_22px_rgb(0_0_0/0.45))]'
+                    : 'z-[1] scale-100 hover:scale-105 active:scale-[1.02] [filter:drop-shadow(0_6px_14px_rgb(0_0_0/0.35))] hover:[filter:drop-shadow(0_8px_18px_rgb(0_0_0/0.4))]',
+                  t.active ? 'shadow-[var(--shadow-carousel-active)]' : 'shadow-none',
                 ].join(' ')}
                 style={{ transform: t.transform, willChange: 'transform' }}
                 aria-label={`Open ${ball.name}`}
@@ -60,19 +65,18 @@ export function PokeBallCarousel() {
                   alt={ball.name}
                   loading="lazy"
                   decoding="async"
-                  className="size-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.4)] [image-rendering:-webkit-optimize-contrast] [image-rendering:pixelated] transition-transform duration-300 hover:rotate-3 hover:scale-105"
+                  className={[
+                    'size-full object-contain [image-rendering:-webkit-optimize-contrast] [image-rendering:pixelated]',
+                    reducedMotion
+                      ? ''
+                      : 'transition-transform duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:rotate-[2deg]',
+                  ].join(' ')}
                 />
               </button>
             );
           })}
         </div>
       </div>
-      <style>{`
-        @keyframes active-pulse {
-          0%, 100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.9)) drop-shadow(0 0 60px rgba(138,43,226,0.6)); }
-          50% { filter: drop-shadow(0 0 40px rgba(255,255,255,1)) drop-shadow(0 0 80px rgba(138,43,226,0.8)); }
-        }
-      `}</style>
     </div>
   );
 }

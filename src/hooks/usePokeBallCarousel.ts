@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 
 import { useMediaQuery } from './useMediaQuery';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 export interface PokeBallTransform {
   readonly transform: string;
@@ -17,8 +18,10 @@ export function usePokeBallCarousel(ballCount: number): {
     onPointerLeave: () => void;
     onPointerDown: (event: ReactPointerEvent<HTMLDivElement>) => void;
   };
+  reducedMotion: boolean;
 } {
   const isNarrow = useMediaQuery('(max-width: 768px)');
+  const reducedMotion = usePrefersReducedMotion();
   const radius = isNarrow ? 180 : 250;
 
   const [angle, setAngle] = useState(0);
@@ -34,6 +37,7 @@ export function usePokeBallCarousel(ballCount: number): {
   }, [angle]);
 
   useEffect(() => {
+    if (reducedMotion) return;
     let raf = 0;
     const tick = () => {
       if (autoRotateRef.current && !draggingRef.current) {
@@ -47,7 +51,7 @@ export function usePokeBallCarousel(ballCount: number): {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, []);
+  }, [reducedMotion]);
 
   const onPointerDown = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
       if (event.button !== 0) return;
@@ -101,12 +105,13 @@ export function usePokeBallCarousel(ballCount: number): {
 
   return {
     transforms,
+    reducedMotion,
     carouselProps: {
       onPointerEnter: () => {
-        autoRotateRef.current = false;
+        if (!reducedMotion) autoRotateRef.current = false;
       },
       onPointerLeave: () => {
-        autoRotateRef.current = true;
+        if (!reducedMotion) autoRotateRef.current = true;
       },
       onPointerDown,
     },

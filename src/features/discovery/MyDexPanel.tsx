@@ -3,6 +3,8 @@ import { useCallback, useEffect, useId, useMemo, useRef } from 'react';
 
 import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { sheetSpringTransition } from '../../motion/motionPrefs';
 import { InlineRowSkeleton } from '../../components/ui/PanelSkeletons';
 import { useComparisonStore } from '../../store/comparisonStore';
 import { useDexListsStore } from '../../store/dexListsStore';
@@ -12,12 +14,15 @@ import { useAbilitySlugListQuery, useMyDexDiscovery, usePokedexSlugListQuery } f
 
 function tabClass(active: boolean): string {
   return [
-    'min-h-11 flex-1 rounded-xl px-3 py-2 text-center text-sm font-semibold transition',
-    active ? 'bg-white/25 text-white shadow-inner' : 'bg-white/5 text-white/80 hover:bg-white/15',
+    'app-focus-ring min-h-11 flex-1 rounded-[var(--radius-lg)] px-3 py-2 text-center text-[var(--text-body-sm)] font-semibold transition-[background-color,color,box-shadow] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)]',
+    active
+      ? 'bg-white/18 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.08)]'
+      : 'bg-white/5 text-white/78 hover:bg-white/12 active:scale-[0.99]',
   ].join(' ');
 }
 
 export function MyDexPanel() {
+  const reduced = usePrefersReducedMotion();
   const listRef = useRef<HTMLDivElement>(null);
   const panelId = useId().replaceAll(':', '');
   const listboxId = `${panelId}-listbox`;
@@ -111,7 +116,7 @@ export function MyDexPanel() {
         <button
           type="button"
           onClick={() => setPanelOpen(!panelOpen)}
-          className="flex min-h-12 items-center gap-2 rounded-full border border-white/25 bg-black/50 px-5 py-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition hover:bg-black/60"
+          className="app-focus-ring flex min-h-12 items-center gap-2 rounded-[var(--radius-pill)] border border-white/18 bg-[rgb(8_10_18/0.72)] px-5 py-3 text-[var(--text-body-sm)] font-semibold text-white shadow-[var(--shadow-md)] backdrop-blur-[var(--blur-glass)] transition-[transform,background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/26 hover:bg-[rgb(8_10_18/0.82)] active:scale-[0.98]"
           aria-expanded={panelOpen}
           aria-controls={panelId}
         >
@@ -128,21 +133,21 @@ export function MyDexPanel() {
             role="dialog"
             aria-modal
             aria-label="My Dex Pokémon browser"
-            initial={{ opacity: 0, y: 24 }}
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 16 }}
-            transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className="pointer-events-auto fixed inset-x-0 bottom-0 top-[8vh] z-[895] flex flex-col rounded-t-3xl border border-white/15 bg-[#0f172a]/97 p-4 shadow-[0_-12px_48px_rgba(0,0,0,0.45)] backdrop-blur-xl max-md:top-[10vh] md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-3xl md:border md:p-5"
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
+            transition={sheetSpringTransition(reduced)}
+            className="pointer-events-auto fixed inset-x-0 bottom-0 top-[min(12dvh,120px)] z-[895] flex flex-col rounded-t-[var(--radius-3xl)] border border-white/12 bg-[rgb(10_14_26/0.96)] p-[var(--space-4)] shadow-[var(--shadow-lg)] backdrop-blur-[var(--blur-overlay)] max-md:top-[10vh] md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-[var(--radius-3xl)] md:p-[var(--space-5)]"
           >
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-lg font-bold tracking-tight text-white [font-family:var(--font-display)]">
+              <h2 className="text-[var(--text-title-sm)] font-bold tracking-[var(--tracking-tight)] text-white [font-family:var(--font-display)]">
                 My Dex
               </h2>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => useComparisonStore.getState().openModal()}
-                  className="rounded-full border border-white/20 bg-violet-500/20 px-4 py-2 text-xs font-semibold text-white transition hover:bg-violet-500/30"
+                  className="app-focus-ring rounded-[var(--radius-pill)] border border-violet-400/35 bg-violet-500/16 px-4 py-2 text-[var(--text-eyebrow)] font-semibold uppercase tracking-wide text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-violet-300/45 hover:bg-violet-500/24 active:scale-[0.98]"
                   aria-label="Open Pokémon comparison"
                 >
                   Compare
@@ -150,7 +155,7 @@ export function MyDexPanel() {
                 <button
                   type="button"
                   onClick={() => setPanelOpen(false)}
-                  className="min-h-11 min-w-11 rounded-full border border-white/20 bg-white/10 text-lg text-white transition hover:bg-white/20"
+                  className="app-focus-ring min-h-11 min-w-11 rounded-[var(--radius-pill)] border border-white/16 bg-white/8 text-lg text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/24 hover:bg-white/14 active:scale-[0.97]"
                   aria-label="Close My Dex"
                 >
                   ×
@@ -159,7 +164,7 @@ export function MyDexPanel() {
             </div>
 
             <div
-              className="mb-3 grid grid-cols-3 gap-1 rounded-2xl border border-white/10 bg-black/25 p-1"
+              className="mb-3 grid grid-cols-3 gap-1 rounded-[var(--radius-2xl)] border border-white/10 bg-black/28 p-1"
               role="tablist"
               aria-label="My Dex sections"
             >
@@ -183,7 +188,7 @@ export function MyDexPanel() {
               ))}
             </div>
 
-            <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-white/60">
+            <label className="mb-2 block text-[var(--text-eyebrow)] font-semibold uppercase tracking-wide text-white/58">
               Search
             </label>
             <input
@@ -192,7 +197,7 @@ export function MyDexPanel() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Name, form, or words…"
-              className="mb-3 w-full min-h-12 rounded-2xl border border-white/15 bg-white/10 px-4 text-base text-white outline-none ring-0 placeholder:text-white/45 focus:border-white/35"
+              className="app-focus-ring mb-3 w-full min-h-12 rounded-[var(--radius-2xl)] border border-white/14 bg-white/8 px-4 text-[var(--text-body)] text-white outline-none placeholder:text-white/42 focus:border-white/32"
               aria-label="Search Pokémon by name or form"
               autoComplete="off"
               spellCheck={false}
@@ -385,7 +390,7 @@ export function MyDexPanel() {
                 displayRows[activeResultIndex] ? `${listboxId}-opt-${activeResultIndex}` : undefined
               }
               onKeyDown={onListKeyDown}
-              className="min-h-0 flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-black/25 outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+              className="app-focus-ring min-h-0 flex-1 overflow-y-auto rounded-[var(--radius-2xl)] border border-white/10 bg-black/26 outline-none"
             >
               {loadingList ? (
                 <div className="space-y-2 p-3">
@@ -414,7 +419,7 @@ export function MyDexPanel() {
                         >
                           <button
                             type="button"
-                            className="flex min-h-14 flex-1 items-center gap-3 text-left"
+                            className="app-focus-ring flex min-h-14 flex-1 items-center gap-3 rounded-[var(--radius-lg)] text-left outline-none"
                             onClick={() => {
                               setActiveResultIndex(i);
                               showPokemon(p.id);
@@ -443,7 +448,7 @@ export function MyDexPanel() {
                             <button
                               type="button"
                               aria-label={`Set ${p.name} as comparison slot A`}
-                              className="min-h-9 min-w-9 rounded-lg border border-violet-400/40 bg-violet-500/15 text-xs font-bold text-violet-100 hover:bg-violet-500/25"
+                              className="app-focus-ring min-h-9 min-w-9 rounded-[var(--radius-md)] border border-violet-400/38 bg-violet-500/14 text-xs font-bold text-violet-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-violet-500/22 active:scale-[0.97]"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 assignCompareSlot('a', p.id);
@@ -454,7 +459,7 @@ export function MyDexPanel() {
                             <button
                               type="button"
                               aria-label={`Set ${p.name} as comparison slot B`}
-                              className="min-h-9 min-w-9 rounded-lg border border-sky-400/40 bg-sky-500/15 text-xs font-bold text-sky-100 hover:bg-sky-500/25"
+                              className="app-focus-ring min-h-9 min-w-9 rounded-[var(--radius-md)] border border-sky-400/38 bg-sky-500/14 text-xs font-bold text-sky-100 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:bg-sky-500/22 active:scale-[0.97]"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 assignCompareSlot('b', p.id);
@@ -467,7 +472,7 @@ export function MyDexPanel() {
                             type="button"
                             aria-label={favoriteSet.has(p.id) ? 'Remove from favorites' : 'Add to favorites'}
                             aria-pressed={favoriteSet.has(p.id)}
-                            className="shrink-0 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-lg leading-none text-amber-200 transition hover:bg-white/20"
+                            className="app-focus-ring shrink-0 rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-3 py-2 text-lg leading-none text-amber-200 transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/22 hover:bg-white/14 active:scale-[0.96]"
                             onClick={(e) => {
                               e.stopPropagation();
                               toggleFavorite(p.id);

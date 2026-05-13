@@ -3,6 +3,12 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import {
+  dialogSpringTransition,
+  layoutTransition,
+  overlayBackdropTransition,
+} from '../../motion/motionPrefs';
 import { qk } from '../../query/keys';
 import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { fetchPokemonComparisonProfile } from '../../services/pokeapi/comparisonProfile';
@@ -92,6 +98,7 @@ function CategoryRow({ row, sideLabel }: { row: ComparisonCategoryResult; sideLa
 }
 
 export function ComparisonModal() {
+  const reduced = usePrefersReducedMotion();
   const open = useComparisonStore((s) => s.open);
   const closeModal = useComparisonStore((s) => s.closeModal);
   const swap = useComparisonStore((s) => s.swap);
@@ -168,36 +175,37 @@ export function ComparisonModal() {
       {open ? (
         <motion.div
           key="compare"
-          className="fixed inset-0 z-[1005] flex items-end justify-center bg-black/80 p-3 backdrop-blur-md md:items-center"
+          className="fixed inset-0 z-[1005] flex items-end justify-center bg-[rgb(4_6_12/0.78)] p-3 backdrop-blur-[var(--blur-overlay)] md:items-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={overlayBackdropTransition(reduced)}
           role="presentation"
           onClick={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
           <motion.div
-            initial={{ y: 40, opacity: 0, scale: 0.98 }}
+            initial={reduced ? { opacity: 0 } : { y: 40, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 24, opacity: 0, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 280, damping: 30 }}
+            exit={reduced ? { opacity: 0 } : { y: 24, opacity: 0, scale: 0.98 }}
+            transition={dialogSpringTransition(reduced)}
             role="dialog"
             aria-modal
             aria-label="Pokémon comparison"
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[94dvh] w-full max-w-5xl overflow-y-auto rounded-t-3xl border border-white/15 shadow-2xl md:max-h-[92dvh] md:rounded-3xl"
+            className="max-h-[94dvh] w-full max-w-5xl overflow-y-auto rounded-t-[var(--radius-3xl)] border border-white/12 shadow-[var(--shadow-lg)] md:max-h-[92dvh] md:rounded-[var(--radius-3xl)]"
             style={{ background: bg }}
           >
-            <div className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-white/10 bg-black/40 px-4 py-3 backdrop-blur-md md:px-6">
-              <h2 className="text-lg font-bold tracking-tight text-white [font-family:var(--font-display)]">
+            <div className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-white/10 bg-[rgb(6_8_14/0.55)] px-4 py-3 backdrop-blur-[var(--blur-glass)] md:px-6">
+              <h2 className="text-[var(--text-title-sm)] font-bold tracking-[var(--tracking-tight)] text-white [font-family:var(--font-display)]">
                 Compare
               </h2>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => swap()}
-                  className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/20"
+                  className="app-focus-ring rounded-[var(--radius-pill)] border border-white/16 bg-white/8 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/24 hover:bg-white/14 disabled:cursor-not-allowed disabled:opacity-45"
                   disabled={!idA || !idB}
                 >
                   Swap sides
@@ -205,7 +213,7 @@ export function ComparisonModal() {
                 <button
                   type="button"
                   onClick={() => closeModal()}
-                  className="min-h-10 min-w-10 rounded-full border border-white/25 bg-white/10 text-lg text-white hover:bg-white/20"
+                  className="app-focus-ring min-h-10 min-w-10 rounded-[var(--radius-pill)] border border-white/18 bg-white/8 text-lg text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/26 hover:bg-white/14"
                   aria-label="Close comparison"
                 >
                   ×
@@ -234,7 +242,8 @@ export function ComparisonModal() {
                 <ComparisonShareSurface className="border-white/10 bg-black/35">
                   <div className="mb-6 grid gap-4 md:grid-cols-[1fr_auto_1fr] md:items-start">
                     <motion.div
-                      layout
+                      layout={!reduced}
+                      transition={layoutTransition(reduced)}
                       className={[
                         'rounded-2xl border p-4 text-center md:text-left',
                         overall === 'a' ? 'border-emerald-400/50 bg-emerald-500/10' : 'border-white/10 bg-white/5',
@@ -270,7 +279,8 @@ export function ComparisonModal() {
                     </div>
 
                     <motion.div
-                      layout
+                      layout={!reduced}
+                      transition={layoutTransition(reduced)}
                       className={[
                         'rounded-2xl border p-4 text-center md:text-right',
                         overall === 'b' ? 'border-emerald-400/50 bg-emerald-500/10' : 'border-white/10 bg-white/5',

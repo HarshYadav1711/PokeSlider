@@ -1,0 +1,215 @@
+/**
+ * Design tokens: spacing, radii, elevation, blur, motion, typography scale.
+ * Atmosphere accents are driven by html[data-atmosphere] (see AppAtmosphere).
+ */
+
+:root {
+  /* Spacing scale (4px grid) */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-section-y: clamp(1.5rem, 4vw, 2.75rem);
+  --space-section-x: clamp(1rem, 3vw, 1.5rem);
+  --space-hero-gap: clamp(1.25rem, 3vw, 2rem);
+
+  /* Radii */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+  --radius-pill: 9999px;
+
+  /* Shadows — single-source elevation (avoid stacked glows) */
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.35);
+  --shadow-lg: 0 20px 48px rgb(0 0 0 / 0.45);
+  --shadow-inset-soft: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --shadow-focus: 0 0 0 2px rgb(15 23 42), 0 0 0 4px rgb(129 140 248 / 0.55);
+  --shadow-carousel-active: 0 12px 28px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.12);
+
+  /* Blur */
+  --blur-glass: 10px;
+  --blur-overlay: 14px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-instant: 0ms;
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --duration-slow: 340ms;
+  --motion-gradient-shift-duration: 28s;
+
+  /* Surfaces */
+  --surface-0: #0f1018;
+  --surface-1: #141624;
+  --surface-2: #1a1c2e;
+  --surface-veil: rgb(8 10 18 / 0.55);
+
+  /* Typography scale (fluid) */
+  --text-eyebrow: 0.6875rem;
+  --text-body-sm: 0.8125rem;
+  --text-body: 0.9375rem;
+  --text-body-lg: 1.0625rem;
+  --text-title-sm: clamp(1.125rem, 2vw + 0.5rem, 1.375rem);
+  --text-title: clamp(1.5rem, 3.2vw + 0.75rem, 2.25rem);
+  --text-display: clamp(1.75rem, 4vw + 0.85rem, 2.75rem);
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --tracking-wide: 0.02em;
+  --tracking-tight: -0.02em;
+
+  /* Default atmosphere (cool neutral — playful but restrained) */
+  --atmo-a: color-mix(in srgb, #818cf8 14%, transparent);
+  --atmo-b: color-mix(in srgb, #a78bfa 10%, transparent);
+  --atmo-c: color-mix(in srgb, #38bdf8 8%, transparent);
+}
+
+/* Type-tinted atmosphere: low-chroma orbs only */
+html[data-atmosphere='normal'] {
+  --atmo-a: color-mix(in srgb, #a8a878 12%, transparent);
+  --atmo-b: color-mix(in srgb, #78786a 8%, transparent);
+  --atmo-c: transparent;
+}
+html[data-atmosphere='fire'] {
+  --atmo-a: color-mix(in srgb, #f97316 14%, transparent);
+  --atmo-b: color-mix(in srgb, #ea580c 9%, transparent);
+}
+html[data-atmosphere='water'] {
+  --atmo-a: color-mix(in srgb, #3b82f6 14%, transparent);
+  --atmo-b: color-mix(in srgb, #6366f1 9%, transparent);
+}
+html[data-atmosphere='electric'] {
+  --atmo-a: color-mix(in srgb, #eab308 12%, transparent);
+  --atmo-b: color-mix(in srgb, #facc15 8%, transparent);
+}
+html[data-atmosphere='grass'] {
+  --atmo-a: color-mix(in srgb, #22c55e 12%, transparent);
+  --atmo-b: color-mix(in srgb, #4ade80 8%, transparent);
+}
+html[data-atmosphere='ice'] {
+  --atmo-a: color-mix(in srgb, #67e8f9 11%, transparent);
+  --atmo-b: color-mix(in srgb, #a5f3fc 7%, transparent);
+}
+html[data-atmosphere='fighting'] {
+  --atmo-a: color-mix(in srgb, #dc2626 12%, transparent);
+  --atmo-b: color-mix(in srgb, #b91c1c 8%, transparent);
+}
+html[data-atmosphere='poison'] {
+  --atmo-a: color-mix(in srgb, #a855f7 12%, transparent);
+  --atmo-b: color-mix(in srgb, #7c3aed 8%, transparent);
+}
+html[data-atmosphere='ground'] {
+  --atmo-a: color-mix(in srgb, #d97706 12%, transparent);
+  --atmo-b: color-mix(in srgb, #b45309 8%, transparent);
+}
+html[data-atmosphere='flying'] {
+  --atmo-a: color-mix(in srgb, #818cf8 13%, transparent);
+  --atmo-b: color-mix(in srgb, #c4b5fd 8%, transparent);
+}
+html[data-atmosphere='psychic'] {
+  --atmo-a: color-mix(in srgb, #ec4899 12%, transparent);
+  --atmo-b: color-mix(in srgb, #a855f7 8%, transparent);
+}
+html[data-atmosphere='bug'] {
+  --atmo-a: color-mix(in srgb, #84cc16 11%, transparent);
+  --atmo-b: color-mix(in srgb, #65a30d 7%, transparent);
+}
+html[data-atmosphere='rock'] {
+  --atmo-a: color-mix(in srgb, #ca8a04 11%, transparent);
+  --atmo-b: color-mix(in srgb, #a16207 7%, transparent);
+}
+html[data-atmosphere='ghost'] {
+  --atmo-a: color-mix(in srgb, #7c3aed 12%, transparent);
+  --atmo-b: color-mix(in srgb, #4c1d95 8%, transparent);
+}
+html[data-atmosphere='dragon'] {
+  --atmo-a: color-mix(in srgb, #6366f1 13%, transparent);
+  --atmo-b: color-mix(in srgb, #4338ca 8%, transparent);
+}
+html[data-atmosphere='dark'] {
+  --atmo-a: color-mix(in srgb, #57534e 14%, transparent);
+  --atmo-b: color-mix(in srgb, #78716c 9%, transparent);
+}
+html[data-atmosphere='steel'] {
+  --atmo-a: color-mix(in srgb, #94a3b8 12%, transparent);
+  --atmo-b: color-mix(in srgb, #64748b 8%, transparent);
+}
+html[data-atmosphere='fairy'] {
+  --atmo-a: color-mix(in srgb, #f472b6 11%, transparent);
+  --atmo-b: color-mix(in srgb, #fb7185 7%, transparent);
+}
+
+html[data-atmosphere-secondary='normal'] {
+  --atmo-c: color-mix(in srgb, #a8a878 9%, transparent);
+}
+html[data-atmosphere-secondary='fire'] {
+  --atmo-c: color-mix(in srgb, #fb923c 10%, transparent);
+}
+html[data-atmosphere-secondary='water'] {
+  --atmo-c: color-mix(in srgb, #60a5fa 10%, transparent);
+}
+html[data-atmosphere-secondary='electric'] {
+  --atmo-c: color-mix(in srgb, #fde047 9%, transparent);
+}
+html[data-atmosphere-secondary='grass'] {
+  --atmo-c: color-mix(in srgb, #4ade80 9%, transparent);
+}
+html[data-atmosphere-secondary='ice'] {
+  --atmo-c: color-mix(in srgb, #bae6fd 9%, transparent);
+}
+html[data-atmosphere-secondary='fighting'] {
+  --atmo-c: color-mix(in srgb, #f87171 9%, transparent);
+}
+html[data-atmosphere-secondary='poison'] {
+  --atmo-c: color-mix(in srgb, #c084fc 9%, transparent);
+}
+html[data-atmosphere-secondary='ground'] {
+  --atmo-c: color-mix(in srgb, #fbbf24 9%, transparent);
+}
+html[data-atmosphere-secondary='flying'] {
+  --atmo-c: color-mix(in srgb, #a5b4fc 9%, transparent);
+}
+html[data-atmosphere-secondary='psychic'] {
+  --atmo-c: color-mix(in srgb, #f0abfc 9%, transparent);
+}
+html[data-atmosphere-secondary='bug'] {
+  --atmo-c: color-mix(in srgb, #bef264 9%, transparent);
+}
+html[data-atmosphere-secondary='rock'] {
+  --atmo-c: color-mix(in srgb, #fcd34d 9%, transparent);
+}
+html[data-atmosphere-secondary='ghost'] {
+  --atmo-c: color-mix(in srgb, #a78bfa 9%, transparent);
+}
+html[data-atmosphere-secondary='dragon'] {
+  --atmo-c: color-mix(in srgb, #818cf8 9%, transparent);
+}
+html[data-atmosphere-secondary='dark'] {
+  --atmo-c: color-mix(in srgb, #a8a29e 9%, transparent);
+}
+html[data-atmosphere-secondary='steel'] {
+  --atmo-c: color-mix(in srgb, #cbd5e1 9%, transparent);
+}
+html[data-atmosphere-secondary='fairy'] {
+  --atmo-c: color-mix(in srgb, #fbcfe8 9%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --motion-gradient-shift-duration: 0.001ms;
+  }
+}

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
 import { InlineRowSkeleton, PokemonDetailSkeleton } from '../../components/ui/PanelSkeletons';
 import { usePokemonCry } from '../../hooks/usePokemonCry';
 import { qk } from '../../query/keys';
@@ -26,6 +28,7 @@ interface PokemonDetailPanelProps {
 }
 
 export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
+  const reduced = usePrefersReducedMotion();
   const qc = useQueryClient();
   const showPokemon = useUiStore((s) => s.showPokemon);
   const { play, status: cryStatus } = usePokemonCry();
@@ -100,7 +103,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
         <button
           type="button"
           onClick={() => void detailQuery.refetch()}
-          className="rounded-full border border-white/30 bg-white/15 px-6 py-2 font-semibold text-white transition hover:bg-white/25"
+          className="app-focus-ring rounded-[var(--radius-pill)] border border-white/22 bg-white/10 px-6 py-2 font-semibold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/30 hover:bg-white/16"
         >
           Retry
         </button>
@@ -225,8 +228,8 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
                   type="button"
                   onClick={() => showPokemon(evo.id)}
                   className={[
-                    'rounded-3xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md transition hover:-translate-y-1 hover:border-white/30',
-                    evo.id === pokemon.id ? 'border-white/50 shadow-[0_0_30px_rgba(138,43,226,0.45)]' : '',
+                    'app-focus-ring rounded-[var(--radius-3xl)] border border-white/12 bg-white/8 p-4 text-center transition-[transform,border-color,background-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 hover:border-white/24 hover:bg-white/12',
+                    evo.id === pokemon.id ? 'border-white/35 shadow-[var(--shadow-carousel-active)]' : '',
                   ].join(' ')}
                 >
                   {evo.image ? (
@@ -261,7 +264,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
                       key={mega.id}
                       type="button"
                       onClick={() => setMegaModal(mega)}
-                      className="relative rounded-3xl border-4 border-amber-400 bg-gradient-to-br from-amber-400/25 to-orange-500/25 p-4 shadow-[0_0_30px_rgba(255,215,0,0.35)]"
+                      className="app-focus-ring relative rounded-[var(--radius-3xl)] border border-amber-400/45 bg-gradient-to-br from-amber-400/18 to-orange-500/14 p-4 shadow-[var(--shadow-md)] transition-[transform,border-color] duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:-translate-y-0.5 active:scale-[0.99]"
                     >
                       <span className="absolute -right-2 -top-2 rounded-full bg-gradient-to-br from-amber-300 to-orange-500 px-2 py-1 text-[10px] font-black text-black">
                         MEGA
@@ -339,7 +342,7 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
 
       <AnimatePresence>
         {megaModal ? (
-          <MegaComparisonModal mega={megaModal} base={pokemon} onClose={() => setMegaModal(null)} />
+          <MegaComparisonModal mega={megaModal} base={pokemon} reduced={reduced} onClose={() => setMegaModal(null)} />
         ) : null}
       </AnimatePresence>
     </div>
@@ -364,28 +367,31 @@ function MegaComparisonModal({
   mega,
   base,
   onClose,
+  reduced,
 }: {
   mega: MegaFormSummary;
   base: DetailedPokemon;
   onClose: () => void;
+  reduced: boolean;
 }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl"
+      className="fixed inset-0 z-[2000] flex items-center justify-center bg-[rgb(4_6_12/0.92)] p-4 backdrop-blur-[var(--blur-overlay)]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={overlayBackdropTransition(reduced)}
       role="dialog"
       aria-modal
       aria-label="Mega Evolution details"
       onClick={onClose}
     >
       <motion.div
-        initial={{ y: 40, scale: 0.95, opacity: 0 }}
+        initial={reduced ? { opacity: 0 } : { y: 36, scale: 0.96, opacity: 0 }}
         animate={{ y: 0, scale: 1, opacity: 1 }}
-        exit={{ y: 40, scale: 0.95, opacity: 0 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-        className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl border-2 border-amber-400/40 bg-gradient-to-br from-[#1e3c72]/95 via-[#2a5298]/95 to-[#533483]/95 p-6 shadow-2xl"
+        exit={reduced ? { opacity: 0 } : { y: 28, scale: 0.97, opacity: 0 }}
+        transition={dialogSpringTransition(reduced)}
+        className="app-surface-glass max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[var(--radius-3xl)] border border-amber-400/35 p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="mb-6 text-center text-3xl font-black capitalize text-amber-300 [font-family:var(--font-display)]">
@@ -442,7 +448,7 @@ function MegaComparisonModal({
         <button
           type="button"
           onClick={onClose}
-          className="mt-6 w-full rounded-2xl border-2 border-white/30 bg-white/15 py-3 font-bold text-white transition hover:bg-white/25"
+          className="app-focus-ring mt-6 w-full rounded-[var(--radius-2xl)] border border-white/20 bg-white/10 py-3 font-bold text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-white/28 hover:bg-white/16"
         >
           Close
         </button>
