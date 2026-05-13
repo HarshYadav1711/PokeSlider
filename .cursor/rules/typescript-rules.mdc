@@ -1,0 +1,34 @@
+---
+description: PokeSlider TypeScript — strictness, modules, patterns.
+globs:
+  - src/**/*.ts
+  - src/**/*.tsx
+alwaysApply: false
+---
+
+# TypeScript rules — PokeSlider
+
+## Compiler expectations
+
+- `strict`, `noUncheckedIndexedAccess`, `noUnusedLocals`, `noUnusedParameters` (see `tsconfig.app.json`).
+- ESLint typed rules enabled for `src/**` — fix new violations; don’t disable rules broadly.
+
+## Module boundaries
+
+- **PokéAPI types** live in `types/pokemon.ts` and `types/pokeapi.ts` — extend there when API surface grows.
+- **Query row types** should be inferred from `queryFn` return where possible; export named types when reused across features.
+
+## Patterns
+
+- Prefer **`readonly`** on tuple keys and immutable view models where already established.
+- Use `satisfies` sparingly for config literals if it improves inference without noise.
+- Avoid `any`; use `unknown` + narrowing for truly dynamic JSON.
+
+## Paths
+
+- `@/` alias matches `src/` — use for deep imports when it improves readability; stay consistent within a file.
+
+## Tests
+
+- Co-locate `*.test.ts` next to pure modules under `src/a11y/` (or mirror pattern for new pure utils).
+- Vitest + jsdom; no `@types/jest` globals — import from `vitest`.

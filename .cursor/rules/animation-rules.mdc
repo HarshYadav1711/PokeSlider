@@ -1,0 +1,31 @@
+---
+description: PokeSlider Motion + CSS animation conventions.
+globs:
+  - src/**/*.tsx
+  - src/motion/**/*.ts
+  - src/index.css
+  - src/styles/**/*.css
+alwaysApply: false
+---
+
+# Animation rules — PokeSlider
+
+## Libraries
+
+- **Motion** (`motion/react`) for `AnimatePresence`, `motion.div`, layout props when reduced motion allows.
+- Pair with **`motionPrefs.ts`**: `overlayBackdropTransition`, `dialogSpringTransition`, `sheetSpringTransition`, `layoutTransition` — always pass `usePrefersReducedMotion()` result.
+
+## CSS
+
+- Token-backed durations: `duration-[var(--duration-normal)]`, easing `var(--ease-out)`.
+- Global body atmosphere: gradient hue shift only when `prefers-reduced-motion: no-preference` (see `index.css`).
+
+## Carousel
+
+- Halo: `.motion-carousel-halo` — disabled under reduced motion.
+- No infinite “pulse glow” on active ball — single elevation shadow token.
+
+## Don’t
+
+- Add second animation frameworks.
+- Animate layout properties on large lists without measuring (prefer opacity/transform).

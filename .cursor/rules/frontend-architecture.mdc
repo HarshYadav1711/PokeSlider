@@ -1,0 +1,45 @@
+---
+description: PokeSlider React/Vite structure — where code lives and how features compose.
+globs:
+  - src/**/*.tsx
+  - src/**/*.ts
+alwaysApply: false
+---
+
+# Frontend architecture — PokeSlider
+
+## Entry & shell
+
+- `main.tsx` → `AppProviders` → `App`.
+- Global styles: `index.css` imports Tailwind + `styles/design-tokens.css`.
+- Keyboard shortcuts: `hooks/useAppKeyboardShortcuts.ts` (document-level; respects inputs / `defaultPrevented`).
+
+## Feature boundaries
+
+| Feature | Primary files |
+|---------|----------------|
+| Carousel | `features/carousel/PokeBallCarousel.tsx`, `hooks/usePokeBallCarousel.ts` |
+| Ball/Pokémon overlay | `features/overlay/DetailsOverlay.tsx`, `BallDetailPanel.tsx`, `PokemonDetailPanel.tsx` |
+| My Dex | `features/discovery/MyDexPanel.tsx`, `discoveryEngine.ts`, `useMyDexDiscovery.ts`, `discoveryUiStore.ts` |
+| Compare | `features/compare/*`, `store/comparisonStore.ts` |
+| Atmosphere | `providers/AppAtmosphere.tsx` (reads species types into `html[data-atmosphere]`) |
+
+## Composition rules
+
+- **App** orchestrates layout + skip link + `main`; it should not accumulate business logic.
+- **Overlays** own their focus trap container ref; do not mount a second QueryClient per modal.
+- **Discovery** keeps list virtualization optional — current list is client-filtered; if virtualizing, isolate in a sub-component.
+
+## Providers
+
+- `AppProviders`: single `QueryClient` instance (stable via `useState` initializer).
+- Do not add Context providers unless more than one consumer needs the same mutable instance without Zustand.
+
+## Assets & public
+
+- Poké Ball and Pokémon images are remote URLs (PokéAPI / GitHub sprites). No local sprite pipeline in repo.
+
+## Anti-patterns here
+
+- Fetching inside Zustand actions — use Query + `queryClient.fetchQuery` / `prefetch` instead.
+- Putting PokéAPI response types in components — import from `types/` or feature-local types.

@@ -1,0 +1,38 @@
+---
+description: PokeSlider PokéAPI client, queries, keys, errors.
+globs:
+  - src/services/pokeapi/**/*
+  - src/query/**/*
+alwaysApply: false
+---
+
+# API rules — PokeSlider
+
+## Client
+
+- All HTTP through `services/pokeapi/client.ts` — throws `PokeApiError` with `status` for typed handling.
+- **404:** queries configured not to infinite-retry on 404 in `createQueryClient.ts`.
+
+## Query keys
+
+- Add factories only in `src/query/keys.ts` — nested `qk.pokemon.detail(id)` style.
+- Never inline duplicate string keys — breaks deduplication and prefetch.
+
+## Stale times & GC
+
+- Centralize in `src/query/staleTimes.ts` per resource class.
+- Long `gcTime` acceptable for dex-scale lists; keep memory sensible.
+
+## Mappers
+
+- **Services** return domain types (`DetailedPokemon`, comparison profiles, etc.).
+- Components must not parse raw `unknown` — mapper must narrow.
+
+## Prefetch
+
+- Use `query/prefetch.ts` helpers from UI events (hover, pointerenter, opening overlay).
+- Do not prefetch unbounded species lists on first paint.
+
+## Rate / ethics
+
+- PokéAPI is shared public infrastructure — cache aggressively, debounce user-driven refetch storms, avoid tight polling.

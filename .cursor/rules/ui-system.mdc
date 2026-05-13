@@ -1,0 +1,41 @@
+---
+description: PokeSlider UI — tokens, Tailwind, glass surfaces, type atmosphere.
+globs:
+  - src/**/*.tsx
+  - src/index.css
+  - src/styles/**/*.css
+alwaysApply: false
+---
+
+# UI system — PokeSlider
+
+## Source of truth
+
+- **Tokens:** `src/styles/design-tokens.css` — spacing, radii, shadows, blur, motion durations, fluid type, surfaces, type atmosphere CSS variables.
+- **Tailwind theme extensions:** `src/index.css` `@theme` (fonts, legacy color aliases).
+- **Utilities:** `.app-focus-ring`, `.app-surface-glass`, `.motion-carousel-halo`, `.sr-only` patterns in `index.css`.
+
+## Tailwind usage
+
+- Prefer **semantic spacing** via CSS vars: `px-[var(--space-section-x)]`, `rounded-[var(--radius-3xl)]`.
+- Text sizes: `text-[var(--text-body)]` pattern where fluid scale matters.
+- Avoid reintroducing **stacked glow** filters on the carousel — use token shadows (`--shadow-carousel-active`).
+
+## Components
+
+- **TypeBadge** — uses `TYPE_GRADIENT` from `utils/typeGradients.ts`; keep borders subtle for contrast.
+- **AsyncFeedback** — supports `role` prop (`alert` vs `status`); use `status` for non-errors.
+
+## Atmosphere
+
+- `AppAtmosphere` subscribes to Pokémon detail query when overlay is on Pokémon panel; sets `data-atmosphere` on `<html>`.
+- Do not drive atmosphere from unrelated UI without updating `DECISIONS_LOG.md`.
+
+## Modals & glass
+
+- Dialog bodies: `app-surface-glass` + border `white/12` range; sticky headers use translucent `bg-[rgb(6_8_14/0.55)]` + blur token.
+
+## Don’t
+
+- Add a second global design token file — extend `design-tokens.css`.
+- Use arbitrary neon glow chains on text-heavy panels.

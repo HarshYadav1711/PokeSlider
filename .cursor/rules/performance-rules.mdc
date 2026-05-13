@@ -1,0 +1,33 @@
+---
+description: PokeSlider performance expectations — bundle, network, runtime.
+globs:
+  - src/**/*
+alwaysApply: false
+---
+
+# Performance rules — PokeSlider
+
+## Bundle & dependencies
+
+- Default stance: **no new runtime dependencies** unless they remove more complexity than they add.
+- Before adding a library, check **tree-shakeability** and overlap with Motion / Query / Zustand.
+
+## Network
+
+- Use **prefetch** (`query/prefetch.ts`) for predictable next steps (ball suggestions, Pokémon detail).
+- Avoid N+1: batch species fetches via existing services; don’t fire unbounded parallel requests from render.
+- Respect `staleTimes.ts` — longer staleness for static-ish data (dex lists), shorter for volatile.
+
+## Runtime
+
+- Carousel: `requestAnimationFrame` loop only when not `prefers-reduced-motion`; avoid extra state updates per frame beyond angle.
+- Lists: My Dex is in-memory filter today; if dataset UX grows, consider windowing **without** blocking first paint.
+
+## Images
+
+- `loading="lazy"` on below-the-fold images; hero balls may stay eager if above fold.
+- `decoding="async"` on thumbnails.
+
+## Build
+
+- Do not add slow codegen or heavy plugins to Vite without measuring `npm run build` impact.

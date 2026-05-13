@@ -1,0 +1,39 @@
+---
+description: PokeSlider accessibility — focus, keyboard, ARIA, motion.
+globs:
+  - src/**/*.tsx
+  - src/a11y/**/*
+alwaysApply: false
+---
+
+# Accessibility rules — PokeSlider
+
+## Focus management
+
+- **Modals & drawer:** use `useFocusTrap` (`src/a11y/useFocusTrap.ts`) with a container `ref` and `initialFocusSelector` where the first logical focus should land (e.g. `[data-initial-focus]`, `[data-overlay-initial-focus]`).
+- **Tab cycle:** trap handles focusables from `getFocusableElements`; `tabIndex={-1}` titles with programmatic focus are supported — Tab moves to first real focusable.
+- **Close control:** must have descriptive `aria-label`; decorative `×` wrapped with `aria-hidden`.
+
+## Keyboard
+
+- **Carousel:** region tab stop; arrows, Home/End, Space/Enter documented in copy + `aria-describedby` hints.
+- **My Dex:** listbox pattern with `aria-activedescendant`; arrows, PageUp/PageDown, Enter; `/` focuses search (global shortcut).
+- **Escape:** global order compare → My Dex → overlay; nested mega modal stops propagation for Escape.
+
+## Screen readers
+
+- Avoid duplicate labels: e.g. images inside labeled buttons use `alt=""` when the button has `aria-label`.
+- Live regions: `aria-live="polite"` for non-critical counts; `role="alert"` for blocking errors.
+
+## Motion
+
+- Always consult `usePrefersReducedMotion` for springs / continuous animation / auto-rotate.
+- `motionPrefs.ts` centralizes transition shapes for overlay vs dialog.
+
+## Contrast
+
+- Muted text on glass: prefer `white/62`–`white/80` for body-tier; avoid `white/45` for essential hints.
+
+## Testing
+
+- Pure a11y helpers (`carouselAngle`, `getFocusableElements`, `nextTrappedIndex`) have unit tests — extend when adding comparable logic.

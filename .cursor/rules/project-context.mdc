@@ -1,0 +1,298 @@
+---
+description: Primary persistent context for PokeSlider — read first in new chats.
+alwaysApply: true
+---
+
+# PokeSlider — project context (AI + human)
+
+## AI onboarding summary (read first)
+
+| Field | Current state |
+|--------|----------------|
+| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal. Data from **PokéAPI**. |
+| **Stack** | React **19**, Vite **8**, TypeScript **5.9**, Tailwind **4** (`@tailwindcss/vite`), **Motion** 12, **TanStack Query v5**, **Zustand** 5. Tests: **Vitest** + jsdom + **Testing Library**. |
+| **Priorities** | Premium calm UI, **a11y** (focus trap, keyboard, SR), **reduced motion**, performance (prefetch, stale times), maintainable small modules. |
+| **Blockers** | None tracked in-repo. |
+| **Immediate next tasks** | See `FEATURE_TRACKER.md` → Planned / In progress. Optional: comparison **image export** (`data-comparison-export` surface exists). |
+
+**Modular rules:** `frontend-architecture.mdc`, `ui-system.mdc`, `performance-rules.mdc`, `typescript-rules.mdc`, `accessibility-rules.mdc`, `animation-rules.mdc`, `api-rules.mdc`.
+
+**Human-readable mirror:** `PROJECT_CONTEXT.md` at repo root.
+
+---
+
+## 1. Project overview
+
+**PokeSlider** is a single-page Vite + React app: users spin a carousel of canonical Poké Balls, open a ball for lore + suggested species, browse/filter national dex data in **My Dex**, open full **Pokémon detail** (stats, evolution, locations, type chart, cry), and run a **transparent rules** comparison between two species.
+
+---
+
+## 2. Product vision
+
+- **Collectible, cinematic discovery** — hero carousel stays the emotional center; data panels feel like premium glass UI, not a dashboard dump.
+- **Trust** — comparison scoring rules are explainable; errors show recovery actions.
+- **Reach** — shareable moments (export card path planned) and fast perceived load.
+
+---
+
+## 3. Core UX philosophy
+
+- **Hero clarity** — one focal 3D rack; typography and spacing establish hierarchy.
+- **Deliberate motion** — Motion for meaningful transitions; respect `prefers-reduced-motion`.
+- **Progressive depth** — land → ball → species → compare; don’t force all paths at once.
+- **Playful but production** — brand fun without noisy glows or unreadable contrast.
+
+---
+
+## 4. Tech stack (authoritative)
+
+| Layer | Choice |
+|--------|--------|
+| UI | React 19, Tailwind 4, CSS design tokens |
+| Motion | `motion` package (`motion/react`) |
+| Data | TanStack Query v5, fetch via typed PokéAPI client |
+| Client state | Zustand (`uiStore`, `discoveryUiStore`, `comparisonStore`, `dexListsStore`) |
+| Build | Vite 8, `tsc -b`, ESLint 9 + typescript-eslint |
+| Test | Vitest 3, jsdom, `@testing-library/react` |
+
+**Not in repo today (approved when complexity warrants):** Zod for runtime validation, React Hook Form for large forms — introduce with ADR in `DECISIONS_LOG.md`, not ad hoc.
+
+---
+
+## 5. Folder architecture
+
+```
+src/
+  a11y/           # focus trap, focusable query, carousel angle math + tests
+  components/     # shared UI (TypeBadge, AsyncFeedback, skeletons)
+  data/           # static catalogs (pokeballs, types, pools)
+  features/
+    carousel/     # PokeBallCarousel
+    compare/      # comparison modal, scoring, stat bars, share surface
+    discovery/    # My Dex UI + engine + stores + hooks
+    overlay/      # Details overlay, ball + Pokémon panels
+  hooks/          # carousel, media query, shortcuts, cry, reduced motion
+  motion/         # transition helpers
+  providers/      # QueryClient, AppAtmosphere
+  query/          # keys, client factory, prefetch, feature queries
+  services/       # pokeapi mappers, ball suggestions orchestration
+  store/          # zustand stores
+  styles/         # design-tokens.css
+  types/          # domain + API-facing types
+  utils/          # small pure helpers (gradients, arrays, meta)
+```
+
+---
+
+## 6. State management strategy
+
+- **Server state:** TanStack Query only — keys from `query/keys.ts`, stale times from `query/staleTimes.ts`.
+- **UI navigation:** `uiStore` — overlay open, ball vs Pokémon panel, ids.
+- **Discovery UI:** `discoveryUiStore` — panel open, tab, filters, query, list highlight index.
+- **Compare slots:** `comparisonStore` — open state, A/B ids, swap.
+- **Dex lists:** `dexListsStore` — favorites + recents persistence (local patterns as implemented).
+
+Avoid duplicating Query cache into Zustand.
+
+---
+
+## 7. API / data-fetching strategy
+
+- Typed `PokeApiError`; retry policy in `createQueryClient.ts` (no retry loop on 404).
+- Heavy reads batched in **service** modules under `services/pokeapi/`.
+- Prefetch on meaningful hover / open transitions (`query/prefetch.ts`).
+
+---
+
+## 8. Animation philosophy
+
+- Motion for **overlay enter/exit** and **sheet** modals; springs disabled or shortened when reduced motion.
+- CSS tokens for micro-interactions on controls.
+- No competing animation systems.
+
+---
+
+## 9. Accessibility requirements
+
+- Focus trap + restoration in modal/drawer; keyboard carousel; listbox keyboard + shortcuts documented.
+- ARIA for icon-only controls; live regions for status where appropriate.
+- Touch targets ≥ ~44px for critical actions.
+
+---
+
+## 10. Performance requirements
+
+- Lazy images where sensible; prefetch predictable next queries.
+- No unbounded client work on main thread during scroll without profiling.
+
+---
+
+## 11. Coding conventions
+
+- Match existing file style; minimal diffs; no drive-by renames.
+- Reuse hooks/utilities before inventing parallel patterns.
+- English UI copy; complete sentences in user-facing errors.
+
+---
+
+## 12. Design system conventions
+
+- `src/styles/design-tokens.css` + Tailwind arbitrary `var(--*)` usage.
+- `.app-focus-ring`, `.app-surface-glass` in `index.css`.
+- Type atmosphere via `html[data-atmosphere]` set by `AppAtmosphere.tsx`.
+
+---
+
+## 13. Naming conventions
+
+- Components: `PascalCase.tsx`.
+- Hooks: `useThing.ts`.
+- Stores: `*Store.ts` with `useThingStore`.
+- Query keys: `qk` object factories.
+
+---
+
+## 14. Constraints & anti-patterns
+
+- Do not add flaky or heavy global state debuggers in production paths.
+- Do not replace Query with ad hoc fetch in components for shared data.
+- Do not stack redundant glow/filter effects on top of token shadows.
+- Do not bypass accessibility for “faster” UI experiments.
+
+---
+
+## 15. Feature roadmap (high level)
+
+- Near: comparison export / share polish (surface exists).
+- Mid: deep links or URL state for compare/dex (if product wants).
+- Long: offline/PWA, richer retention loops — only with `DECISIONS_LOG.md` entry.
+
+---
+
+## 16. Completed (representative)
+
+- Carousel + drag + keyboard + reduced auto-rotate.
+- Overlay ball + Pokémon detail (cry, mega modal, type chart, locations).
+- My Dex browse/favorites/recents + filters + compare A/B from rows.
+- Compare modal + scoring + stat bars + duel-themed background.
+- Design tokens, atmosphere, focus trap, Vitest for pure a11y/math helpers.
+
+---
+
+## 17. In progress / watch
+
+- Anything listed in `FEATURE_TRACKER.md` In progress.
+- Code comments referencing future export (`data-comparison-export`).
+
+---
+
+## 18. Future “YC-level” goals (directional)
+
+- **Retention:** favorites, recents — extend with streaks or goals only if lightweight.
+- **Shareability:** export compare card, OG image — ship smallest slice first.
+- **Speed:** instant shell, skeleton-first, optimistic UI only where safe.
+
+---
+
+## 19. Preferred libraries
+
+**In use:** React 19, Vite 8, TypeScript, Tailwind 4, Motion, TanStack Query v5, Zustand, Vitest, Testing Library.
+
+**Welcome when needed:** Zod (API/runtime boundaries), RHF (complex multi-step forms).
+
+---
+
+## 20. Explicitly forbidden / discouraged
+
+- jQuery-style DOM soup in new code.
+- Second client state library.
+- Unmaintained UI kits that fight Tailwind tokens.
+- Massive global mutable singletons outside established stores/QueryClient.
+
+---
+
+## 21. Mobile responsiveness
+
+- Fluid type and section spacing; carousel height uses `min(..., dvh)`.
+- My Dex: bottom sheet on narrow, side panel on `md+`.
+- Touch-friendly targets on row actions.
+
+---
+
+## 22. Error handling philosophy
+
+- User-visible errors: short title + optional detail + **Retry** when refetch exists.
+- `AsyncFeedback` + `role="alert"` for blocking errors; `status` for soft empty states.
+
+---
+
+## 23. Commit message style
+
+- Imperative mood, complete sentence subject line optional; body explains **why** when non-obvious.
+- Example: `fix(compare): retry failed profile fetches independently`
+
+---
+
+## 24. Refactor safety rules
+
+- Read callers before changing hook/store signatures.
+- Preserve public query key shapes or migrate in one PR with grep verification.
+- No large rewrites without test or manual checklist coverage.
+
+---
+
+## 25. Definition of “production-grade” (this repo)
+
+- **Shippable:** `npm run build`, `npm run lint`, `npm run test` pass.
+- **Accessible:** keyboard + SR paths for primary flows; reduced motion honored.
+- **Honest:** types reflect runtime; errors recoverable.
+- **Maintainable:** small modules, documented decisions in `DECISIONS_LOG.md`.
+
+---
+
+## 26. AI handoff maintenance (mandatory after major work)
+
+When a **major feature** or **architectural** change lands, update in the same PR or immediately after:
+
+1. `PROJECT_CONTEXT.md` — status + architecture bullets.
+2. `FEATURE_TRACKER.md` — move rows; adjust risks/files.
+3. `DECISIONS_LOG.md` — new ADR-style entry (why, alternatives rejected).
+4. Relevant `.cursor/rules/*.mdc` if patterns, stack, or constraints changed.
+
+If only a tiny bugfix, **do not** bulk-edit context files.
+
+---
+
+## 27. Anti-drift (for agents)
+
+- Never rewrite stable systems without user request + clear benefit.
+- Never add trendy deps without justification in `DECISIONS_LOG.md`.
+- Never replace working architecture casually.
+- Never overengineer — smallest change that satisfies the spec.
+- Preserve **premium immersive Pokémon** identity: cinematic, controlled, readable.
+
+---
+
+## 28. Product / YC-oriented guidance
+
+- **User value first** — every feature answers “what can the user do now?”
+- **Perceived speed** — skeletons, prefetch, avoid blocking spinners on repeat visits.
+- **Shareability** — one clear artifact beats ten hidden metrics.
+- **Micro-delight** — subtle motion/audio where it reinforces understanding, not distraction.
+
+---
+
+## 29. Implementation safety (agents)
+
+- Read relevant files before editing; grep for usages.
+- Reuse `a11y/`, `motion/`, `query/`, existing components.
+- Preserve strict typing, a11y, responsive behavior.
+- No large unsafe refactors without explicit user approval.
+
+---
+
+## 30. Project personality
+
+**Should feel:** cinematic, responsive, premium, immersive, playful-but-controlled, fast, smart, collectible, modern, polished.
+
+**Should not feel:** cluttered, overanimated, gimmicky, noisy, overengineered, visually chaotic.
