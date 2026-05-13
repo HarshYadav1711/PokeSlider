@@ -11,6 +11,7 @@ import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../q
 import { buildEvolutionChain } from '../../services/pokeapi/evolution';
 import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
+import { useDexListsStore } from '../../store/dexListsStore';
 import { useUiStore } from '../../store/uiStore';
 import type {
   DetailedPokemon,
@@ -27,6 +28,10 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
   const qc = useQueryClient();
   const showPokemon = useUiStore((s) => s.showPokemon);
   const { play, status: cryStatus } = usePokemonCry();
+
+  const toggleFavorite = useDexListsStore((s) => s.toggleFavorite);
+  const favoriteIds = useDexListsStore((s) => s.favoriteIds);
+  const isFav = useMemo(() => favoriteIds.includes(pokemonId), [favoriteIds, pokemonId]);
 
   const [megaModal, setMegaModal] = useState<MegaFormSummary | null>(null);
 
@@ -125,13 +130,24 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
               <TypeBadge key={t} type={t} />
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => void play({ id: pokemon.id, cryUrl: pokemon.cryUrl })}
-            className="mx-auto inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25 md:mx-0"
-          >
-            {cryStatus === 'playing' ? '🔊 Playing…' : cryStatus === 'unavailable' ? '🔇 Cry unavailable' : '🔊 Play Cry'}
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <button
+              type="button"
+              onClick={() => void play({ id: pokemon.id, cryUrl: pokemon.cryUrl })}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border-2 border-white/30 bg-white/15 px-5 py-2 font-bold text-white transition hover:bg-white/25"
+            >
+              {cryStatus === 'playing' ? '🔊 Playing…' : cryStatus === 'unavailable' ? '🔇 Cry unavailable' : '🔊 Play Cry'}
+            </button>
+            <button
+              type="button"
+              onClick={() => toggleFavorite(pokemon.id)}
+              aria-pressed={isFav}
+              aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border-2 border-amber-300/40 bg-amber-400/15 px-4 text-lg font-bold text-amber-200 transition hover:bg-amber-400/25"
+            >
+              {isFav ? '★' : '☆'}
+            </button>
+          </div>
           <div className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-white/90">
             <strong>Category:</strong> {categoryLabel} | <strong>Generation:</strong> {pokemon.generation} |{' '}
             <strong>Habitat:</strong> {pokemon.habitat}

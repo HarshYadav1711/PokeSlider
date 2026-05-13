@@ -5,7 +5,7 @@ import { isPokemonTypeToken } from '../data/pokeballs';
 import { LEGENDARY_MYTHICAL_POOL } from '../data/legendaryMythicalPool';
 import { PSEUDO_LEGENDARY_IDS } from '../data/pseudoLegendaryIds';
 import { partitionCatalog, pickPokemonForBall } from '../services/ballSuggestions';
-import { fetchPokemonNationalDexIds } from '../services/pokeapi/pokemonListResource';
+import { fetchPokemonNationalIndex } from '../services/pokeapi/pokemonListResource';
 import { fetchPokemonSummaryById } from '../services/pokeapi/pokemonSummary';
 import { fetchPokemonIdsForType } from '../services/pokeapi/typePokemonIds';
 import type { PokemonSummary } from '../types/pokemon';
@@ -19,12 +19,13 @@ import {
 } from './staleTimes';
 
 async function ensureNationalDexIds(qc: QueryClient, signal: AbortSignal): Promise<number[]> {
-  return qc.fetchQuery({
-    queryKey: qk.pokemon.nationalDexIds(),
-    queryFn: ({ signal: s }) => fetchPokemonNationalDexIds(AbortSignal.any([signal, s])),
+  const rows = await qc.fetchQuery({
+    queryKey: qk.pokemon.nationalIndex(),
+    queryFn: ({ signal: s }) => fetchPokemonNationalIndex(AbortSignal.any([signal, s])),
     staleTime: STALE_NATIONAL_LIST_MS,
     gcTime: 1000 * 60 * 60 * 24,
   });
+  return rows.map((r) => r.id);
 }
 
 async function ensureSummary(qc: QueryClient, id: number, signal: AbortSignal): Promise<PokemonSummary | null> {

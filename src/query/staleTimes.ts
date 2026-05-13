@@ -15,3 +15,10 @@ export const STALE_TYPE_MEMBERS_MS = 1000 * 60 * 60 * 6;
 
 /** Ball suggestion grid — stable for a session but not forever. */
 export const STALE_BALL_SUGGESTIONS_MS = 1000 * 60 * 30;
+
+export const STALE_GENERATION_MS = 1000 * 60 * 60 * 24 * 7;
+export const STALE_POKEDEX_LIST_MS = 1000 * 60 * 60 * 24 * 7;
+export const STALE_POKEDEX_MEMBERS_MS = 1000 * 60 * 60 * 24;
+export const STALE_ABILITY_MEMBERS_MS = 1000 * 60 * 60 * 12;
+export const STALE_FORM_SEARCH_INDEX_MS = 1000 * 60 * 60 * 24 * 30;
+export const STALE_SPECIES_PRIOR_MS = 1000 * 60 * 60 * 24 * 7;

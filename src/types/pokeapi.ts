@@ -53,6 +53,7 @@ export interface FlavorTextEntry {
 export interface PokemonSpeciesResponse {
   flavor_text_entries: FlavorTextEntry[];
   evolution_chain: NamedApiResource;
+  evolves_from_species: NamedApiResource | null;
   is_legendary: boolean;
   is_mythical: boolean;
   habitat: NamedApiResource | null;
@@ -107,4 +108,44 @@ export interface TypeResponse {
   damage_relations: TypeDamageRelations;
   /** Present on full `GET /type/{name}` resources — used for lazy ball suggestions. */
   pokemon?: TypePokemonSlot[];
+}
+
+export interface GenerationResponse {
+  id: number;
+  name: string;
+  pokemon_species: NamedApiResource[];
+}
+
+export interface PokedexListEntry {
+  name: string;
+  url: string;
+}
+
+export interface PokedexPokemonEntry {
+  entry_number: number;
+  pokemon_species: NamedApiResource;
+}
+
+export interface PokedexDetailResponse {
+  id: number;
+  name: string;
+  pokemon_entries: PokedexPokemonEntry[];
+}
+
+export interface AbilityPokemonSlot {
+  is_hidden: boolean;
+  slot: number;
+  pokemon: NamedApiResource;
+}
+
+export interface AbilityDetailResponse {
+  id: number;
+  name: string;
+  pokemon: AbilityPokemonSlot[];
+}
+
+export interface PokemonFormDetailResponse {
+  id: number;
+  name: string;
+  pokemon: NamedApiResource;
 }

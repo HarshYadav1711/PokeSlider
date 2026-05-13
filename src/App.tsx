@@ -1,7 +1,11 @@
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
+import { MyDexPanel } from './features/discovery/MyDexPanel';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
+import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
 
 export function App() {
+  useAppKeyboardShortcuts();
+
   return (
     <div className="relative z-[2] flex min-h-dvh w-full flex-col items-center justify-center px-4 py-10 text-white max-md:justify-start max-md:pt-8">
       <header className="relative z-10 mb-8 text-center">
@@ -20,10 +24,12 @@ export function App() {
       <PokeBallCarousel />
 
       <p className="z-10 mt-10 max-w-xl rounded-full border border-white/20 bg-black/30 px-6 py-3 text-center text-sm font-semibold tracking-wide text-white/95 backdrop-blur-md max-md:mt-6 max-md:text-xs">
-        Drag to spin · Tap a ball to see details
+        Drag to spin · Tap a ball to see details · <span className="whitespace-nowrap">My Dex for browse</span>
       </p>
 
       <DetailsOverlay />
+
+      <MyDexPanel />
     </div>
   );
 }
