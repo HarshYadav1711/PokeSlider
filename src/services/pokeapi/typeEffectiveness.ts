@@ -24,16 +24,10 @@ const ALL_TYPES: readonly PokemonTypeName[] = [
   'fairy',
 ] as const;
 
-const cache = new Map<string, TypeEffectivenessResult>();
-
 export async function getTypeEffectiveness(
   types: readonly PokemonTypeName[],
   signal?: AbortSignal,
 ): Promise<TypeEffectivenessResult> {
-  const cacheKey = [...types].slice().sort().join(',');
-  const hit = cache.get(cacheKey);
-  if (hit) return hit;
-
   const typeData = await Promise.all(
     types.map((type) => pokeFetch<TypeResponse>(`/type/${type}`, { signal })),
   );
@@ -68,6 +62,5 @@ export async function getTypeEffectiveness(
       .map(([type]) => type as PokemonTypeName),
   };
 
-  cache.set(cacheKey, result);
   return result;
 }

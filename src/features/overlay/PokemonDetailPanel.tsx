@@ -1,20 +1,22 @@
 import { AnimatePresence, motion } from 'motion/react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
+import { InlineRowSkeleton, PokemonDetailSkeleton } from '../../components/ui/PanelSkeletons';
 import { usePokemonCry } from '../../hooks/usePokemonCry';
-import { usePokemonDetail } from '../../hooks/usePokemonDetail';
+import { qk } from '../../query/keys';
+import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { buildEvolutionChain } from '../../services/pokeapi/evolution';
+import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
 import { useUiStore } from '../../store/uiStore';
 import type {
   DetailedPokemon,
-  EvolutionChainPokemon,
   MegaFormSummary,
   PokemonEncounterLocation,
   PokemonTypeName,
-  TypeEffectivenessResult,
 } from '../../types/pokemon';
 
 interface PokemonDetailPanelProps {
@@ -22,45 +24,48 @@ interface PokemonDetailPanelProps {
 }
 
 export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
-  const detailState = usePokemonDetail(pokemonId);
+  const qc = useQueryClient();
   const showPokemon = useUiStore((s) => s.showPokemon);
   const { play, status: cryStatus } = usePokemonCry();
 
-  const [extrasStatus, setExtrasStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [extrasError, setExtrasError] = useState<string | null>(null);
-  const [effectiveness, setEffectiveness] = useState<TypeEffectivenessResult | null>(null);
-  const [chain, setChain] = useState<EvolutionChainPokemon[]>([]);
   const [megaModal, setMegaModal] = useState<MegaFormSummary | null>(null);
 
-  const pokemon = detailState.status === 'success' ? detailState.data : undefined;
+  const detailQuery = useQuery({
+    queryKey: qk.pokemon.detail(pokemonId),
+    queryFn: async ({ signal }) => {
+      const row = await fetchDetailedPokemon(pokemonId, signal);
+      if (!row) throw new Error('Could not load Pokémon details.');
+      return row;
+    },
+    staleTime: STALE_POKEMON_DETAIL_MS,
+    gcTime: 1000 * 60 * 60 * 24,
+  });
+
+  const extrasQuery = useQuery({
+    queryKey: qk.pokemon.detailExtras(pokemonId),
+    enabled: detailQuery.isSuccess && detailQuery.data?.id === pokemonId,
+    queryFn: async ({ signal }) => {
+      const p = qc.getQueryData<DetailedPokemon>(qk.pokemon.detail(pokemonId));
+      if (!p) throw new Error('Missing Pokémon detail');
+      const [effectiveness, chain] = await Promise.all([
+        getTypeEffectiveness(p.types, signal),
+        buildEvolutionChain(p.evolutionData, signal),
+      ]);
+      return { effectiveness, chain };
+    },
+    staleTime: STALE_POKEMON_DETAIL_EXTRAS_MS,
+    gcTime: 1000 * 60 * 60 * 24,
+  });
+
+  const pokemon = detailQuery.data;
+  const chain = extrasQuery.data?.chain ?? [];
+  const effectiveness = extrasQuery.data?.effectiveness ?? null;
 
   useEffect(() => {
-    if (!pokemon) return;
-    let cancelled = false;
-    setExtrasStatus('loading');
-    setExtrasError(null);
-    void Promise.all([getTypeEffectiveness(pokemon.types), buildEvolutionChain(pokemon.evolutionData)])
-      .then(([eff, evo]) => {
-        if (cancelled) return;
-        setEffectiveness(eff);
-        setChain(evo);
-        setExtrasStatus('success');
-      })
-      .catch((err: unknown) => {
-        if (cancelled) return;
-        setExtrasStatus('error');
-        setExtrasError(err instanceof Error ? err.message : 'Failed to load matchups / evolution.');
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [pokemon]);
-
-  useEffect(() => {
-    if (detailState.status !== 'success' || !detailState.data) return;
-    const p = detailState.data;
+    if (!detailQuery.isSuccess || !detailQuery.data) return;
+    const p = detailQuery.data;
     void play({ id: p.id, cryUrl: p.cryUrl });
-  }, [detailState.status, detailState.data?.id, detailState.data?.cryUrl, play, detailState.data]);
+  }, [detailQuery.isSuccess, detailQuery.data?.id, detailQuery.data?.cryUrl, play, detailQuery.data]);
 
   const categoryLabel = useMemo(() => {
     if (!pokemon) return '';
@@ -72,16 +77,27 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
     return bits.join(', ');
   }, [pokemon]);
 
-  if (detailState.status === 'idle' || detailState.status === 'loading') {
-    return <AsyncFeedback title="Loading Pokémon details…" />;
+  if (detailQuery.isPending) {
+    return <PokemonDetailSkeleton />;
   }
 
-  if (detailState.status === 'error' || !pokemon) {
+  if (detailQuery.isError || !pokemon) {
     return (
-      <AsyncFeedback
-        title="Something went wrong"
-        description={detailState.error ?? 'Unable to load this Pokémon.'}
-      />
+      <div className="space-y-4 text-center">
+        <AsyncFeedback
+          title="Something went wrong"
+          description={
+            detailQuery.error instanceof Error ? detailQuery.error.message : 'Unable to load this Pokémon.'
+          }
+        />
+        <button
+          type="button"
+          onClick={() => void detailQuery.refetch()}
+          className="rounded-full border border-white/30 bg-white/15 px-6 py-2 font-semibold text-white transition hover:bg-white/25"
+        >
+          Retry
+        </button>
+      </div>
     );
   }
 
@@ -149,12 +165,25 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
 
       <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
         <h3 className="mb-4 text-xl font-bold text-white">Evolution Chain</h3>
-        {extrasStatus === 'loading' ? <AsyncFeedback title="Loading evolution data…" /> : null}
-        {extrasStatus === 'error' ? <AsyncFeedback title="Evolution unavailable" description={extrasError ?? ''} /> : null}
-        {extrasStatus === 'success' && chain.length === 1 && !hasMega ? (
+        {extrasQuery.isPending ? (
+          <div className="flex flex-col flex-wrap items-center justify-center gap-4 md:flex-row">
+            <InlineRowSkeleton className="h-40 w-32" />
+            <InlineRowSkeleton className="h-40 w-32" />
+            <InlineRowSkeleton className="h-40 w-32" />
+          </div>
+        ) : null}
+        {extrasQuery.isError ? (
+          <AsyncFeedback
+            title="Evolution unavailable"
+            description={
+              extrasQuery.error instanceof Error ? extrasQuery.error.message : 'Could not load evolution data.'
+            }
+          />
+        ) : null}
+        {extrasQuery.isSuccess && chain.length === 1 && !hasMega ? (
           <p className="text-center text-white/70">This Pokémon does not evolve.</p>
         ) : null}
-        {extrasStatus === 'success' && (chain.length > 1 || hasMega) ? (
+        {extrasQuery.isSuccess && (chain.length > 1 || hasMega) ? (
           <div className="flex flex-col flex-wrap items-center justify-center gap-4 md:flex-row">
             {chain.map((evo, index) => (
               <div key={evo.id} className="flex flex-col items-center gap-2 md:flex-row">
@@ -250,15 +279,28 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
 
       <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
         <h3 className="mb-4 text-xl font-bold text-white">Type Effectiveness</h3>
-        {extrasStatus !== 'success' || !effectiveness ? (
-          <AsyncFeedback title="Loading type matchups…" />
-        ) : (
+        {extrasQuery.isPending ? (
+          <div className="space-y-4">
+            <InlineRowSkeleton />
+            <InlineRowSkeleton />
+            <InlineRowSkeleton />
+          </div>
+        ) : null}
+        {extrasQuery.isError ? (
+          <AsyncFeedback
+            title="Matchups unavailable"
+            description={
+              extrasQuery.error instanceof Error ? extrasQuery.error.message : 'Could not load type chart.'
+            }
+          />
+        ) : null}
+        {extrasQuery.isSuccess && effectiveness ? (
           <div className="space-y-6">
             <MatchupRow title="Super Effective (2×)" types={effectiveness.superEffective} />
             <MatchupRow title="Not Very Effective (0.5×)" types={effectiveness.notVeryEffective} />
             <MatchupRow title="No Effect (0×)" types={effectiveness.noEffect} />
           </div>
-        )}
+        ) : null}
       </section>
 
       <AnimatePresence>

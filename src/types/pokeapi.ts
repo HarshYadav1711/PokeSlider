@@ -98,6 +98,13 @@ export interface TypeDamageRelations {
   no_damage_from: NamedApiResource[];
 }
 
+export interface TypePokemonSlot {
+  slot: number;
+  pokemon: NamedApiResource;
+}
+
 export interface TypeResponse {
   damage_relations: TypeDamageRelations;
+  /** Present on full `GET /type/{name}` resources — used for lazy ball suggestions. */
+  pokemon?: TypePokemonSlot[];
 }

@@ -1,10 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { POKEBALLS } from '../../data/pokeballs';
 import { usePokeBallCarousel } from '../../hooks/usePokeBallCarousel';
+import { prefetchBallSuggestions } from '../../query/prefetch';
 import { useUiStore } from '../../store/uiStore';
 
 export function PokeBallCarousel() {
+  const qc = useQueryClient();
   const openBall = useUiStore((s) => s.openBall);
   const { transforms, carouselProps } = usePokeBallCarousel(POKEBALLS.length);
 
@@ -32,10 +35,15 @@ export function PokeBallCarousel() {
         >
           {balls.map((ball, index) => {
             const t = transforms[index] ?? { transform: 'none', active: false };
+            const nextBall = balls[(index + 1) % balls.length]!;
             return (
               <button
                 key={ball.id}
                 type="button"
+                onPointerEnter={() => {
+                  void prefetchBallSuggestions(qc, ball);
+                  void prefetchBallSuggestions(qc, nextBall);
+                }}
                 onClick={() => openBall(ball.id)}
                 className={[
                   'absolute left-1/2 top-1/2 size-[140px] -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0 bg-transparent p-0 transition-all duration-300 [transform-style:preserve-3d] [backface-visibility:hidden]',

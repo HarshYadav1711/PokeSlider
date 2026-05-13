@@ -1,16 +1,7 @@
-import { useEffect } from 'react';
-
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
-import { usePokemonCatalogStore } from './store/pokemonCatalogStore';
 
 export function App() {
-  const startHydration = usePokemonCatalogStore((s) => s.startHydration);
-
-  useEffect(() => {
-    startHydration();
-  }, [startHydration]);
-
   return (
     <div className="relative z-[2] flex min-h-dvh w-full flex-col items-center justify-center px-4 py-10 text-white max-md:justify-start max-md:pt-8">
       <header className="relative z-10 mb-8 text-center">

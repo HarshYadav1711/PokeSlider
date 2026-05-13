@@ -1,9 +1,11 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
+import { BallDetailSkeleton } from '../../components/ui/PanelSkeletons';
 import type { PokeBallDefinition } from '../../data/pokeballs';
-import { pickPokemonForBall } from '../../services/ballSuggestions';
-import { usePokemonCatalogStore } from '../../store/pokemonCatalogStore';
+import { prefetchPokemonDetail } from '../../query/prefetch';
+import { useBallSuggestionsQuery } from '../../query/useBallSuggestionsQuery';
 import { useUiStore } from '../../store/uiStore';
 import type { PokemonSummary } from '../../types/pokemon';
 
@@ -12,6 +14,7 @@ interface BallDetailPanelProps {
 }
 
 function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
+  const qc = useQueryClient();
   const showPokemon = useUiStore((s) => s.showPokemon);
   const src =
     pokemon.image ??
@@ -22,6 +25,9 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
     <button
       type="button"
       onClick={() => showPokemon(pokemon.id)}
+      onPointerEnter={() => {
+        void prefetchPokemonDetail(qc, pokemon.id);
+      }}
       className="relative flex flex-col items-center rounded-2xl border-2 border-white/10 bg-white/10 p-4 text-center backdrop-blur-md transition hover:-translate-y-1 hover:border-white/30 hover:bg-white/20"
     >
       <img
@@ -57,34 +63,24 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
 }
 
 export function BallDetailPanel({ ball }: BallDetailPanelProps) {
-  const status = usePokemonCatalogStore((s) => s.status);
-  const error = usePokemonCatalogStore((s) => s.error);
-  const progress = usePokemonCatalogStore((s) => s.progress);
-  const partition = usePokemonCatalogStore((s) => s.partition);
-  const retryHydration = usePokemonCatalogStore((s) => s.retryHydration);
+  const { data, isPending, isError, error, refetch, isFetching } = useBallSuggestionsQuery(ball);
 
-  const pokemon = useMemo(() => {
-    if (!partition) return [];
-    return pickPokemonForBall(ball, partition);
-  }, [ball, partition]);
+  const pokemon = useMemo(() => data ?? [], [data]);
 
-  if (status === 'loading' || status === 'idle') {
-    const pct = progress.total > 0 ? Math.round((progress.loaded / progress.total) * 100) : 0;
-    return (
-      <AsyncFeedback
-        title="Loading Pokémon index…"
-        description={`Preparing suggestions for ${ball.name}. ${progress.total ? `${pct}% (${progress.loaded}/${progress.total})` : 'Starting…'}`}
-      />
-    );
+  if (isPending) {
+    return <BallDetailSkeleton />;
   }
 
-  if (status === 'error') {
+  if (isError) {
     return (
       <div className="space-y-4 text-center">
-        <AsyncFeedback title="Could not load Pokémon data" description={error ?? 'Unknown error'} />
+        <AsyncFeedback
+          title="Could not load suggestions"
+          description={error instanceof Error ? error.message : 'Unknown error'}
+        />
         <button
           type="button"
-          onClick={() => retryHydration()}
+          onClick={() => void refetch()}
           className="rounded-full border border-white/30 bg-white/15 px-6 py-2 font-semibold text-white transition hover:bg-white/25"
         >
           Retry
@@ -93,12 +89,17 @@ export function BallDetailPanel({ ball }: BallDetailPanelProps) {
     );
   }
 
-  if (status === 'empty' || pokemon.length === 0) {
-    return <AsyncFeedback title="No Pokémon to show" description="Try again after the catalog finishes loading." />;
+  if (pokemon.length === 0) {
+    return <AsyncFeedback title="No Pokémon to show" description="Try again in a moment." />;
   }
 
   return (
     <div className="space-y-6">
+      {isFetching ? (
+        <p className="text-center text-xs text-white/60" aria-live="polite">
+          Refreshing…
+        </p>
+      ) : null}
       <div className="rounded-2xl border-l-4 border-white/30 bg-white/10 p-6 backdrop-blur-md">
         <p className="text-base leading-relaxed text-white/95">{ball.description}</p>
         <p className="mt-4 text-sm text-white/90">

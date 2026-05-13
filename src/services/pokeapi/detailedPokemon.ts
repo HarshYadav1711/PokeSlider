@@ -46,16 +46,10 @@ function mapStats(stats: PokemonResponse['stats']): PokemonStatRow[] {
   }));
 }
 
-const detailCache = new Map<string, DetailedPokemon>();
-
 export async function fetchDetailedPokemon(
   id: number | string,
   signal?: AbortSignal,
 ): Promise<DetailedPokemon | null> {
-  const cacheKey = typeof id === 'number' ? String(id) : id.toLowerCase();
-  const cached = detailCache.get(cacheKey);
-  if (cached) return cached;
-
   try {
     const data = await pokeFetch<PokemonResponse>(`/pokemon/${id}`, { signal });
     const speciesData = await pokeFetch<PokemonSpeciesResponse>(pokePathFromResourceUrl(data.species.url), {
@@ -106,8 +100,6 @@ export async function fetchDetailedPokemon(
       cryUrl,
     };
 
-    detailCache.set(cacheKey, pokemon);
-    detailCache.set(String(pokemon.id), pokemon);
     return pokemon;
   } catch {
     return null;
