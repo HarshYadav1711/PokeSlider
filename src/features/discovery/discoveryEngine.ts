@@ -1,6 +1,7 @@
 import type { PokemonFormSearchRow } from '../../services/pokeapi/pokemonFormsIndex';
 import type { NationalDexRow } from '../../services/pokeapi/pokemonListResource';
 import type { PokemonSummary } from '../../types/pokemon';
+import { inferPokemonBattleRole } from '../../utils/pokemonBattleRole';
 
 import type { DiscoveryFiltersState } from './discoveryTypes';
 
@@ -59,6 +60,16 @@ export function applySummaryFilters(
   priorMap: ReadonlyMap<number, boolean> | null,
 ): PokemonSummary[] {
   let r = [...rows];
+  if (filters.habitatSlug) {
+    r = r.filter((p) => p.habitatSlug === filters.habitatSlug);
+  }
+  if (filters.formVariant !== 'any') {
+    const wantDefault = filters.formVariant === 'default_only';
+    r = r.filter((p) => (wantDefault ? p.isDefaultVariety : !p.isDefaultVariety));
+  }
+  if (filters.battleRole !== 'any') {
+    r = r.filter((p) => inferPokemonBattleRole(p) === filters.battleRole);
+  }
   if (filters.rarity !== 'any') {
     r = r.filter((p) => p.category === filters.rarity);
   }
@@ -73,7 +84,7 @@ export function applySummaryFilters(
   if (filters.evolutionStage !== 'any' && priorMap) {
     const wantPrior = filters.evolutionStage === 'has_prior';
     r = r.filter((p) => {
-      const prior = priorMap.get(p.id) ?? false;
+      const prior = priorMap.get(p.speciesId) ?? false;
       return wantPrior ? prior : !prior;
     });
   }

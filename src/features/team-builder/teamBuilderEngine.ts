@@ -1,5 +1,6 @@
 import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import type { PokemonSummary, PokemonTypeName } from '../../types/pokemon';
+import { inferPokemonBattleRole } from '../../utils/pokemonBattleRole';
 
 import type {
   RiskTolerance,
@@ -58,16 +59,6 @@ export function filterPoolForBuilder(
     r = r.filter((p) => !p.isLegendary && !p.isMythical);
   }
   return r.sort((a, b) => a.id - b.id);
-}
-
-function roleBucket(p: PokemonSummary): 'physical' | 'special' | 'mixed' | 'wall' | 'scout' {
-  const s = p.baseStats;
-  const bulk = s.hp + s.defense + s.specialDefense;
-  if (s.speed >= 100) return 'scout';
-  if (bulk >= 300 && s.speed < 90) return 'wall';
-  if (s.attack >= s.specialAttack + 28) return 'physical';
-  if (s.specialAttack >= s.attack + 28) return 'special';
-  return 'mixed';
 }
 
 function offensiveStat(p: PokemonSummary): number {
@@ -136,7 +127,7 @@ function computeMetrics(chart: TypeMatchupChart, team: readonly PokemonSummary[]
   let bstSum = 0;
   const typingKeys = new Set<string>();
   for (const m of team) {
-    roleCounts[roleBucket(m)]++;
+    roleCounts[inferPokemonBattleRole(m)]++;
     speedSum += m.baseStats.speed;
     bstSum += m.baseStatTotal;
     typingKeys.add([...m.types].sort().join('|'));
@@ -297,7 +288,7 @@ function explainMarginalPick(
   lines.push({
     label: 'Role balance',
     points: Math.round((entAfter - entBefore) * 40 * GOAL_WEIGHTS[input.goal].balance),
-    detail: `Role bucket: ${roleBucket(pick)} — counts now ${JSON.stringify(metricsAfter.roleCounts)}.`,
+    detail: `Role bucket: ${inferPokemonBattleRole(pick)} — counts now ${JSON.stringify(metricsAfter.roleCounts)}.`,
   });
 
   if (input.primaryType && pick.types.includes(input.primaryType)) {

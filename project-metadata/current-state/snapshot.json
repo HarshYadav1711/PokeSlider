@@ -1,61 +1,56 @@
 {
-  "generated_at": "2026-05-14T20:25:57.340575Z",
-  "git_commit": "72e28ad8a720eb167e35f14e606bf9d67591b039",
+  "generated_at": "2026-05-14T20:38:22.288181Z",
+  "git_commit": "be6caaf5504efd892f5ec6a1316ae3778a492d53",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/features/region-explorer/RegionMapAtmosphere.tsx",
-      "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "4b1056c3df5357f01cdde22633e489e439a672e68c4db5fe99e0f1aab4c0ae10",
-      "loc": 71,
+      "path": "src/domain/pokemon/identity.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "c3ad1701e561e5790f57d07cd1a9b5c8d4020fd47b2957c7660663b0fe8e1bd3",
+      "loc": 9,
       "is_test": false,
       "imports": [
-        "./regionMapAtmosphere.css",
-        "react",
-        "../../hooks/usePerformanceTier"
+        "../../types/pokemon"
       ],
       "exported_symbols": [
-        "RegionMapAtmosphere"
+        "sameSpecies"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/data/regionAtlasRasterManifest.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "2639896e67337b67eaed7703f783a1765286c878891ce35f9118daa4a7a0c898",
-      "loc": 37,
+      "path": "src/domain/pokemon/repository.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "f773ee7688cce47155b1cd082ad7079b66a443e04f564eff04ac87c5f373b29f",
+      "loc": 7,
       "is_test": false,
-      "imports": [
-        "./regionTypes"
-      ],
+      "imports": [],
       "exported_symbols": [
-        "AtlasRasterBreakpoint",
-        "SHIPPED_REGION_ATLAS_RASTERS",
-        "atlasRasterBasename",
-        "atlasRasterUrls",
-        "shouldLoadRegionAtlasRaster"
+        "NationalDexRow",
+        "fetchPokemonNationalDexIds",
+        "fetchPokemonNationalIndex",
+        "fetchPokemonSummaryById"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/regionGuidedZoom.test.ts",
+      "path": "src/engine/ballThematicRecommendations.test.ts",
       "role": "test",
-      "feature_id": "region_explorer",
-      "sha256": "f9640df1f05f457505c79111b58afd23fe980f137908ccee3b84d39b0eb1b1ff",
-      "loc": 60,
+      "feature_id": null,
+      "sha256": "403769b98ea2125cd0f1437b82bf1e8562a4681a407ffbb5d12a0037be5d414c",
+      "loc": 57,
       "is_test": true,
       "imports": [
         "vitest",
-        "./regionGuidedZoom",
-        "./regionSvgCoords"
+        "../types/pokemon",
+        "./ballThematicRecommendations"
       ],
       "exported_symbols": [],
       "referenced_stores": [],
@@ -63,68 +58,58 @@
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/regionGuidedZoom.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "d42eb5cce3e8a000e075a42ebef52a6ddc3f2f571061402a4ddb9f87cbc6a871",
-      "loc": 46,
+      "path": "src/engine/ballThematicRecommendations.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "9d8f90fbd06bc82e0d190323c7be5cf60c4ba99dbd58f51eaaff5f3facc1103a",
+      "loc": 193,
       "is_test": false,
       "imports": [
-        "./data/regionTypes",
-        "./regionSvgCoords"
+        "../data/pokeballs",
+        "../types/pokemon"
       ],
       "exported_symbols": [
-        "GuidedFocusMode",
-        "GuidedViewBox",
-        "computeGuidedViewBox",
-        "inferGuidedFocusMode",
-        "viewBoxOverview"
+        "BallLensKind",
+        "BallLensPokemonInput",
+        "BallLensRecommendation",
+        "buildBallLensRecommendations"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/regionMapAtmosphere.css",
-      "role": "style",
-      "feature_id": "region_explorer",
-      "sha256": "cc2cd461e4f3df3ba04a4985c614bb4a27ebe8e7b7869b09763f2bae8e60060e",
-      "loc": 41,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/regionSvgCoords.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "5cbbafc81428f7369aa6348b84afe22eea21119617ad00394c2f765dce112748",
-      "loc": 10,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "overlayPercentToSvg"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/useAtlasRasterBreakpoint.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "5a15c9e345a34b029f56bde6b62cd853a0b9899a2cba6ba72138b059b15d3c33",
-      "loc": 11,
+      "path": "src/services/pokeapi/speciesVarietyExpansion.ts",
+      "role": "service",
+      "feature_id": null,
+      "sha256": "b9c990a137ce776f75615a7c21d22bfe0e12b472dc82675b9ba7202fc980779e",
+      "loc": 30,
       "is_test": false,
       "imports": [
-        "../../hooks/useMediaQuery",
-        "./data/regionAtlasRasterManifest"
+        "../../types/pokeapi",
+        "./client",
+        "./resourceIds"
       ],
       "exported_symbols": [
-        "useAtlasRasterBreakpoint"
+        "fetchPokemonIdsForSpeciesVarietyUnion"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/utils/pokemonBattleRole.ts",
+      "role": "util",
+      "feature_id": null,
+      "sha256": "53e3169326baae9a7e1f4138b98fabd1ef26a6b8bf15b5a08b524e87f3678099",
+      "loc": 16,
+      "is_test": false,
+      "imports": [
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "PokemonBattleRoleBucket",
+        "inferPokemonBattleRole"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -203,7 +188,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "882c2ac10c675536867d51ca6424772b94a9e9a11e3b71bc2f853b7859f274b6",
+      "sha256": "f3d553cb5764ef09afa9d68e3c962c2edf4fa18a1ab619aa93d57f7d6c918e07",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -281,7 +266,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "2e224e3d18cc0bc1abc6e378227fa202c254201b6dbe4fb6a8c17b87cdf66d9a",
+      "sha256": "60920eb169f7c902f555d38a8c42d896d0befcc8ac967d2dfe51310c2898e57c",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -359,8 +344,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "63406fee8ce323c042c65b22ebc25f2cffbc8b12b6aa0833b24648fd4be75461",
-      "loc": 4485,
+      "sha256": "f17ac1e6decfa8efb837a1c12c7e9947a64d0b77e2062d19c22b3d23ffb5d3ac",
+      "loc": 4615,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -1517,8 +1502,8 @@
       "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.test.ts",
       "role": "test",
       "feature_id": "discovery_recommendation",
-      "sha256": "54cf30403aa49d5229d4be07d97235c03eff759ae907458247a4ee7b5c6d7ccd",
-      "loc": 152,
+      "sha256": "b5bd386f35514926ddb880399684f1259694a30e29515dec72716ee56c2df617",
+      "loc": 159,
       "is_test": true,
       "imports": [
         "vitest",
@@ -1640,8 +1625,8 @@
       "path": "src/features/discovery/MyDexPanel.tsx",
       "role": "component",
       "feature_id": "discovery",
-      "sha256": "c1cd2ca78f7517adcc4a065303ca03899dbc54931ced12346c5b9063597134d8",
-      "loc": 554,
+      "sha256": "6ac8c0ccffe5d17105b608d6fc5c42f47913942a100db1868e5505dcedbbf005",
+      "loc": 607,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1657,6 +1642,7 @@
         "../../store/discoveryRecommendationStore",
         "../../store/uiStore",
         "./discoveryUiStore",
+        "./discoveryTypes",
         "./useMyDexDiscovery"
       ],
       "exported_symbols": [
@@ -1676,13 +1662,14 @@
       "path": "src/features/discovery/discoveryEngine.ts",
       "role": "engine",
       "feature_id": "discovery",
-      "sha256": "b1c5db141d0664f1429dce0a6180134f56721123a512c34af1fdbb4a0c3a47e9",
-      "loc": 81,
+      "sha256": "601e43a303e0d2003beaf0b8d429524b0ec513a141bf987de1460c9a95491c17",
+      "loc": 92,
       "is_test": false,
       "imports": [
         "../../services/pokeapi/pokemonFormsIndex",
         "../../services/pokeapi/pokemonListResource",
         "../../types/pokemon",
+        "../../utils/pokemonBattleRole",
         "./discoveryTypes"
       ],
       "exported_symbols": [
@@ -1700,16 +1687,21 @@
       "path": "src/features/discovery/discoveryTypes.ts",
       "role": "types",
       "feature_id": "discovery",
-      "sha256": "7d01ec1daa0c0c1ce9dc819f0e6b32e9af1b9e2d66ea193aaa28ad013b5df9ac",
-      "loc": 31,
+      "sha256": "fcc0d315de1e235081659cbbfa37a6e585b6424f9abbe37339f8efef1ccddc1d",
+      "loc": 58,
       "is_test": false,
       "imports": [
-        "../../types/pokemon"
+        "../../types/pokemon",
+        "../../utils/pokemonBattleRole"
       ],
       "exported_symbols": [
+        "DISCOVERY_HABITAT_SLUGS",
+        "DiscoveryBattleRoleFilter",
         "DiscoveryFiltersState",
+        "DiscoveryHabitatSlug",
         "DiscoveryRarityFilter",
         "EvolutionStageFilter",
+        "FormVariantFilter",
         "MyDexTab",
         "defaultDiscoveryFilters"
       ],
@@ -1741,8 +1733,8 @@
       "path": "src/features/discovery/useMyDexDiscovery.ts",
       "role": "util",
       "feature_id": "discovery",
-      "sha256": "a5361741af796e22ee8c8734fa6b94a308a4ad92137e631e6cd5bf9a8049fb9d",
-      "loc": 285,
+      "sha256": "a3513587a98cadeb238ff05f0141a6c81128b188b9b3fca23db872df9f4cc9af",
+      "loc": 299,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
@@ -2167,8 +2159,8 @@
       "path": "src/features/overlay/PokemonDetailPanel.tsx",
       "role": "overlay",
       "feature_id": "overlay",
-      "sha256": "863255866160d9942a886d7e63a7be6010b497e3b6d8037baa1062cda25344f4",
-      "loc": 469,
+      "sha256": "6f9bf2094e849970faf2badd1fe17e8254a409af25bf69d9889834dc917d9806",
+      "loc": 471,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -2192,6 +2184,7 @@
         "../../store/uiStore",
         "../../types/pokemon",
         "../lore/PokemonLoreSection",
+        "../lore/pokemonLoreViewModel",
         "../pokeballs/PokemonBallFitSection",
         "./PokemonEvolutionTimeline"
       ],
@@ -2262,8 +2255,8 @@
       "path": "src/features/pokeballs/PokemonBallFitSection.tsx",
       "role": "component",
       "feature_id": "pokeballs",
-      "sha256": "345b31f23524340b5386c8fbebb30749fbf45e6467b719afffe5943314d0e3b0",
-      "loc": 232,
+      "sha256": "6a2040c60af9f9cf3a8cbab1a9d2105cfde61ed4018148c40e682b1b1f618c4b",
+      "loc": 273,
       "is_test": false,
       "imports": [
         "react",
@@ -2273,6 +2266,7 @@
         "../../engine/catchRateFormula",
         "../../engine/pokeballCatchSnapshot",
         "../../engine/pokeballContextualBonus",
+        "../../engine/ballThematicRecommendations",
         "../../engine/pokemonHpEstimate",
         "../../types/pokemon"
       ],
@@ -2420,6 +2414,25 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/region-explorer/RegionMapAtmosphere.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "4b1056c3df5357f01cdde22633e489e439a672e68c4db5fe99e0f1aab4c0ae10",
+      "loc": 71,
+      "is_test": false,
+      "imports": [
+        "./regionMapAtmosphere.css",
+        "react",
+        "../../hooks/usePerformanceTier"
+      ],
+      "exported_symbols": [
+        "RegionMapAtmosphere"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/region-explorer/data/loadRegionDefinition.ts",
       "role": "util",
       "feature_id": "region_explorer",
@@ -2431,6 +2444,27 @@
       ],
       "exported_symbols": [
         "loadRegionDefinition"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regionAtlasRasterManifest.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "2639896e67337b67eaed7703f783a1765286c878891ce35f9118daa4a7a0c898",
+      "loc": 37,
+      "is_test": false,
+      "imports": [
+        "./regionTypes"
+      ],
+      "exported_symbols": [
+        "AtlasRasterBreakpoint",
+        "SHIPPED_REGION_ATLAS_RASTERS",
+        "atlasRasterBasename",
+        "atlasRasterUrls",
+        "shouldLoadRegionAtlasRaster"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -2731,6 +2765,45 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/region-explorer/regionGuidedZoom.test.ts",
+      "role": "test",
+      "feature_id": "region_explorer",
+      "sha256": "f9640df1f05f457505c79111b58afd23fe980f137908ccee3b84d39b0eb1b1ff",
+      "loc": 60,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./regionGuidedZoom",
+        "./regionSvgCoords"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionGuidedZoom.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "d42eb5cce3e8a000e075a42ebef52a6ddc3f2f571061402a4ddb9f87cbc6a871",
+      "loc": 46,
+      "is_test": false,
+      "imports": [
+        "./data/regionTypes",
+        "./regionSvgCoords"
+      ],
+      "exported_symbols": [
+        "GuidedFocusMode",
+        "GuidedViewBox",
+        "computeGuidedViewBox",
+        "inferGuidedFocusMode",
+        "viewBoxOverview"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/region-explorer/regionHotspots.ts",
       "role": "util",
       "feature_id": "region_explorer",
@@ -2766,6 +2839,19 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/region-explorer/regionMapAtmosphere.css",
+      "role": "style",
+      "feature_id": "region_explorer",
+      "sha256": "cc2cd461e4f3df3ba04a4985c614bb4a27ebe8e7b7869b09763f2bae8e60060e",
+      "loc": 41,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/region-explorer/regionSceneGeometry.ts",
       "role": "util",
       "feature_id": "region_explorer",
@@ -2780,6 +2866,39 @@
         "buildRouteNetworkPath",
         "buildRouteNetworkPathThrough",
         "buildSmoothedRoutePath"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionSvgCoords.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "5cbbafc81428f7369aa6348b84afe22eea21119617ad00394c2f765dce112748",
+      "loc": 10,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "overlayPercentToSvg"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/useAtlasRasterBreakpoint.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "5a15c9e345a34b029f56bde6b62cd853a0b9899a2cba6ba72138b059b15d3c33",
+      "loc": 11,
+      "is_test": false,
+      "imports": [
+        "../../hooks/useMediaQuery",
+        "./data/regionAtlasRasterManifest"
+      ],
+      "exported_symbols": [
+        "useAtlasRasterBreakpoint"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -2916,8 +3035,8 @@
       "path": "src/features/team-builder/teamBuilderEngine.test.ts",
       "role": "test",
       "feature_id": "team_builder",
-      "sha256": "bd6a7e4b16758ccf5d6d60b56ccc1058b227d77ddba54a256fd5a6f1ed70bf00",
-      "loc": 112,
+      "sha256": "aa3b0cf85ba21620b0e3344de06e856505cbced8e2b0020528f54a2ebfb2cbac",
+      "loc": 119,
       "is_test": true,
       "imports": [
         "vitest",
@@ -2935,12 +3054,13 @@
       "path": "src/features/team-builder/teamBuilderEngine.ts",
       "role": "engine",
       "feature_id": "team_builder",
-      "sha256": "6981e9be9fc2cdba45773974cebcd90a8da107ddcf2bd2846054fd0840703d37",
-      "loc": 524,
+      "sha256": "d0ec5457b2b8782bd36d82567ea920c2519d6cb1eaa181b7d654854b0ad503fb",
+      "loc": 515,
       "is_test": false,
       "imports": [
         "../../data/pokemonTypes",
         "../../types/pokemon",
+        "../../utils/pokemonBattleRole",
         "./teamBuilderTypes",
         "./typeMatchupChart"
       ],
@@ -3399,7 +3519,7 @@
       "path": "src/query/keys.ts",
       "role": "query",
       "feature_id": null,
-      "sha256": "352c100de8903d195786f84a4e0a5b846c5e52b5166919f9e52652c582406296",
+      "sha256": "d196e2aba2c38c09fe0ea5bec9a117ed1950cbfba90768672e6b09ca3ebb44a9",
       "loc": 29,
       "is_test": false,
       "imports": [],
@@ -3592,8 +3712,8 @@
       "path": "src/services/pokeapi/detailedPokemon.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "aac6318d894ac4b680bc7facb2bbf915cde26ffe4a92c82ecf2bb2297ff302c9",
-      "loc": 111,
+      "sha256": "47e1d217c3f3f40f4b947345a5800976f8b6c5646dbf4fef64518947b364c00d",
+      "loc": 116,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
@@ -3601,6 +3721,7 @@
         "../../utils/pokemonMeta",
         "./client",
         "./evolutionSpeciesLore",
+        "./mapSummary",
         "./mega",
         "./locations"
       ],
@@ -3674,13 +3795,14 @@
       "path": "src/services/pokeapi/generation.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "eea2186211010e1ff1623722f70612c54760e308afc5a316c76b88993115b0d8",
-      "loc": 14,
+      "sha256": "956ff551c0283aa9b4ee40f1e6fff34009238fdafbbe555dc5fcd8cdcc05423b",
+      "loc": 15,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
         "./client",
-        "./resourceIds"
+        "./resourceIds",
+        "./speciesVarietyExpansion"
       ],
       "exported_symbols": [
         "fetchPokemonIdsForGeneration"
@@ -3712,16 +3834,18 @@
       "path": "src/services/pokeapi/mapSummary.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "9c994d43b2954890d4ddccdad6ce7cee785713b02b2888c87d9f63e6841ff862",
-      "loc": 87,
+      "sha256": "0f3e9c0aacca8f2e5c98ae67d43c89cb3b8e74fdcddc32cd53347c03fb3c68c0",
+      "loc": 116,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
         "../../types/pokemon",
-        "../../utils/pokemonMeta"
+        "../../utils/pokemonMeta",
+        "./resourceIds"
       ],
       "exported_symbols": [
-        "mapPokemonSummary"
+        "mapPokemonSummary",
+        "pickEnglishGenus"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -3750,13 +3874,14 @@
       "path": "src/services/pokeapi/pokedex.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "9925a5834cd1603b1dc751929faf513e617483569b337c1774ba0588cd56262a",
-      "loc": 21,
+      "sha256": "5206c9a7bd4a96c9b08086089ac33adaf91166f17098a9110e6641abea56390f",
+      "loc": 22,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
         "./client",
-        "./resourceIds"
+        "./resourceIds",
+        "./speciesVarietyExpansion"
       ],
       "exported_symbols": [
         "fetchPokedexSlugList",
@@ -3790,8 +3915,8 @@
       "path": "src/services/pokeapi/pokemonListResource.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "c6544bf4658d16f441b84bab9792eb042fde808b9bb6f3372c6d008ba176f9f6",
-      "loc": 25,
+      "sha256": "3d7ed7a6b00d717c7e263c21f8cdcfd048bf84b949e0e11829ac4f7b0e261367",
+      "loc": 37,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
@@ -3811,7 +3936,7 @@
       "path": "src/services/pokeapi/pokemonSummary.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "24cd89ccff7197fd3f74bccf924dfb5cb690782c682c2a820b280278a2756162",
+      "sha256": "5a483f902feffd4bc9dd2405bef5f4ca9655d8ae2be42d1993b0d8058338d327",
       "loc": 16,
       "is_test": false,
       "imports": [
@@ -3847,8 +3972,8 @@
       "path": "src/services/pokeapi/speciesEvolutionHint.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "0bd2dbd5c2c2de264a130c826d47b1f1f5274c0b035fde63836782df6edcf423",
-      "loc": 28,
+      "sha256": "ab51b9918b8c73cb0f64ae5fa54d65aa3d16ed6a90d0ce6e7fd99b544c8b0c88",
+      "loc": 29,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
@@ -4353,8 +4478,8 @@
       "path": "src/types/pokeapi.ts",
       "role": "types",
       "feature_id": null,
-      "sha256": "ab43f811f1e004f30e53f8927f9bdbb57bdb66800f6c212bbdff78d6e7e379d5",
-      "loc": 181,
+      "sha256": "09438d051c7bd383db616b0bf32f8fe65e468f40111a2647d2f5851bb97d036a",
+      "loc": 188,
       "is_test": false,
       "imports": [],
       "exported_symbols": [
@@ -4393,8 +4518,8 @@
       "path": "src/types/pokemon.ts",
       "role": "types",
       "feature_id": null,
-      "sha256": "b2b5a065333f1c6d045e41ab40e5ad369a3493776143ec3c3d4f2aefd0f97986",
-      "loc": 151,
+      "sha256": "0788b1500d46dd407ee2dd846bfa3a05381851329ae4183b334f80a40818f362",
+      "loc": 170,
       "is_test": false,
       "imports": [
         "./pokeapi"
@@ -4488,15 +4613,16 @@
       "path": "src/utils/pokemonMeta.ts",
       "role": "util",
       "feature_id": null,
-      "sha256": "9e3297dbb6d5aa7a143631e7df3dbd782e98f1091bdd20ab89611cd25e0eb396",
-      "loc": 27,
+      "sha256": "afd2fc50ae1a09c91dec0af6e20cf42ea8f95db0f172b84071daa1a24e84ca5f",
+      "loc": 36,
       "is_test": false,
       "imports": [
         "../types/pokeapi"
       ],
       "exported_symbols": [
         "getGeneration",
-        "isPseudoLegendary"
+        "isPseudoLegendary",
+        "parseGenerationFromPokeApiUrl"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],

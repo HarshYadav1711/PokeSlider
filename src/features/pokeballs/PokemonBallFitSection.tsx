@@ -6,6 +6,8 @@ import { POKEBALLS } from '../../data/pokeballs';
 import type { CatchStatusMode } from '../../engine/catchRateFormula';
 import { buildBallCatchSnapshot, rankPokeBallsForScenario } from '../../engine/pokeballCatchSnapshot';
 import type { BallBonusContext } from '../../engine/pokeballContextualBonus';
+import type { BallLensPokemonInput } from '../../engine/ballThematicRecommendations';
+import { buildBallLensRecommendations } from '../../engine/ballThematicRecommendations';
 import { estimateMaxHpAtLevel } from '../../engine/pokemonHpEstimate';
 import type { DetailedPokemon } from '../../types/pokemon';
 
@@ -48,6 +50,30 @@ export function PokemonBallFitSection({ pokemon, reducedMotion }: PokemonBallFit
     }),
     [pokemon.types, level, turns, repeatOn],
   );
+
+  const lensInput = useMemo((): BallLensPokemonInput => {
+    const category = pokemon.isLegendary
+      ? 'legendary'
+      : pokemon.isMythical
+        ? 'mythical'
+        : pokemon.isPseudoLegendary
+          ? 'pseudoLegendary'
+          : 'regular';
+    return {
+      types: pokemon.types,
+      speciesCatchRate: pokemon.speciesCatchRate,
+      habitatSlug: pokemon.habitat,
+      genus: pokemon.genus,
+      isLegendary: pokemon.isLegendary,
+      isMythical: pokemon.isMythical,
+      isPseudoLegendary: pokemon.isPseudoLegendary,
+      category,
+      isBaby: pokemon.isBaby,
+      baseStatTotal: pokemon.baseStatTotal,
+    };
+  }, [pokemon]);
+
+  const lensPicks = useMemo(() => buildBallLensRecommendations(lensInput), [lensInput]);
 
   const ranking = useMemo(
     () =>
@@ -199,6 +225,21 @@ export function PokemonBallFitSection({ pokemon, reducedMotion }: PokemonBallFit
                 </div>
               </div>
             ) : null}
+          </div>
+
+          <div className="rounded-xl border border-sky-400/20 bg-sky-500/10 p-4">
+            <p className="text-xs font-bold uppercase tracking-wide text-sky-100/90">
+              Lens picks (thematic + collector angles)
+            </p>
+            <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+              {lensPicks.map((row) => (
+                <li key={row.lens} className="rounded-lg border border-white/10 bg-black/30 p-3 text-sm">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-white/55">{row.lens}</p>
+                  <p className="mt-1 font-semibold text-white">{row.ball.name}</p>
+                  <p className="mt-1 text-xs text-white/72">{row.reasons[0]}</p>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>

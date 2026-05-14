@@ -14,6 +14,13 @@ function fakeSummary(
   return {
     id: partial.id,
     name: partial.name,
+    speciesId: partial.speciesId ?? partial.id,
+    generation: partial.generation ?? 9,
+    habitatSlug: partial.habitatSlug ?? 'unknown',
+    genus: partial.genus ?? null,
+    dexOrder: partial.dexOrder ?? partial.id,
+    isBaby: partial.isBaby ?? false,
+    isDefaultVariety: partial.isDefaultVariety ?? true,
     sprite: null,
     image: null,
     types: partial.types,

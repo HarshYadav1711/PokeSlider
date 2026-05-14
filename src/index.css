@@ -97,8 +97,8 @@
 
   .app-surface-glass {
     background: rgb(12 14 24 / 0.72);
-    backdrop-filter: blur(var(--blur-glass));
     -webkit-backdrop-filter: blur(var(--blur-glass));
+    backdrop-filter: blur(var(--blur-glass));
     box-shadow: var(--shadow-md), var(--shadow-inset-soft);
   }
 

@@ -12,6 +12,7 @@ import { useDexListsStore } from '../../store/dexListsStore';
 import { useDiscoveryRecommendationStore } from '../../store/discoveryRecommendationStore';
 import { useUiStore } from '../../store/uiStore';
 import { useDiscoveryUiStore } from './discoveryUiStore';
+import { DISCOVERY_HABITAT_SLUGS } from './discoveryTypes';
 import { useAbilitySlugListQuery, useMyDexDiscovery, usePokedexSlugListQuery } from './useMyDexDiscovery';
 
 function tabClass(active: boolean): string {
@@ -249,7 +250,7 @@ export function MyDexPanel() {
 
             <details className="mb-3 rounded-2xl border border-white/10 bg-white/5">
               <summary className="app-focus-ring cursor-pointer select-none rounded-[var(--radius-2xl)] px-4 py-3 text-sm font-semibold text-white/92 min-h-12">
-                Filters {tab === 'browse' ? '' : '(browse tab for type, region, ability)'}
+                Filters {tab === 'browse' ? '' : '(browse tab for filters)'}
               </summary>
               <div className="space-y-4 border-t border-white/10 px-3 pb-4 pt-3">
                 {tab === 'browse' ? (
@@ -336,12 +337,64 @@ export function MyDexPanel() {
                         ))}
                       </datalist>
                     </label>
+
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
+                      Habitat
+                      <select
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                        value={filters.habitatSlug ?? ''}
+                        onChange={(e) => setFilters({ habitatSlug: e.target.value || null })}
+                        aria-label="Filter by habitat"
+                      >
+                        <option value="">Any habitat</option>
+                        {DISCOVERY_HABITAT_SLUGS.map((h) => (
+                          <option key={h} value={h}>
+                            {h.replaceAll('-', ' ')}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
+                      Form variant
+                      <select
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                        value={filters.formVariant}
+                        onChange={(e) =>
+                          setFilters({ formVariant: e.target.value as (typeof filters)['formVariant'] })
+                        }
+                        aria-label="Filter default versus alternate forms"
+                      >
+                        <option value="any">Any form</option>
+                        <option value="default_only">Default variety only</option>
+                        <option value="alternate_only">Alternate forms only</option>
+                      </select>
+                    </label>
+
+                    <label className="block text-xs font-semibold uppercase tracking-wide text-white/68">
+                      Battle role (stats)
+                      <select
+                        className="app-focus-ring mt-1 w-full min-h-11 rounded-xl border border-white/15 bg-black/30 px-3 text-sm text-white"
+                        value={filters.battleRole}
+                        onChange={(e) =>
+                          setFilters({ battleRole: e.target.value as (typeof filters)['battleRole'] })
+                        }
+                        aria-label="Filter by inferred battle role"
+                      >
+                        <option value="any">Any role</option>
+                        <option value="physical">Physical</option>
+                        <option value="special">Special</option>
+                        <option value="mixed">Mixed</option>
+                        <option value="wall">Wall</option>
+                        <option value="scout">Scout</option>
+                      </select>
+                    </label>
                   </>
                 ) : (
                   <p className="text-sm text-white/70">
                     Switch to <strong className="text-white">Browse</strong> to filter by type, generation,
-                    regional dex, or ability. Favorites and Recents still respect search and stat / rarity options
-                    below.
+                    regional dex, ability, habitat, form variant, or battle role. Favorites and Recents still respect
+                    search and stat / rarity options below.
                   </p>
                 )}
 

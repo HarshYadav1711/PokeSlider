@@ -61,16 +61,23 @@ export interface FlavorTextEntry {
 }
 
 export interface PokemonSpeciesResponse {
+  id: number;
   flavor_text_entries: FlavorTextEntry[];
   evolution_chain: NamedApiResource;
   evolves_from_species: NamedApiResource | null;
   is_legendary: boolean;
   is_mythical: boolean;
+  is_baby: boolean;
+  /** National Pokédex ordering field from PokéAPI (not always equal to `id`). */
+  order: number;
   /** Species catch rate used in capture formulas (PokéAPI). */
   capture_rate: number;
   habitat: NamedApiResource | null;
+  generation: NamedApiResource | null;
   varieties: { is_default: boolean; pokemon: NamedApiResource }[];
-  /** Localized category line, e.g. "Seed Pokémon" */
+  /** Localized category lines; prefer English `genus` in mappers. */
+  genera?: { genus: string; language: NamedApiResource }[];
+  /** Legacy single-field genus — prefer `genera` when present. */
   genus?: string;
 }
 

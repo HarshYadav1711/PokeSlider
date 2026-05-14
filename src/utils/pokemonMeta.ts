@@ -1,8 +1,17 @@
 import type { PokemonResponse, PokemonSpeciesResponse } from '../types/pokeapi';
 
 const KNOWN_PSEUDO_IDS = new Set<number>([
-  149, 248, 373, 376, 445, 635, 706, 784, 884,
+  149, 248, 373, 376, 445, 635, 706, 784, 884, 998,
 ]);
+
+/** Parse generation id from a PokéAPI `NamedApiResource` URL like `/generation/3/`. */
+export function parseGenerationFromPokeApiUrl(url: string | null | undefined): number | null {
+  if (!url) return null;
+  const m = /\/generation\/(\d+)\/?$/.exec(url);
+  if (!m) return null;
+  const n = Number(m[1]);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
 
 export function isPseudoLegendary(
   pokemon: Pick<PokemonResponse, 'id'>,

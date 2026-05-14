@@ -2,19 +2,31 @@ import type { PokemonListResponse } from '../../types/pokeapi';
 import { pokeFetch } from './client';
 import { parsePokemonIdFromPokeApiUrl } from './resourceIds';
 
-const NATIONAL_DEX_LIMIT = 1025;
+const PAGE_SIZE = 500;
 
 export interface NationalDexRow {
   id: number;
   name: string;
 }
 
+/** Full `/pokemon` index (every canonical form id) — paginated, never eager-loaded as summaries. */
 export async function fetchPokemonNationalIndex(signal?: AbortSignal): Promise<NationalDexRow[]> {
-  const data = await pokeFetch<PokemonListResponse>(`/pokemon?limit=${NATIONAL_DEX_LIMIT}`, { signal });
+  const head = await pokeFetch<PokemonListResponse>('/pokemon?limit=1', { signal });
+  const total = head.count;
   const out: NationalDexRow[] = [];
-  for (const row of data.results) {
-    const id = parsePokemonIdFromPokeApiUrl(row.url);
-    if (id !== null) out.push({ id, name: row.name });
+  let offset = 0;
+  while (offset < total) {
+    if (signal?.aborted) break;
+    const page = await pokeFetch<PokemonListResponse>(
+      `/pokemon?limit=${PAGE_SIZE}&offset=${offset}`,
+      { signal },
+    );
+    for (const row of page.results) {
+      const id = parsePokemonIdFromPokeApiUrl(row.url);
+      if (id !== null) out.push({ id, name: row.name });
+    }
+    offset += page.results.length;
+    if (page.results.length === 0) break;
   }
   return out;
 }

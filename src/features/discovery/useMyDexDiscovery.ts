@@ -205,7 +205,10 @@ export function useMyDexDiscovery() {
     filters.rarity !== 'any' ||
     filters.statMin !== null ||
     filters.statMax !== null ||
-    filters.evolutionStage !== 'any';
+    filters.evolutionStage !== 'any' ||
+    Boolean(filters.habitatSlug) ||
+    filters.formVariant !== 'any' ||
+    filters.battleRole !== 'any';
 
   const batchIds = useMemo(() => {
     const cap = needsHeavySummary ? 220 : 120;
@@ -216,8 +219,18 @@ export function useMyDexDiscovery() {
     () =>
       `${stableBatchKey(batchIds)}|${filters.rarity}|${filters.statMin ?? ''}|${filters.statMax ?? ''}|${
         filters.evolutionStage
-      }|${tab}`,
-    [batchIds, filters.rarity, filters.statMin, filters.statMax, filters.evolutionStage, tab],
+      }|${filters.habitatSlug ?? ''}|${filters.formVariant}|${filters.battleRole}|${tab}`,
+    [
+      batchIds,
+      filters.rarity,
+      filters.statMin,
+      filters.statMax,
+      filters.evolutionStage,
+      filters.habitatSlug,
+      filters.formVariant,
+      filters.battleRole,
+      tab,
+    ],
   );
 
   const enrichmentQuery = useQuery({
@@ -249,10 +262,11 @@ export function useMyDexDiscovery() {
 
       let priorMap: Map<number, boolean> | null = null;
       if (filters.evolutionStage !== 'any') {
+        const speciesKeys = [...new Set(summaries.map((s) => s.speciesId))].sort((a, b) => a - b);
         priorMap = await qc.fetchQuery({
-          queryKey: qk.pokemon.speciesPriorBatch(stableBatchKey(batchIds)),
+          queryKey: qk.pokemon.speciesPriorBatch(stableBatchKey(speciesKeys)),
           queryFn: ({ signal: s }) =>
-            fetchSpeciesPriorEvolutionMap(batchIds, AbortSignal.any([signal, s])),
+            fetchSpeciesPriorEvolutionMap(speciesKeys, AbortSignal.any([signal, s])),
           staleTime: STALE_SPECIES_PRIOR_MS,
           gcTime: 1000 * 60 * 60 * 24,
         });

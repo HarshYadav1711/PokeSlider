@@ -26,6 +26,7 @@ import type {
   PokemonTypeName,
 } from '../../types/pokemon';
 import { PokemonLoreSection } from '../lore/PokemonLoreSection';
+import { pokeSlugDisplay } from '../lore/pokemonLoreViewModel';
 import { PokemonBallFitSection } from '../pokeballs/PokemonBallFitSection';
 import { PokemonEvolutionTimeline } from './PokemonEvolutionTimeline';
 
@@ -210,7 +211,8 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
           </div>
           <div className="rounded-xl border border-white/20 bg-white/10 p-3 text-sm text-white/90">
             <strong>Category:</strong> {categoryLabel} | <strong>Generation:</strong> {pokemon.generation} |{' '}
-            <strong>Habitat:</strong> {pokemon.habitat}
+            <strong>Habitat:</strong>{' '}
+            {pokemon.habitat === 'unknown' ? 'Unknown' : pokeSlugDisplay(pokemon.habitat)}
           </div>
         </div>
       </div>

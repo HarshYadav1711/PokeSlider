@@ -46,7 +46,7 @@ export function SoundscapeControls() {
       <button
         type="button"
         className="app-focus-ring rounded-full border border-emerald-400/35 bg-emerald-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-emerald-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-emerald-500/25"
-        aria-expanded={open ? 'true' : 'false'}
+        aria-expanded={open}
         aria-controls={open ? panelId : undefined}
         aria-describedby={`${panelId}-hint`}
         onClick={() => setSettingsPanelOpen(!open)}

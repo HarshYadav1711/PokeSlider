@@ -4,9 +4,10 @@ import type {
   PokemonSpeciesResponse,
 } from '../../types/pokeapi';
 import type { DetailedPokemon, PokemonStatRow, PokemonTypeName } from '../../types/pokemon';
-import { getGeneration, isPseudoLegendary } from '../../utils/pokemonMeta';
+import { getGeneration, isPseudoLegendary, parseGenerationFromPokeApiUrl } from '../../utils/pokemonMeta';
 import { getOfficialCryUrl, pokeFetch, pokePathFromResourceUrl } from './client';
 import { pickEnglishFlavorText } from './evolutionSpeciesLore';
+import { pickEnglishGenus } from './mapSummary';
 import { fetchMegaEvolutions } from './mega';
 import { fetchPokemonLocations } from './locations';
 
@@ -68,6 +69,7 @@ export async function fetchDetailedPokemon(
 
     const baseStatTotal = data.stats.reduce((sum, stat) => sum + stat.base_stat, 0);
     const pseudo = isPseudoLegendary(data, speciesData, baseStatTotal);
+    const speciesId = typeof speciesData.id === 'number' && speciesData.id > 0 ? speciesData.id : data.id;
 
     let cryUrl: string | null = null;
     if (data.cries) {
@@ -82,10 +84,11 @@ export async function fetchDetailedPokemon(
 
     const pokemon: DetailedPokemon = {
       id: data.id,
+      speciesId,
       name: data.name,
       image:
         data.sprites.other?.['official-artwork']?.front_default ??
-        data.sprites.other?.home?.front_default ??
+        data.sprites.other?.['home']?.front_default ??
         data.sprites.front_default,
       types: mapTypes(data.types),
       stats: mapStats(data.stats),
@@ -98,8 +101,10 @@ export async function fetchDetailedPokemon(
       isMythical: speciesData.is_mythical,
       isPseudoLegendary: pseudo,
       locations,
-      generation: getGeneration(data.id),
-      habitat: speciesData.habitat?.name ?? 'Unknown',
+      generation: parseGenerationFromPokeApiUrl(speciesData.generation?.url) ?? getGeneration(data.id),
+      habitat: (speciesData.habitat?.name ?? 'unknown').toLowerCase(),
+      genus: pickEnglishGenus(speciesData),
+      isBaby: Boolean(speciesData.is_baby),
       megaEvolutions,
       cryUrl,
     };

@@ -1,6 +1,7 @@
 import type { PokemonSpeciesResponse } from '../../types/pokeapi';
 import { pokeFetch } from './client';
 
+/** Map keyed by PokéAPI `pokemon-species` id → whether the species evolves from another species. */
 export async function fetchSpeciesHasPriorEvolution(
   speciesId: number,
   signal?: AbortSignal,

@@ -340,6 +340,9 @@ export function TeamBuilderModal() {
                     <ul className="mt-4 space-y-4">
                       {result.team.map((m, idx) => {
                         const explain = result.picks[idx];
+                        const isLocked = lockedIds.includes(m.id);
+                        const lockToggleClass =
+                          'app-focus-ring shrink-0 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10';
                         return (
                           <li key={m.id} className="rounded-2xl border border-white/10 bg-black/25 p-4 transition-colors">
                             <div className="flex flex-wrap items-start gap-4">
@@ -384,14 +387,25 @@ export function TeamBuilderModal() {
                                   </details>
                                 ) : null}
                               </div>
-                              <button
-                                type="button"
-                                className="app-focus-ring shrink-0 rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white hover:bg-white/10"
-                                onClick={() => toggleLock(m.id)}
-                                aria-pressed={lockedIds.includes(m.id)}
-                              >
-                                {lockedIds.includes(m.id) ? 'Unlock' : 'Lock pick'}
-                              </button>
+                              {isLocked ? (
+                                <button
+                                  type="button"
+                                  className={lockToggleClass}
+                                  onClick={() => toggleLock(m.id)}
+                                  aria-pressed="true"
+                                >
+                                  Unlock
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className={lockToggleClass}
+                                  onClick={() => toggleLock(m.id)}
+                                  aria-pressed="false"
+                                >
+                                  Lock pick
+                                </button>
+                              )}
                             </div>
                           </li>
                         );

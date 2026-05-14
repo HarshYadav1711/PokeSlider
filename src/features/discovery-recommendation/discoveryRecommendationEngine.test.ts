@@ -13,6 +13,13 @@ import { regionKeysToGenerationIds } from './regionToGeneration';
 
 function fakeSummary(partial: Partial<PokemonSummary> & Pick<PokemonSummary, 'id' | 'name'>): PokemonSummary {
   return {
+    speciesId: partial.speciesId ?? partial.id,
+    generation: partial.generation ?? 9,
+    habitatSlug: partial.habitatSlug ?? 'unknown',
+    genus: partial.genus ?? null,
+    dexOrder: partial.dexOrder ?? partial.id,
+    isBaby: partial.isBaby ?? false,
+    isDefaultVariety: partial.isDefaultVariety ?? true,
     sprite: null,
     image: null,
     types: ['normal'],

@@ -34,8 +34,22 @@ export interface PokemonBaseStats {
 
 /** Lightweight index row used for grids + ball suggestions */
 export interface PokemonSummary {
+  /** `/pokemon/{id}` identity — unique per form / regional / mega resource. */
   id: number;
   name: string;
+  /** Shared `/pokemon-species/{id}` identity for all varieties of a species. */
+  speciesId: number;
+  /** Main-series generation (1–9) from species `generation` resource. */
+  generation: number;
+  /** PokéAPI habitat resource name, or `unknown`. */
+  habitatSlug: string;
+  /** English species genus line, e.g. "Seed Pokémon", when available. */
+  genus: string | null;
+  /** Species `order` field (national dex ordering helper). */
+  dexOrder: number;
+  isBaby: boolean;
+  /** True when this resource is the species default variety. */
+  isDefaultVariety: boolean;
   sprite: string | null;
   image: string | null;
   types: PokemonTypeName[];
@@ -77,6 +91,7 @@ export interface MegaFormSummary {
 
 export interface DetailedPokemon {
   id: number;
+  speciesId: number;
   name: string;
   image: string | null;
   types: PokemonTypeName[];
@@ -93,7 +108,11 @@ export interface DetailedPokemon {
   isPseudoLegendary: boolean;
   locations: PokemonEncounterLocation[];
   generation: number;
+  /** PokéAPI habitat slug, or `unknown`. */
   habitat: string;
+  /** English species genus line when available. */
+  genus: string | null;
+  isBaby: boolean;
   megaEvolutions: MegaFormSummary[];
   cryUrl: string | null;
 }
