@@ -6,6 +6,7 @@ import type {
 import type { DetailedPokemon, PokemonStatRow, PokemonTypeName } from '../../types/pokemon';
 import { getGeneration, isPseudoLegendary } from '../../utils/pokemonMeta';
 import { getOfficialCryUrl, pokeFetch, pokePathFromResourceUrl } from './client';
+import { pickEnglishFlavorText } from './evolutionSpeciesLore';
 import { fetchMegaEvolutions } from './mega';
 import { fetchPokemonLocations } from './locations';
 
@@ -77,6 +78,7 @@ export async function fetchDetailedPokemon(
     const pokedexEntries = speciesData.flavor_text_entries
       .filter((entry) => entry.language.name === 'en')
       .map((entry) => entry.flavor_text.replaceAll('\f', ' '));
+    const primaryPokedexFlavor = pickEnglishFlavorText(speciesData.flavor_text_entries);
 
     const pokemon: DetailedPokemon = {
       id: data.id,
@@ -89,6 +91,7 @@ export async function fetchDetailedPokemon(
       stats: mapStats(data.stats),
       baseStatTotal,
       pokedexEntries,
+      primaryPokedexFlavor,
       evolutionData,
       isLegendary: speciesData.is_legendary,
       isMythical: speciesData.is_mythical,

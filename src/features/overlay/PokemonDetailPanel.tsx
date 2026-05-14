@@ -24,6 +24,7 @@ import type {
   PokemonEncounterLocation,
   PokemonTypeName,
 } from '../../types/pokemon';
+import { PokemonLoreSection } from '../lore/PokemonLoreSection';
 import { PokemonEvolutionTimeline } from './PokemonEvolutionTimeline';
 
 interface PokemonDetailPanelProps {
@@ -199,10 +200,14 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
         </div>
       </div>
 
-      <section className="rounded-2xl border-l-4 border-white/30 bg-white/10 p-6 backdrop-blur-md">
-        <h3 className="mb-3 text-xl font-bold text-white">Pokédex Entry</h3>
-        <p className="leading-relaxed text-white/95">{pokemon.pokedexEntries[0] ?? 'No description available.'}</p>
-      </section>
+      <PokemonLoreSection
+        pokemon={pokemon}
+        timelineStages={timelineStages}
+        extrasPending={extrasQuery.isPending}
+        extrasError={extrasQuery.isError}
+        reduced={reduced}
+        onOpenSpecies={(id) => showPokemon(id)}
+      />
 
       <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
         <h3 className="mb-4 text-xl font-bold text-white">Base Stats</h3>

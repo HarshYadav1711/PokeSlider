@@ -1,321 +1,80 @@
 {
-  "generated_at": "2026-05-14T17:51:18.148655Z",
-  "git_commit": "3aa78814fbf60c833eee7fb2d0115456b31d1cb0",
+  "generated_at": "2026-05-14T18:47:17.480620Z",
+  "git_commit": "d5361ed66da96eeb73bb40e8ad0d7617a09c958f",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/features/region-explorer/RegionExplorerAmbient.tsx",
+      "path": "src/features/lore/LoreDocumentCard.tsx",
       "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "c674f9bc068907e0c52602a0213cc4857bb391b80ee972d434e78358f08c7862",
-      "loc": 39,
-      "is_test": false,
-      "imports": [
-        "./regionExplorerAmbient.css",
-        "react"
-      ],
-      "exported_symbols": [
-        "RegionExplorerAmbient"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/RegionExplorerMap.tsx",
-      "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "6b50b029282f5e0fdbc75a7f4d1034503ff2752688836ebf64e38b6d640d3f45",
-      "loc": 153,
-      "is_test": false,
-      "imports": [
-        "react",
-        "./data/regionTypes"
-      ],
-      "exported_symbols": [
-        "RegionExplorerMap"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/RegionExplorerModal.tsx",
-      "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "2916a855bab7201a5bc43bc45ef8a4e4895b71e06cd8cd408b150f143936961b",
-      "loc": 200,
+      "feature_id": "lore",
+      "sha256": "54b81411dd624a3593d4557da1b40b08f8cc25f9bb098b1a93f328aa5716429b",
+      "loc": 68,
       "is_test": false,
       "imports": [
         "motion/react",
         "react",
-        "../../a11y/useFocusTrap",
-        "../../hooks/usePrefersReducedMotion",
-        "../../motion/motionPrefs",
-        "../../store/regionExplorerStore",
-        "../../store/uiStore",
-        "./data/regions",
-        "./RegionExplorerAmbient",
-        "./RegionExplorerMap",
-        "./RegionExplorerPokemonRow",
-        "./RegionExplorerSelector",
-        "./useRegionExplorerPokemon"
+        "./pokemonLoreViewModel"
       ],
       "exported_symbols": [
-        "default:RegionExplorerModal"
+        "LoreDocumentCard",
+        "LoreDocumentCardProps"
       ],
-      "referenced_stores": [
-        "useRegionExplorerStore",
-        "useUiStore"
-      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/RegionExplorerPokemonRow.tsx",
+      "path": "src/features/lore/LoreProgressiveReveal.tsx",
       "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "47297bbfbfd77ef01f6b5944f8653f1b261265d638608139886cef11eda27b0d",
-      "loc": 69,
+      "feature_id": "lore",
+      "sha256": "9c1b288090bf13371a103b67d106e1b45ff05e5929eaa8bfcb77b7aa0d2281a1",
+      "loc": 74,
       "is_test": false,
       "imports": [
+        "motion/react",
+        "react"
+      ],
+      "exported_symbols": [
+        "LoreProgressiveReveal",
+        "LoreProgressiveRevealProps"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/PokemonLoreSection.tsx",
+      "role": "component",
+      "feature_id": "lore",
+      "sha256": "c9aae0b091edb763c35d4e25cdeae380393df4f74d25f436f2a2c47306796dff",
+      "loc": 241,
+      "is_test": false,
+      "imports": [
+        "motion/react",
         "react",
+        "../../components/ui/PanelSkeletons",
         "../../types/pokemon",
-        "../journey/journeySpriteUrl"
+        "./LoreDocumentCard",
+        "./LoreProgressiveReveal",
+        "./pokemonLoreViewModel",
+        "./pokemonLoreSection.css"
       ],
       "exported_symbols": [
-        "RegionExplorerPokemonRow"
+        "PokemonLoreSection",
+        "PokemonLoreSectionProps"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/RegionExplorerSelector.tsx",
-      "role": "component",
-      "feature_id": "region_explorer",
-      "sha256": "c4900a8ddc92e0207e537e9bb4dd3731451e43c52fdd0d4e007dbaa96f534449",
-      "loc": 59,
-      "is_test": false,
-      "imports": [
-        "react",
-        "./data/regionTypes"
-      ],
-      "exported_symbols": [
-        "RegionExplorerSelector"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regionTypes.ts",
-      "role": "types",
-      "feature_id": "region_explorer",
-      "sha256": "efa8efc6271533752fd78a26c9d3d9ac0cc91a9f1debd3b3e8f69e7015b631fc",
-      "loc": 48,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "REGION_IDS",
-        "RegionAtmosphere",
-        "RegionDefinition",
-        "RegionHabitat",
-        "RegionId",
-        "RegionRoute"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/alola.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "c2537d29797b53a0f1bc173fa80fa4023c1f587ea6b29411372d8fb7928ecbd9",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "ALOLA"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/galar.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "f8c34d6ec5187bb467963c862fafbe4540a3f458ceb3acaf602b9b8186b90baa",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "GALAR"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/hoenn.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "71ceae2bca609ac581ff37595c8e11702d1dd8e3c80219d4e9eb43bbe6b25845",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "HOENN"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/index.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "d9199f7e9aeae1c6e63ab237ef2fe62d03a232d999fc9f0b24626eb7c4695295",
-      "loc": 39,
-      "is_test": false,
-      "imports": [
-        "../regionTypes",
-        "./alola",
-        "./galar",
-        "./hoenn",
-        "./johto",
-        "./kalos",
-        "./kanto",
-        "./paldea",
-        "./sinnoh",
-        "./unova"
-      ],
-      "exported_symbols": [
-        "REGIONS",
-        "getRegionDefinition"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/johto.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "3a1c583e03449e3ffdb0c3b211e1c61a23ac7fa079c99bfead4424a7fba17e76",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "JOHTO"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/kalos.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "c251e1977c095cb8e926addccee3af8295c566928c511ecb2a8b6d0687905067",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "KALOS"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/kanto.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "9efdfd0cf9fd38671a0b1b236f55dbaf97a4a2754149b653eda085673739a228",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "KANTO"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/paldea.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "61a85e1d2e664e7aa835529e50e771692dce8293ed80c7207febdb73ec0c87cf",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "PALDEA"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/sinnoh.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "2ece7f7ec6e408f111bbd987b17a68671960a641c403e49d48ab5aa42369e09d",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "SINNOH"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/data/regions/unova.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "6f77486192e9b0881554c6e36c47d8d8d51f426f75ec14780fdebc12ea09115a",
-      "loc": 66,
-      "is_test": false,
-      "imports": [
-        "../regionTypes"
-      ],
-      "exported_symbols": [
-        "UNOVA"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/regionExplorerAmbient.css",
+      "path": "src/features/lore/pokemonLoreSection.css",
       "role": "style",
-      "feature_id": "region_explorer",
-      "sha256": "2628de3a6d6b0f2f8916c580a7bd6b511854f92aabc74eeb9de3ee4e53ced94d",
-      "loc": 38,
+      "feature_id": "lore",
+      "sha256": "21c01b9b5a15319ea1de7ad5382a04aafde80d9cab1a1d9ec1229ec586a20a1b",
+      "loc": 11,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -324,15 +83,16 @@
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/regionExplorerDiscovery.test.ts",
+      "path": "src/features/lore/pokemonLoreViewModel.test.ts",
       "role": "test",
-      "feature_id": "region_explorer",
-      "sha256": "8dc50a8bdbfa8f2ded07069e1f05bf6caa126ed9575a4861fbb5087badb82cd3",
-      "loc": 25,
+      "feature_id": "lore",
+      "sha256": "adf9bd4702f1ee575532eee041e7f251e493d38af0f951f8cd2443810735a15f",
+      "loc": 63,
       "is_test": true,
       "imports": [
         "vitest",
-        "./regionExplorerDiscovery"
+        "../../types/pokemon",
+        "./pokemonLoreViewModel"
       ],
       "exported_symbols": [],
       "referenced_stores": [],
@@ -340,65 +100,30 @@
       "parser_ok": true
     },
     {
-      "path": "src/features/region-explorer/regionExplorerDiscovery.ts",
+      "path": "src/features/lore/pokemonLoreViewModel.ts",
       "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "5699ea03769237530577e5a7ff8ef4fe1df845611c88e711d747953cd91bd3c1",
-      "loc": 38,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "fnv1a32",
-        "seededSampleUniqueIds"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/region-explorer/useRegionExplorerPokemon.ts",
-      "role": "util",
-      "feature_id": "region_explorer",
-      "sha256": "a86e89c2811b19c996a5e09b75ff6c6f41f3e2474175501eaf11648273f240a6",
-      "loc": 68,
+      "feature_id": "lore",
+      "sha256": "5a8a72453c212f59a8ee14c8aaac429eced641904f2c7d0485605f9e3489b8bc",
+      "loc": 248,
       "is_test": false,
       "imports": [
-        "@tanstack/react-query",
-        "react",
-        "../../query/keys",
-        "../../query/staleTimes",
-        "../../services/pokeapi/generation",
-        "../../services/pokeapi/pokemonSummary",
-        "../../types/pokemon",
-        "./data/regionTypes",
-        "./regionExplorerDiscovery"
+        "../../types/pokemon"
       ],
       "exported_symbols": [
-        "useRegionExplorerPokemon"
+        "LoreCardTone",
+        "LoreTimelineBeat",
+        "PokemonLoreViewModel",
+        "buildEvolutionStory",
+        "buildMythologyInspirationLines",
+        "buildPokemonLoreViewModel",
+        "buildRegionalLoreLine",
+        "buildTimelineBeats",
+        "findDirectChildStages",
+        "findParentStage",
+        "flavorToParagraphs",
+        "pokeSlugDisplay"
       ],
       "referenced_stores": [],
-      "referenced_query_keys": [
-        "pokemon"
-      ],
-      "parser_ok": true
-    },
-    {
-      "path": "src/store/regionExplorerStore.ts",
-      "role": "store",
-      "feature_id": null,
-      "sha256": "0e05d98aa13ce68dac9cee0dcc6707bedcedb8fb56f941a5f253e05070bbf6b6",
-      "loc": 21,
-      "is_test": false,
-      "imports": [
-        "zustand",
-        "../features/region-explorer/data/regionTypes"
-      ],
-      "exported_symbols": [
-        "useRegionExplorerStore"
-      ],
-      "referenced_stores": [
-        "useRegionExplorerStore"
-      ],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -475,7 +200,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "a204d50f85f7a6f78f27f6fbe88a10387edd415941aa3e52fedc37234f133d0f",
+      "sha256": "3a5bf5c28090591907e6b32b79976d01dce2937cec95620c4ecf626f9e143e50",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -553,7 +278,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "92ecd55d773ffd76af3998a807e6b585546a3e52d8835103e8b22debdd82f28d",
+      "sha256": "16c3c62ec277b519e16fa49aae329e8d6c6dd162223563e280296fd4e68e0307",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -631,8 +356,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "e4832c7af601a303b578998a478ee2d6dfa68f9b6fabdcda915a394989da5f18",
-      "loc": 2939,
+      "sha256": "dba4fe075e5a5971651f83ea83e0a658484e4d5129876a8c7c1d46b60535a498",
+      "loc": 3341,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -1896,8 +1621,8 @@
       "path": "src/features/overlay/PokemonDetailPanel.tsx",
       "role": "overlay",
       "feature_id": "overlay",
-      "sha256": "891336cfafcde7a013d6f113dfd9ba4f0e212d10904bfdfdcc5b0eeb10d7ec8b",
-      "loc": 447,
+      "sha256": "f3301bb29759d451170fa7147d3ca811ba7b3c085cb939323d388900a54a9c83",
+      "loc": 452,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1919,6 +1644,7 @@
         "../../store/dexListsStore",
         "../../store/uiStore",
         "../../types/pokemon",
+        "../lore/PokemonLoreSection",
         "./PokemonEvolutionTimeline"
       ],
       "exported_symbols": [
@@ -1955,6 +1681,383 @@
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerAmbient.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "c674f9bc068907e0c52602a0213cc4857bb391b80ee972d434e78358f08c7862",
+      "loc": 39,
+      "is_test": false,
+      "imports": [
+        "./regionExplorerAmbient.css",
+        "react"
+      ],
+      "exported_symbols": [
+        "RegionExplorerAmbient"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerMap.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "6b50b029282f5e0fdbc75a7f4d1034503ff2752688836ebf64e38b6d640d3f45",
+      "loc": 153,
+      "is_test": false,
+      "imports": [
+        "react",
+        "./data/regionTypes"
+      ],
+      "exported_symbols": [
+        "RegionExplorerMap"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerModal.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "2916a855bab7201a5bc43bc45ef8a4e4895b71e06cd8cd408b150f143936961b",
+      "loc": 200,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../a11y/useFocusTrap",
+        "../../hooks/usePrefersReducedMotion",
+        "../../motion/motionPrefs",
+        "../../store/regionExplorerStore",
+        "../../store/uiStore",
+        "./data/regions",
+        "./RegionExplorerAmbient",
+        "./RegionExplorerMap",
+        "./RegionExplorerPokemonRow",
+        "./RegionExplorerSelector",
+        "./useRegionExplorerPokemon"
+      ],
+      "exported_symbols": [
+        "default:RegionExplorerModal"
+      ],
+      "referenced_stores": [
+        "useRegionExplorerStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerPokemonRow.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "47297bbfbfd77ef01f6b5944f8653f1b261265d638608139886cef11eda27b0d",
+      "loc": 69,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../types/pokemon",
+        "../journey/journeySpriteUrl"
+      ],
+      "exported_symbols": [
+        "RegionExplorerPokemonRow"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerSelector.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "c4900a8ddc92e0207e537e9bb4dd3731451e43c52fdd0d4e007dbaa96f534449",
+      "loc": 59,
+      "is_test": false,
+      "imports": [
+        "react",
+        "./data/regionTypes"
+      ],
+      "exported_symbols": [
+        "RegionExplorerSelector"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regionTypes.ts",
+      "role": "types",
+      "feature_id": "region_explorer",
+      "sha256": "efa8efc6271533752fd78a26c9d3d9ac0cc91a9f1debd3b3e8f69e7015b631fc",
+      "loc": 48,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "REGION_IDS",
+        "RegionAtmosphere",
+        "RegionDefinition",
+        "RegionHabitat",
+        "RegionId",
+        "RegionRoute"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/alola.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "c2537d29797b53a0f1bc173fa80fa4023c1f587ea6b29411372d8fb7928ecbd9",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "ALOLA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/galar.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "f8c34d6ec5187bb467963c862fafbe4540a3f458ceb3acaf602b9b8186b90baa",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "GALAR"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/hoenn.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "71ceae2bca609ac581ff37595c8e11702d1dd8e3c80219d4e9eb43bbe6b25845",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "HOENN"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/index.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "d9199f7e9aeae1c6e63ab237ef2fe62d03a232d999fc9f0b24626eb7c4695295",
+      "loc": 39,
+      "is_test": false,
+      "imports": [
+        "../regionTypes",
+        "./alola",
+        "./galar",
+        "./hoenn",
+        "./johto",
+        "./kalos",
+        "./kanto",
+        "./paldea",
+        "./sinnoh",
+        "./unova"
+      ],
+      "exported_symbols": [
+        "REGIONS",
+        "getRegionDefinition"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/johto.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "3a1c583e03449e3ffdb0c3b211e1c61a23ac7fa079c99bfead4424a7fba17e76",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "JOHTO"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/kalos.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "c251e1977c095cb8e926addccee3af8295c566928c511ecb2a8b6d0687905067",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "KALOS"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/kanto.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "9efdfd0cf9fd38671a0b1b236f55dbaf97a4a2754149b653eda085673739a228",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "KANTO"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/paldea.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "61a85e1d2e664e7aa835529e50e771692dce8293ed80c7207febdb73ec0c87cf",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "PALDEA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/sinnoh.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "2ece7f7ec6e408f111bbd987b17a68671960a641c403e49d48ab5aa42369e09d",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "SINNOH"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/unova.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "6f77486192e9b0881554c6e36c47d8d8d51f426f75ec14780fdebc12ea09115a",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "UNOVA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionExplorerAmbient.css",
+      "role": "style",
+      "feature_id": "region_explorer",
+      "sha256": "2628de3a6d6b0f2f8916c580a7bd6b511854f92aabc74eeb9de3ee4e53ced94d",
+      "loc": 38,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionExplorerDiscovery.test.ts",
+      "role": "test",
+      "feature_id": "region_explorer",
+      "sha256": "8dc50a8bdbfa8f2ded07069e1f05bf6caa126ed9575a4861fbb5087badb82cd3",
+      "loc": 25,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./regionExplorerDiscovery"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionExplorerDiscovery.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "5699ea03769237530577e5a7ff8ef4fe1df845611c88e711d747953cd91bd3c1",
+      "loc": 38,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "fnv1a32",
+        "seededSampleUniqueIds"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/useRegionExplorerPokemon.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "a86e89c2811b19c996a5e09b75ff6c6f41f3e2474175501eaf11648273f240a6",
+      "loc": 68,
+      "is_test": false,
+      "imports": [
+        "@tanstack/react-query",
+        "react",
+        "../../query/keys",
+        "../../query/staleTimes",
+        "../../services/pokeapi/generation",
+        "../../services/pokeapi/pokemonSummary",
+        "../../types/pokemon",
+        "./data/regionTypes",
+        "./regionExplorerDiscovery"
+      ],
+      "exported_symbols": [
+        "useRegionExplorerPokemon"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [
+        "pokemon"
+      ],
       "parser_ok": true
     },
     {
@@ -2542,14 +2645,15 @@
       "path": "src/services/pokeapi/detailedPokemon.ts",
       "role": "service",
       "feature_id": null,
-      "sha256": "b12addc0da9f5d97df08ea031197482da3238a4e669f6e4faf2092953fe0f9b9",
-      "loc": 107,
+      "sha256": "1d6c8d9ae493dfe3ddb8a7d3ab43931b80edddcecb78e35c9dce7ce03b0e2517",
+      "loc": 110,
       "is_test": false,
       "imports": [
         "../../types/pokeapi",
         "../../types/pokemon",
         "../../utils/pokemonMeta",
         "./client",
+        "./evolutionSpeciesLore",
         "./mega",
         "./locations"
       ],
@@ -3016,6 +3120,26 @@
       "parser_ok": true
     },
     {
+      "path": "src/store/regionExplorerStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "0e05d98aa13ce68dac9cee0dcc6707bedcedb8fb56f941a5f253e05070bbf6b6",
+      "loc": 21,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "../features/region-explorer/data/regionTypes"
+      ],
+      "exported_symbols": [
+        "useRegionExplorerStore"
+      ],
+      "referenced_stores": [
+        "useRegionExplorerStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/store/teamBuilderStore.ts",
       "role": "store",
       "feature_id": null,
@@ -3137,8 +3261,8 @@
       "path": "src/types/pokemon.ts",
       "role": "types",
       "feature_id": null,
-      "sha256": "c2ed7478bba04228e9040c9a942a82f63141167479a6fa7a0cb607ae4d39ca16",
-      "loc": 145,
+      "sha256": "9cc17c22a7b46b23018a1e257f794def41f155c0f0d206831f7e71dff3a7c935",
+      "loc": 147,
       "is_test": false,
       "imports": [
         "./pokeapi"

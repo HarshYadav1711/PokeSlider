@@ -81,6 +81,8 @@ export interface DetailedPokemon {
   stats: PokemonStatRow[];
   baseStatTotal: number;
   pokedexEntries: string[];
+  /** Best English flavor line (version-priority), cleaned for UI. */
+  primaryPokedexFlavor: string;
   evolutionData: EvolutionChainResponse;
   isLegendary: boolean;
   isMythical: boolean;

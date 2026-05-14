@@ -1,0 +1,11 @@
+/* Subtle paper grain for lore codex — lightweight, no extra paints per frame */
+.pokemon-lore-section {
+  background-image: radial-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pokemon-lore-section {
+    background-image: none;
+  }
+}
