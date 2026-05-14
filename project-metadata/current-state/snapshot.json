@@ -1,229 +1,154 @@
 {
-  "generated_at": "2026-05-14T19:01:32.779966Z",
-  "git_commit": "43bdcae3cb31325bcece802c2006a9b8b6b81c3a",
+  "generated_at": "2026-05-14T19:08:07.295256Z",
+  "git_commit": "6553cf5df0dc5aef921c35608ac6ab9b35d5809d",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/audio/evolutionSoundPulse.test.ts",
-      "role": "test",
-      "feature_id": null,
-      "sha256": "d89b2cc520dff807df3811220162b7e5b5980916613c1c498dfca37d74393a80",
-      "loc": 12,
-      "is_test": true,
-      "imports": [
-        "vitest",
-        "./evolutionSoundPulse"
-      ],
-      "exported_symbols": [],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/evolutionSoundPulse.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "9689ff08b31f947419300669379aeda42e7f7c1cebe884f66fa26cdb74597d53",
-      "loc": 15,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "evolutionPulseLinear01",
-        "triggerEvolutionSoundPulse"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeAssetLoader.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "f514d8c2444c3b5873c21e482ecef468d1f353d385b4b80df8b4395f96690888",
-      "loc": 28,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "clearAmbientBufferCache",
-        "loadAmbientBuffer"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeAssetRegistry.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "c7b114f142073d0d643ee415dfd30b0f4be2aba3303ae7e5108d776f8bfce9ed",
-      "loc": 10,
-      "is_test": false,
-      "imports": [
-        "../features/region-explorer/data/regionTypes",
-        "../types/pokemon"
-      ],
-      "exported_symbols": [
-        "SOUNDSCAPE_OPTIONAL_REGION_LOOPS",
-        "SOUNDSCAPE_OPTIONAL_TYPE_LOOPS"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeEngine.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "afc90e5e537532ddb1366804a9e531191c765109581605001ac190c8d251cac4",
-      "loc": 416,
-      "is_test": false,
-      "imports": [
-        "./evolutionSoundPulse",
-        "./soundscapeTypeProfile",
-        "./soundscapeTypes"
-      ],
-      "exported_symbols": [
-        "SoundscapeEngine"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeTypeProfile.test.ts",
-      "role": "test",
-      "feature_id": null,
-      "sha256": "7e341263fdf033b530bd70120263fa84ef6f1a85b209a9e18fe0063025306b0a",
-      "loc": 15,
-      "is_test": true,
-      "imports": [
-        "vitest",
-        "./soundscapeTypeProfile"
-      ],
-      "exported_symbols": [],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeTypeProfile.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "cd3bc1e2f8fd8c0f4d52286f13c0464ded87fc7904339e0b4e50fbac799aad1d",
-      "loc": 28,
-      "is_test": false,
-      "imports": [
-        "../types/pokemon"
-      ],
-      "exported_symbols": [
-        "TYPE_CARRIER_HZ",
-        "typeCarrierHz"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/audio/soundscapeTypes.ts",
-      "role": "types",
-      "feature_id": null,
-      "sha256": "ec41e17703bcb7566ec2730cd0c025ef2421345b16e7e789c8af2c1b52dea7a1",
-      "loc": 32,
-      "is_test": false,
-      "imports": [
-        "../features/region-explorer/data/regionTypes",
-        "../types/pokemon"
-      ],
-      "exported_symbols": [
-        "SoundscapeDriverState",
-        "SoundscapeLayerToggles",
-        "SoundscapeScene"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/soundscape/SoundscapeControls.tsx",
-      "role": "component",
-      "feature_id": "soundscape",
-      "sha256": "7ac844bda58ffa7828c34a8b9a2ce97206f15e3ba3304159fc321f75a926b66a",
-      "loc": 182,
-      "is_test": false,
-      "imports": [
-        "react",
-        "../../store/soundscapeStore"
-      ],
-      "exported_symbols": [
-        "SoundscapeControls"
-      ],
-      "referenced_stores": [
-        "useSoundscapeStore"
-      ],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/soundscape/SoundscapeOrchestrator.tsx",
-      "role": "component",
-      "feature_id": "soundscape",
-      "sha256": "1a72e3a1fea3eef8866338b39142a940a014caa546c90611ebf31b7c42bf5a56",
-      "loc": 147,
-      "is_test": false,
-      "imports": [
-        "@tanstack/react-query",
-        "react",
-        "../../audio/soundscapeEngine",
-        "../../audio/soundscapeTypes",
-        "../discovery/discoveryUiStore",
-        "../../hooks/usePrefersReducedMotion",
-        "../../query/keys",
-        "../../query/staleTimes",
-        "../../services/pokeapi/detailedPokemon",
-        "../../store/battleSimulatorStore",
-        "../../store/comparisonStore",
-        "../../store/regionExplorerStore",
-        "../../store/soundscapeStore",
-        "../../store/teamBuilderStore",
-        "../../store/uiStore"
-      ],
-      "exported_symbols": [
-        "SoundscapeOrchestrator"
-      ],
-      "referenced_stores": [
-        "useBattleSimulatorStore",
-        "useComparisonStore",
-        "useDiscoveryUiStore",
-        "useRegionExplorerStore",
-        "useSoundscapeStore",
-        "useTeamBuilderStore",
-        "useUiStore"
-      ],
-      "referenced_query_keys": [
-        "pokemon"
-      ],
-      "parser_ok": true
-    },
-    {
-      "path": "src/store/soundscapeStore.ts",
+      "path": "src/store/atmosphereThemeStore.ts",
       "role": "store",
       "feature_id": null,
-      "sha256": "94b970cb7dfde4bd54424353969e0b663969140c6fae1f96e15b323515d6f898",
-      "loc": 70,
+      "sha256": "8a2d80890f5a75d3a52a086399fd83142004d2487ad70cc403fb074268c6bb07",
+      "loc": 28,
       "is_test": false,
       "imports": [
         "zustand",
-        "zustand/middleware",
-        "../audio/soundscapeTypes"
+        "../theme/timeOfDay"
       ],
       "exported_symbols": [
-        "useSoundscapeStore"
+        "EvolutionChainPosition",
+        "useAtmosphereThemeStore"
       ],
       "referenced_stores": [
-        "useSoundscapeStore"
+        "useAtmosphereThemeStore"
       ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/styles/atmosphere-theme.css",
+      "role": "style",
+      "feature_id": null,
+      "sha256": "357ede35c923f898d5db0eb2b63e95fbd7761818ed40797969e94b997a70153e",
+      "loc": 134,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/atmosphereEngine.test.ts",
+      "role": "test",
+      "feature_id": null,
+      "sha256": "41002faa2f29078594bb3e3cdfb542bc9bea457d76e8ac9a149b5aa6d274a3a1",
+      "loc": 93,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./atmosphereEngine",
+        "./atmosphereThemeDom",
+        "./evolutionStageFacet",
+        "./generationToRegion",
+        "./timeOfDay"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/atmosphereEngine.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "881b485131ca2a52cc0fc3ca2ff12d3f10aa992b7af4aaf84e814a5535f5ee0a",
+      "loc": 53,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "./atmosphereThemeDom",
+        "./evolutionStageFacet",
+        "./generationToRegion",
+        "./timeOfDay"
+      ],
+      "exported_symbols": [
+        "AtmosphereThemeInputs",
+        "PokemonAtmosphereSlice",
+        "buildAtmosphereDomSnapshot"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/atmosphereThemeDom.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "e13abaf7aaca7d7323f608093258bb6c4750dc152ba91f2225694be9703a4f57",
+      "loc": 35,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "./evolutionStageFacet",
+        "./timeOfDay"
+      ],
+      "exported_symbols": [
+        "AtmosphereDomSnapshot",
+        "BattleAtmosphereMode",
+        "applyAtmosphereDomTheme"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/evolutionStageFacet.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "2e2fbfd97a0cc81fd47830cec6bb96cb782287a8442f15a9a11db30931fce6f1",
+      "loc": 8,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "EvolutionStageFacet",
+        "evolutionIndexToFacet"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/generationToRegion.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "203cb55a54b17b2cee4fb69a0426a2a1a2ec8dc9ab699ea94448c254f797e023",
+      "loc": 15,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes"
+      ],
+      "exported_symbols": [
+        "generationToRegionId"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/theme/timeOfDay.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "051bebce6304a2effc73401906aef5f2807c17d909c64413259e8c978db520b6",
+      "loc": 10,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "TimeOfDay",
+        "timeOfDayFromLocalDate"
+      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -300,7 +225,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "d6d00bb0da43c812c3ac098a4428fe589561a71035a9c1836295e25710525535",
+      "sha256": "c69ac89c4a16fca81dfec0944e5da5ccc3d4c599e4ec6c502aa4b7bda1b983b7",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -378,7 +303,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "09c4c1a8f21403d088235560f90acbb04d6ecc8f5bf8a579c3df577ef8ae4558",
+      "sha256": "38f2b55e78fb0ed27c588225a5337f19f142c87bb7351f23cd7a215129836f28",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -456,8 +381,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "ce90d74c105e4794bce39ebda04efdfd5d3afc9d4e7445dac24ba7f3e842ade2",
-      "loc": 3465,
+      "sha256": "a738ab75ea649e1646b4b5dfab38e74b7a87d4a46e90c6af30e5eb55d6f7b1b9",
+      "loc": 3690,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -702,6 +627,146 @@
       "exported_symbols": [
         "UseFocusTrapOptions",
         "useFocusTrap"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/evolutionSoundPulse.test.ts",
+      "role": "test",
+      "feature_id": null,
+      "sha256": "d89b2cc520dff807df3811220162b7e5b5980916613c1c498dfca37d74393a80",
+      "loc": 12,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./evolutionSoundPulse"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/evolutionSoundPulse.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "9689ff08b31f947419300669379aeda42e7f7c1cebe884f66fa26cdb74597d53",
+      "loc": 15,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "evolutionPulseLinear01",
+        "triggerEvolutionSoundPulse"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeAssetLoader.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "f514d8c2444c3b5873c21e482ecef468d1f353d385b4b80df8b4395f96690888",
+      "loc": 28,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "clearAmbientBufferCache",
+        "loadAmbientBuffer"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeAssetRegistry.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "c7b114f142073d0d643ee415dfd30b0f4be2aba3303ae7e5108d776f8bfce9ed",
+      "loc": 10,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "SOUNDSCAPE_OPTIONAL_REGION_LOOPS",
+        "SOUNDSCAPE_OPTIONAL_TYPE_LOOPS"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeEngine.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "afc90e5e537532ddb1366804a9e531191c765109581605001ac190c8d251cac4",
+      "loc": 416,
+      "is_test": false,
+      "imports": [
+        "./evolutionSoundPulse",
+        "./soundscapeTypeProfile",
+        "./soundscapeTypes"
+      ],
+      "exported_symbols": [
+        "SoundscapeEngine"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypeProfile.test.ts",
+      "role": "test",
+      "feature_id": null,
+      "sha256": "7e341263fdf033b530bd70120263fa84ef6f1a85b209a9e18fe0063025306b0a",
+      "loc": 15,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./soundscapeTypeProfile"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypeProfile.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "cd3bc1e2f8fd8c0f4d52286f13c0464ded87fc7904339e0b4e50fbac799aad1d",
+      "loc": 28,
+      "is_test": false,
+      "imports": [
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "TYPE_CARRIER_HZ",
+        "typeCarrierHz"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypes.ts",
+      "role": "types",
+      "feature_id": null,
+      "sha256": "ec41e17703bcb7566ec2730cd0c025ef2421345b16e7e789c8af2c1b52dea7a1",
+      "loc": 32,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "SoundscapeDriverState",
+        "SoundscapeLayerToggles",
+        "SoundscapeScene"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -1844,8 +1909,8 @@
       "path": "src/features/overlay/PokemonDetailPanel.tsx",
       "role": "overlay",
       "feature_id": "overlay",
-      "sha256": "f3301bb29759d451170fa7147d3ca811ba7b3c085cb939323d388900a54a9c83",
-      "loc": 452,
+      "sha256": "d93aeb16fd15e6a91a01e25a840a4075d4383608296ac0796e68015c8da407b1",
+      "loc": 466,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1863,6 +1928,7 @@
         "../../services/pokeapi/evolutionSpeciesLore",
         "../../services/pokeapi/detailedPokemon",
         "../../services/pokeapi/typeEffectiveness",
+        "../../store/atmosphereThemeStore",
         "../../store/comparisonStore",
         "../../store/dexListsStore",
         "../../store/uiStore",
@@ -1874,6 +1940,7 @@
         "PokemonDetailPanel"
       ],
       "referenced_stores": [
+        "useAtmosphereThemeStore",
         "useComparisonStore",
         "useDexListsStore",
         "useUiStore"
@@ -2285,6 +2352,67 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/soundscape/SoundscapeControls.tsx",
+      "role": "component",
+      "feature_id": "soundscape",
+      "sha256": "7ac844bda58ffa7828c34a8b9a2ce97206f15e3ba3304159fc321f75a926b66a",
+      "loc": 182,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../store/soundscapeStore"
+      ],
+      "exported_symbols": [
+        "SoundscapeControls"
+      ],
+      "referenced_stores": [
+        "useSoundscapeStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/soundscape/SoundscapeOrchestrator.tsx",
+      "role": "component",
+      "feature_id": "soundscape",
+      "sha256": "1a72e3a1fea3eef8866338b39142a940a014caa546c90611ebf31b7c42bf5a56",
+      "loc": 147,
+      "is_test": false,
+      "imports": [
+        "@tanstack/react-query",
+        "react",
+        "../../audio/soundscapeEngine",
+        "../../audio/soundscapeTypes",
+        "../discovery/discoveryUiStore",
+        "../../hooks/usePrefersReducedMotion",
+        "../../query/keys",
+        "../../query/staleTimes",
+        "../../services/pokeapi/detailedPokemon",
+        "../../store/battleSimulatorStore",
+        "../../store/comparisonStore",
+        "../../store/regionExplorerStore",
+        "../../store/soundscapeStore",
+        "../../store/teamBuilderStore",
+        "../../store/uiStore"
+      ],
+      "exported_symbols": [
+        "SoundscapeOrchestrator"
+      ],
+      "referenced_stores": [
+        "useBattleSimulatorStore",
+        "useComparisonStore",
+        "useDiscoveryUiStore",
+        "useRegionExplorerStore",
+        "useSoundscapeStore",
+        "useTeamBuilderStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [
+        "pokemon"
+      ],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/team-builder/TeamBuilderModal.tsx",
       "role": "component",
       "feature_id": "team_builder",
@@ -2553,8 +2681,8 @@
       "path": "src/index.css",
       "role": "style",
       "feature_id": null,
-      "sha256": "c6f6e6029be5a94347166d62818bc2af8a9d9eb43dce851903782525748e94cd",
-      "loc": 115,
+      "sha256": "3c8181dfab96f5d0e78531b08865746e2aaaf0b65c90ff32dbd85d7ee8c6f72f",
+      "loc": 120,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -2605,8 +2733,8 @@
       "path": "src/providers/AppAtmosphere.tsx",
       "role": "provider",
       "feature_id": null,
-      "sha256": "1199563470f97285447665ed6f1e19dcfee3b1e489068bade2f83d4e4c8b7328",
-      "loc": 54,
+      "sha256": "785829e57591ad74b4c96714b6d1a66b54dc23b8090d189508fa5f1ecc6c2c12",
+      "loc": 88,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
@@ -2614,12 +2742,18 @@
         "../query/keys",
         "../query/staleTimes",
         "../services/pokeapi/detailedPokemon",
-        "../store/uiStore"
+        "../store/atmosphereThemeStore",
+        "../store/comparisonStore",
+        "../store/uiStore",
+        "../theme/atmosphereEngine",
+        "../theme/atmosphereThemeDom"
       ],
       "exported_symbols": [
         "AppAtmosphere"
       ],
       "referenced_stores": [
+        "useAtmosphereThemeStore",
+        "useComparisonStore",
         "useUiStore"
       ],
       "referenced_query_keys": [
@@ -3365,6 +3499,27 @@
       "parser_ok": true
     },
     {
+      "path": "src/store/soundscapeStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "94b970cb7dfde4bd54424353969e0b663969140c6fae1f96e15b323515d6f898",
+      "loc": 70,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware",
+        "../audio/soundscapeTypes"
+      ],
+      "exported_symbols": [
+        "useSoundscapeStore"
+      ],
+      "referenced_stores": [
+        "useSoundscapeStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/store/teamBuilderStore.ts",
       "role": "store",
       "feature_id": null,
@@ -3412,7 +3567,7 @@
       "path": "src/styles/design-tokens.css",
       "role": "style",
       "feature_id": null,
-      "sha256": "8463363b522f51c11663f802696f8fd18571cf254b542d097dd9ca5fd84bac04",
+      "sha256": "60e21d7686a7a72536034d5413c51b3df0f9139a907621b7b3c5861566d2a787",
       "loc": 215,
       "is_test": false,
       "imports": [],

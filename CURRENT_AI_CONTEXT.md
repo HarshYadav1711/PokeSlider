@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED-START -->
 _Auto-generated AI/contributor onboarding snapshot. Reflects on-disk state, not aspiration._
 
-_Scan: 2026-05-14T19:01:32+00:00 · commit `43bdcae3cb`_
+_Scan: 2026-05-14T19:08:07+00:00 · commit `6553cf5df0`_
 
 ## Identity
 
@@ -11,7 +11,7 @@ PokeSlider — React 19 + Vite 8 + TypeScript + Tailwind 4 over PokéAPI. 3D Pok
 
 - **3D Poké Ball carousel** _(verified)_ — Hero 3D carousel with pointer drag, keyboard navigation, and auto-rotate gated by `prefers-reduced-motion`. Front-ball selection drives the overlay. · stores: `useUiStore` · systems: a11y, motion, query-layer
 - **Battle Simulator** _(verified)_ — Local, rule-based battle simulator presented as a modal surface. · stores: `useBattleSimulatorStore` · systems: rules-engines, zustand-stores
-- **Details overlay (ball + Pokémon)** _(verified)_ — Two-panel overlay: ball lore + suggested species, and full Pokémon detail (stats, type matchups, evolution timeline explorer, locations, cry, mega). · stores: `useComparisonStore`, `useDexListsStore`, `useUiStore` · systems: a11y, motion, query-layer
+- **Details overlay (ball + Pokémon)** _(verified)_ — Two-panel overlay: ball lore + suggested species, and full Pokémon detail (stats, type matchups, evolution timeline explorer, locations, cry, mega). · stores: `useAtmosphereThemeStore`, `useComparisonStore`, `useDexListsStore`, `useUiStore` · systems: a11y, motion, query-layer
 - **My Dex discovery** _(partial)_ — Browse, filter, favorites, recents, and compare-from-row affordances. Bottom sheet on narrow viewports, side panel on `md+`. · stores: `useComparisonStore`, `useDexListsStore`, `useDiscoveryRecommendationStore`, `useDiscoveryUiStore`, `useUiStore` · systems: a11y, query-layer, zustand-stores
 - **Pokémon comparison** _(partial)_ — Transparent rule-based scoring between two Pokémon with stat bars and per-side retry on profile load failures. · stores: `useBattleSimulatorStore`, `useComparisonStore`, `useJourneyProgressStore` · systems: query-layer, zustand-stores
 - **Team Builder (local rule-based)** _(verified)_ — Deterministic party-of-six recommender with goal weights, risk tolerance, generation pool, locks, coverage/gaps/swap suggestions, and PNG card export via `html-to-image`. · stores: `useDexListsStore`, `useJourneyProgressStore`, `useTeamBuilderStore` · systems: rules-engines, query-layer, zustand-stores

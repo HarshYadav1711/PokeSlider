@@ -4,6 +4,7 @@ status: shipped
 description: 'Two-panel overlay: ball lore + suggested species, and full Pokémon detail
   (stats, type matchups, evolution timeline explorer, locations, cry, mega).'
 stores:
+- useAtmosphereThemeStore
 - useComparisonStore
 - useDexListsStore
 - useUiStore

@@ -1,0 +1,134 @@
+/**
+ * Dynamic atmosphere layers (type orbs stay in design-tokens.css).
+ * html[data-atmo-*] facets are set by AppAtmosphere via atmosphereEngine.
+ */
+
+@property --atmo-tod-tint {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-region-wash {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-duel-wash {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-evo-wash {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-a {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-b {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+@property --atmo-c {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+
+:root {
+  --atmo-tod-tint: transparent;
+  --atmo-region-wash: transparent;
+  --atmo-duel-wash: transparent;
+  --atmo-evo-wash: transparent;
+  --atmo-crossfade-duration: 720ms;
+}
+
+html {
+  transition:
+    --atmo-a var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-b var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-c var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-tod-tint var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-region-wash var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-duel-wash var(--atmo-crossfade-duration) var(--ease-out),
+    --atmo-evo-wash var(--atmo-crossfade-duration) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+    --atmo-crossfade-duration: 0ms;
+  }
+}
+
+/* --- Time of day (local clock simulation) --- */
+html[data-atmo-tod='dawn'] {
+  --atmo-tod-tint: color-mix(in srgb, #fdba74 8%, transparent);
+}
+html[data-atmo-tod='day'] {
+  --atmo-tod-tint: transparent;
+}
+html[data-atmo-tod='dusk'] {
+  --atmo-tod-tint: color-mix(in srgb, #fb923c 7%, transparent);
+}
+html[data-atmo-tod='night'] {
+  --atmo-tod-tint: color-mix(in srgb, #1e3a8a 12%, transparent);
+}
+
+/* --- Region wash (from generation → region mapping) --- */
+html[data-atmo-region='unknown'] {
+  --atmo-region-wash: transparent;
+}
+html[data-atmo-region='kanto'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(248 113 113) 6%, transparent);
+}
+html[data-atmo-region='johto'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(167 243 208) 6%, transparent);
+}
+html[data-atmo-region='hoenn'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(125 211 252) 6%, transparent);
+}
+html[data-atmo-region='sinnoh'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(196 181 253) 6%, transparent);
+}
+html[data-atmo-region='unova'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(251 191 36) 5.5%, transparent);
+}
+html[data-atmo-region='kalos'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(244 114 182) 6%, transparent);
+}
+html[data-atmo-region='alola'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(251 146 60) 6%, transparent);
+}
+html[data-atmo-region='galar'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(147 197 253) 6%, transparent);
+}
+html[data-atmo-region='paldea'] {
+  --atmo-region-wash: color-mix(in srgb, rgb(251 113 133) 6%, transparent);
+}
+
+/* --- Battle mode (compare modal “duel” tension) --- */
+html[data-atmo-battle='explore'] {
+  --atmo-duel-wash: transparent;
+}
+html[data-atmo-battle='duel'] {
+  --atmo-duel-wash: color-mix(in srgb, rgb(99 102 241) 7%, transparent);
+}
+
+/* --- Evolution stage (subtle lift toward line apex) --- */
+html[data-atmo-evo='solo'] {
+  --atmo-evo-wash: transparent;
+}
+html[data-atmo-evo='base'] {
+  --atmo-evo-wash: color-mix(in srgb, rgb(255 255 255) 3.5%, transparent);
+}
+html[data-atmo-evo='mid'] {
+  --atmo-evo-wash: color-mix(in srgb, rgb(255 255 255) 4.5%, transparent);
+}
+html[data-atmo-evo='apex'] {
+  --atmo-evo-wash: color-mix(in srgb, rgb(255 255 255) 5.5%, transparent);
+}

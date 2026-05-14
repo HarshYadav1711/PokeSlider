@@ -1,21 +1,35 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { qk } from '../query/keys';
 import { STALE_POKEMON_DETAIL_MS } from '../query/staleTimes';
 import { fetchDetailedPokemon } from '../services/pokeapi/detailedPokemon';
+import { useAtmosphereThemeStore } from '../store/atmosphereThemeStore';
+import { useComparisonStore } from '../store/comparisonStore';
 import { useUiStore } from '../store/uiStore';
+import { buildAtmosphereDomSnapshot } from '../theme/atmosphereEngine';
+import { applyAtmosphereDomTheme } from '../theme/atmosphereThemeDom';
 
 /**
- * Subtly tints the global backdrop from the primary (and optional secondary) type
- * while viewing Pokémon details — keeps the hero carousel readable by default.
+ * Dynamic atmosphere: type orbs + layered facets (region, battle/compare, evolution stage, time-of-day).
+ * Tokens live in design-tokens.css + atmosphere-theme.css; logic is centralized in atmosphereEngine.
  */
 export function AppAtmosphere() {
   const overlayOpen = useUiStore((s) => s.overlayOpen);
   const panel = useUiStore((s) => s.panel);
   const pokemonId = useUiStore((s) => s.selectedPokemonId);
 
+  const compareModalOpen = useComparisonStore((s) => s.open);
+  const evolutionChain = useAtmosphereThemeStore((s) => s.evolutionChain);
+  const timeOfDayOverride = useAtmosphereThemeStore((s) => s.timeOfDayOverride);
+
   const enabled = overlayOpen && panel === 'pokemon' && pokemonId !== null;
+
+  const [todTick, setTodTick] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => setTodTick((n) => n + 1), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   const detailQuery = useQuery({
     queryKey: pokemonId === null ? ['pokeapi', 'pokemon', 'atmosphere', 'idle'] : qk.pokemon.detail(pokemonId),
@@ -30,25 +44,45 @@ export function AppAtmosphere() {
   });
 
   useEffect(() => {
-    const root = document.documentElement;
     if (!enabled) {
-      root.removeAttribute('data-atmosphere');
-      root.removeAttribute('data-atmosphere-secondary');
-      return;
+      useAtmosphereThemeStore.getState().clearPokemonContext();
     }
-    if (!detailQuery.data) {
-      root.removeAttribute('data-atmosphere');
-      root.removeAttribute('data-atmosphere-secondary');
-      return;
-    }
-    const types = detailQuery.data.types;
-    const primary = types[0];
-    const secondary = types[1];
-    if (primary) root.setAttribute('data-atmosphere', primary);
-    else root.removeAttribute('data-atmosphere');
-    if (secondary) root.setAttribute('data-atmosphere-secondary', secondary);
-    else root.removeAttribute('data-atmosphere-secondary');
-  }, [enabled, detailQuery.data]);
+  }, [enabled]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const pokemon =
+      enabled && detailQuery.data
+        ? {
+            primaryType: detailQuery.data.types[0] ?? null,
+            secondaryType: detailQuery.data.types[1] ?? null,
+            pokemonGeneration: detailQuery.data.generation,
+            evolutionChain,
+          }
+        : null;
+
+    const snap = buildAtmosphereDomSnapshot({
+      pokemon,
+      compareModalOpen,
+      timeOfDayOverride,
+      now: new Date(),
+    });
+    applyAtmosphereDomTheme(root, snap);
+  }, [
+    enabled,
+    detailQuery.data,
+    compareModalOpen,
+    evolutionChain,
+    timeOfDayOverride,
+    todTick,
+  ]);
+
+  useEffect(
+    () => () => {
+      applyAtmosphereDomTheme(document.documentElement, null);
+    },
+    [],
+  );
 
   return null;
 }

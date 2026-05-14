@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './styles/design-tokens.css';
+@import './styles/atmosphere-theme.css';
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -41,6 +42,10 @@
       radial-gradient(ellipse 72% 56% at 14% 16%, var(--atmo-a) 0%, transparent 52%),
       radial-gradient(ellipse 68% 52% at 86% 84%, var(--atmo-b) 0%, transparent 50%),
       radial-gradient(ellipse 48% 38% at 72% 10%, var(--atmo-c) 0%, transparent 46%),
+      radial-gradient(ellipse 88% 70% at 50% 40%, var(--atmo-tod-tint) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 60% at 22% 78%, var(--atmo-region-wash) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 55% at 88% 22%, var(--atmo-duel-wash) 0%, transparent 48%),
+      radial-gradient(ellipse 55% 48% at 50% 88%, var(--atmo-evo-wash) 0%, transparent 45%),
       linear-gradient(162deg, var(--surface-0) 0%, var(--surface-1) 42%, var(--surface-2) 100%);
     background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
     background-attachment: fixed;

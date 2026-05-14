@@ -1,6 +1,6 @@
 /**
  * Design tokens: spacing, radii, elevation, blur, motion, typography scale.
- * Atmosphere accents are driven by html[data-atmosphere] (see AppAtmosphere).
+ * Type orbs: html[data-atmosphere] (+ secondary). Time, region, battle, evolution: html[data-atmo-*] (see AppAtmosphere + atmosphere-theme.css).
  */
 
 :root {

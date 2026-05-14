@@ -14,6 +14,7 @@ import { buildEvolutionChain } from '../../services/pokeapi/evolution';
 import { enrichEvolutionChainWithSpeciesLore } from '../../services/pokeapi/evolutionSpeciesLore';
 import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
+import { useAtmosphereThemeStore } from '../../store/atmosphereThemeStore';
 import { useComparisonStore } from '../../store/comparisonStore';
 import { useDexListsStore } from '../../store/dexListsStore';
 import { useUiStore } from '../../store/uiStore';
@@ -76,6 +77,19 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
   const chain = extrasQuery.data?.chain ?? [];
   const timelineStages = extrasQuery.data?.timelineStages;
   const effectiveness = extrasQuery.data?.effectiveness ?? null;
+
+  const setEvolutionChainPosition = useAtmosphereThemeStore((s) => s.setEvolutionChainPosition);
+  useEffect(() => {
+    if (!extrasQuery.isSuccess || !timelineStages?.length) {
+      setEvolutionChainPosition(null);
+      return;
+    }
+    const idx = timelineStages.findIndex((s) => s.id === pokemonId);
+    setEvolutionChainPosition({
+      index: idx >= 0 ? idx : 0,
+      total: timelineStages.length,
+    });
+  }, [extrasQuery.isSuccess, timelineStages, pokemonId, setEvolutionChainPosition]);
 
   useEffect(() => {
     if (!detailQuery.isSuccess || !detailQuery.data) return;
