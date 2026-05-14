@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
+import { useDocumentVisibility } from '../hooks/useDocumentVisibility';
 import { qk } from '../query/keys';
 import { STALE_POKEMON_DETAIL_MS } from '../query/staleTimes';
 import { fetchDetailedPokemon } from '../services/pokeapi/detailedPokemon';
@@ -15,6 +16,7 @@ import { applyAtmosphereDomTheme } from '../theme/atmosphereThemeDom';
  * Tokens live in design-tokens.css + atmosphere-theme.css; logic is centralized in atmosphereEngine.
  */
 export function AppAtmosphere() {
+  const tabVisible = useDocumentVisibility();
   const overlayOpen = useUiStore((s) => s.overlayOpen);
   const panel = useUiStore((s) => s.panel);
   const pokemonId = useUiStore((s) => s.selectedPokemonId);
@@ -27,9 +29,10 @@ export function AppAtmosphere() {
 
   const [todTick, setTodTick] = useState(0);
   useEffect(() => {
+    if (!tabVisible) return;
     const id = window.setInterval(() => setTodTick((n) => n + 1), 60_000);
     return () => window.clearInterval(id);
-  }, []);
+  }, [tabVisible]);
 
   const detailQuery = useQuery({
     queryKey: pokemonId === null ? ['pokeapi', 'pokemon', 'atmosphere', 'idle'] : qk.pokemon.detail(pokemonId),

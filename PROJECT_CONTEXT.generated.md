@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED-START -->
 _Auto-generated. Edit YAML under `project-metadata/features/` and re-run `context-engine generate`._
 
-_Scan: 2026-05-14T19:19:03+00:00 · `3ed1cb8d3f` · `main` · dirty_
+_Scan: 2026-05-14T19:26:20+00:00 · `865d3bfdee` · `main` · dirty_
 
 ## Identity
 
@@ -11,8 +11,8 @@ PokeSlider — React 19 + Vite 8 + TypeScript + Tailwind 4 SPA over the public P
 
 | Metric | Value |
 |---|---|
-| Files scanned | 203 |
-| TypeScript / TSX | 170 |
+| Files scanned | 208 |
+| TypeScript / TSX | 175 |
 | Tests | 14 |
 | Shipped features | 6 / 7 |
 

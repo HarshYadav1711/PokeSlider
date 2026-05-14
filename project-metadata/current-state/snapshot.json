@@ -1,203 +1,110 @@
 {
-  "generated_at": "2026-05-14T19:19:03.239418Z",
-  "git_commit": "3ed1cb8d3f14c85ad79c83dab745b4ae6d00a086",
+  "generated_at": "2026-05-14T19:26:20.184587Z",
+  "git_commit": "865d3bfdee35e07515fccfbb6f269c3a862a69e4",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/components/pokeballs/BallCollectibleCard.tsx",
+      "path": "src/dev/PerformanceDiagnostics.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "90ed2eb40aed7e7360b45a5bbbffd087119ee5235046a0873d549a3c2bb0f19c",
-      "loc": 61,
+      "sha256": "be538f87d6f24d899b90a020be14094501248afb191cea4a210168587cdcf6be",
+      "loc": 38,
       "is_test": false,
       "imports": [
-        "../../data/pokeballs",
-        "./pokeballRarityPresentation"
+        "react"
       ],
       "exported_symbols": [
-        "BallCollectibleCard"
+        "PerformanceDiagnostics"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/components/pokeballs/CinematicBallPreview.tsx",
-      "role": "component",
-      "feature_id": null,
-      "sha256": "4785e37d5cd0c524f23d184764c6475a586ff3100e4781572a8d9318b0fb23b1",
-      "loc": 54,
-      "is_test": false,
-      "imports": [
-        "motion/react",
-        "../../data/pokeballs",
-        "../../motion/motionPrefs"
-      ],
-      "exported_symbols": [
-        "CinematicBallPreview"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/components/pokeballs/pokeballRarityPresentation.ts",
-      "role": "component",
-      "feature_id": null,
-      "sha256": "8df6741c9608526a4a362b20a681fb19df616eca51778d73e5e91fa7e6527e0d",
-      "loc": 31,
-      "is_test": false,
-      "imports": [
-        "../../data/pokeballs"
-      ],
-      "exported_symbols": [
-        "rarityTierAccentClass",
-        "rarityTierLabel"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/engine/catchRateFormula.test.ts",
-      "role": "test",
-      "feature_id": null,
-      "sha256": "b6b9af18f58db51af40777d2f26eb1f5a1843cc6a9e3f83342df43847e0b90b0",
-      "loc": 63,
-      "is_test": true,
-      "imports": [
-        "vitest",
-        "./catchRateFormula"
-      ],
-      "exported_symbols": [],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/engine/catchRateFormula.ts",
-      "role": "unknown",
-      "feature_id": null,
-      "sha256": "63a1507a0b63c6c938b24a433c759fe7d48b0197f8de707cf40e2fdd628e5056",
-      "loc": 64,
+      "path": "src/features/carousel/carouselAngleSession.ts",
+      "role": "util",
+      "feature_id": "carousel",
+      "sha256": "ac9266bdb0f711b2adedccb6c5dd22c224379f9da7446325869e1a28b7ae13a3",
+      "loc": 10,
       "is_test": false,
       "imports": [],
       "exported_symbols": [
-        "CatchStatusMode",
-        "ModifiedCatchRateInput",
-        "catchProbabilityFourShakes",
-        "computeModifiedCatchRate",
-        "computeShakeThresholdB",
-        "expectedBallsToCatch",
-        "statusMultiplier"
+        "persistCarouselAngle",
+        "takeInitialCarouselAngle"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/engine/pokeballCatchSnapshot.ts",
-      "role": "unknown",
+      "path": "src/hooks/useDocumentVisibility.ts",
+      "role": "hook",
       "feature_id": null,
-      "sha256": "e0bbb1d94f5911ca142fd38c9cf38b8bac1797a5bac643789b90e63c6b38d8d6",
-      "loc": 84,
+      "sha256": "9040cc0c777815cdba86d1dfedbae01fcc0e67c5885735658f5df8342994d139",
+      "loc": 20,
       "is_test": false,
       "imports": [
-        "../data/pokeballs",
-        "./catchRateFormula",
-        "./pokeballContextualBonus"
+        "react"
       ],
       "exported_symbols": [
-        "BallCatchSnapshot",
-        "buildBallCatchSnapshot",
-        "rankPokeBallsForScenario"
+        "useDocumentVisibility"
       ],
-      "referenced_stores": [],
+      "referenced_stores": [
+        "useSyncExternalStore"
+      ],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/engine/pokeballContextualBonus.ts",
-      "role": "unknown",
+      "path": "src/hooks/useHomeHeroSurfaceActive.ts",
+      "role": "hook",
       "feature_id": null,
-      "sha256": "a795791f26c490ca469e91ee6a43493824bdf7666e7817f720dfcf09ebe598e0",
-      "loc": 104,
+      "sha256": "579442fcc27c7d1598ee1d2ff2186286f82c402aa75aeb64bf043f9b92ad2343",
+      "loc": 36,
       "is_test": false,
       "imports": [
-        "../data/pokeballs",
-        "../types/pokemon"
+        "../features/discovery/discoveryUiStore",
+        "../store/battleSimulatorStore",
+        "../store/comparisonStore",
+        "../store/discoveryRecommendationStore",
+        "../store/journeyUiStore",
+        "../store/regionExplorerStore",
+        "../store/teamBuilderStore",
+        "../store/uiStore"
       ],
       "exported_symbols": [
-        "BallBonusContext",
-        "BallBonusResult",
-        "resolveContextualBallBonus"
+        "useHomeHeroSurfaceActive"
       ],
-      "referenced_stores": [],
+      "referenced_stores": [
+        "useBattleSimulatorStore",
+        "useComparisonStore",
+        "useDiscoveryRecommendationStore",
+        "useDiscoveryUiStore",
+        "useJourneyUiStore",
+        "useRegionExplorerStore",
+        "useTeamBuilderStore",
+        "useUiStore"
+      ],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/engine/pokemonHpEstimate.ts",
-      "role": "unknown",
+      "path": "src/hooks/usePerformanceTier.ts",
+      "role": "hook",
       "feature_id": null,
-      "sha256": "ea334269e1c06dd60e409869410060c020879b77c307a31e9cc61b7f567f3d0c",
-      "loc": 8,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "estimateMaxHpAtLevel"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/pokeballs/BallCatchLaboratory.tsx",
-      "role": "component",
-      "feature_id": "pokeballs",
-      "sha256": "cfebe12c858677809b0b3f7e038020f968bf0683b94ee88bc82547cbbda518bb",
-      "loc": 312,
+      "sha256": "e4d7d1ebe5b435b0b1ed06da81aff7aac112af616a2499fed07b687f4ecc13f2",
+      "loc": 49,
       "is_test": false,
       "imports": [
         "react",
-        "../../components/pokeballs/BallCollectibleCard",
-        "../../components/pokeballs/CinematicBallPreview",
-        "../../data/pokeballs",
-        "../../engine/catchRateFormula",
-        "../../engine/pokeballCatchSnapshot",
-        "../../engine/pokeballContextualBonus",
-        "../../engine/pokemonHpEstimate",
-        "../../types/pokemon"
+        "./useMediaQuery",
+        "./usePrefersReducedMotion"
       ],
       "exported_symbols": [
-        "BallCatchLaboratory"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/pokeballs/PokemonBallFitSection.tsx",
-      "role": "component",
-      "feature_id": "pokeballs",
-      "sha256": "345b31f23524340b5386c8fbebb30749fbf45e6467b719afffe5943314d0e3b0",
-      "loc": 232,
-      "is_test": false,
-      "imports": [
-        "react",
-        "../../components/pokeballs/BallCollectibleCard",
-        "../../components/pokeballs/CinematicBallPreview",
-        "../../data/pokeballs",
-        "../../engine/catchRateFormula",
-        "../../engine/pokeballCatchSnapshot",
-        "../../engine/pokeballContextualBonus",
-        "../../engine/pokemonHpEstimate",
-        "../../types/pokemon"
-      ],
-      "exported_symbols": [
-        "PokemonBallFitSection"
+        "PerformanceTier",
+        "usePerformanceTier"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -276,7 +183,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "ca8719b66bbfb543bc877faf093d8fc77f5f9b10a16a54e6f267b8c86e3ee415",
+      "sha256": "5db168ba7c229b8a991347124dae42a5138bfa46d037a14e559e225183f168f4",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -289,7 +196,7 @@
       "path": ".cursor/rules/frontend-architecture.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "167a01bfe399d97c6779f13d9e96ef98c5d18c4bf4515c81e76545af8e5e229c",
+      "sha256": "1798385ba66584e1819bb918889c3071163a7903e255d8f1b53cb47b20747138",
       "loc": 46,
       "is_test": false,
       "imports": [],
@@ -302,7 +209,7 @@
       "path": ".cursor/rules/performance-rules.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "a86f496a7329c38aca617feb5cefec4d622787bf3cbae6543f784fa34e0f8b95",
+      "sha256": "2d38e7b24cbf850f105a9640a320988ae8b25b28f4dc210a7e724e99c950fc87",
       "loc": 33,
       "is_test": false,
       "imports": [],
@@ -354,7 +261,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "e2e7a28a41481491a90746a87506193bdc388e0e94fc33050d153052e3467eff",
+      "sha256": "7ffc9299edf39b1010fb50ee52d6335be018a69dea9bb03c824c0ca8cc28fc36",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -367,8 +274,8 @@
       "path": "DECISIONS_LOG.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "dfca4ea0f0c0d3a807215f306e5b44fc06f1aa4681d6692126c0bc25974118a3",
-      "loc": 129,
+      "sha256": "72b5c41b87a8d711481a4789a807b438b2b016ff712ada931b1231d07c6320a1",
+      "loc": 139,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -380,7 +287,7 @@
       "path": "FEATURE_TRACKER.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "46f169577ac71121bc36caabc0448178fd05460c38bb1c55ad98ebe1880a477a",
+      "sha256": "b549998286310064745d320a3d64e70c3b1936801cf9908028aace2ab95975f1",
       "loc": 59,
       "is_test": false,
       "imports": [],
@@ -393,7 +300,7 @@
       "path": "PROJECT_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "d38379d3acf14f7c06702cf6e4f2816a3249e3bfb96796f66d3f166ffd46f185",
+      "sha256": "3b3e4070d2beeea32d77fca913e07e843d45760fec4479b72b401a844c5b7992",
       "loc": 115,
       "is_test": false,
       "imports": [],
@@ -432,8 +339,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "a7962cf58a29ebec7e1167a535cb7cc11ec216f9ef4a45b66d8933d52dec55b0",
-      "loc": 3845,
+      "sha256": "6fe1aa5a6b8517c86cd75e7a8ebd6791811a3e53c91f35764ecfb447610026c3",
+      "loc": 4049,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -536,24 +443,20 @@
       "path": "src/App.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "71bcda303f19c92abffa2ce49e3872366ee877fc17c728e04259a32848ac14a5",
-      "loc": 114,
+      "sha256": "072f336f209a3df7914d112afb2f119025ce09b991f5507a513a3bcda79f565e",
+      "loc": 144,
       "is_test": false,
       "imports": [
         "react",
         "./features/carousel/PokeBallCarousel",
-        "./features/battle-sim/BattleSimulatorModal",
-        "./features/compare/ComparisonModal",
-        "./features/discovery-recommendation/DiscoveryEngineModal",
+        "./features/overlay/DetailsOverlay",
         "./features/discovery/MyDexPanel",
         "./features/journey/JourneyBootstrap",
-        "./features/journey/JourneyDashboardModal",
         "./features/journey/JourneyEntryButton",
-        "./features/journey/JourneyOnboardingDialog",
-        "./features/team-builder/TeamBuilderModal",
         "./features/soundscape/SoundscapeControls",
-        "./features/overlay/DetailsOverlay",
         "./hooks/useAppKeyboardShortcuts",
+        "./hooks/useHomeHeroSurfaceActive",
+        "./hooks/usePerformanceTier",
         "./store/discoveryRecommendationStore",
         "./store/regionExplorerStore",
         "./store/teamBuilderStore"
@@ -754,8 +657,8 @@
       "path": "src/audio/soundscapeEngine.ts",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "afc90e5e537532ddb1366804a9e531191c765109581605001ac190c8d251cac4",
-      "loc": 416,
+      "sha256": "f13185b48e64cda680a58fbb3f3b7f19c8c8133b930e89aadab76fe54b9e3ed3",
+      "loc": 423,
       "is_test": false,
       "imports": [
         "./evolutionSoundPulse",
@@ -807,8 +710,8 @@
       "path": "src/audio/soundscapeTypes.ts",
       "role": "types",
       "feature_id": null,
-      "sha256": "ec41e17703bcb7566ec2730cd0c025ef2421345b16e7e789c8af2c1b52dea7a1",
-      "loc": 32,
+      "sha256": "1b6cf94e6b76572900e0021b3a39ab94b162bc843d8bf25856f9668c2a2c9d6f",
+      "loc": 34,
       "is_test": false,
       "imports": [
         "../features/region-explorer/data/regionTypes",
@@ -818,6 +721,61 @@
         "SoundscapeDriverState",
         "SoundscapeLayerToggles",
         "SoundscapeScene"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/components/pokeballs/BallCollectibleCard.tsx",
+      "role": "component",
+      "feature_id": null,
+      "sha256": "90ed2eb40aed7e7360b45a5bbbffd087119ee5235046a0873d549a3c2bb0f19c",
+      "loc": 61,
+      "is_test": false,
+      "imports": [
+        "../../data/pokeballs",
+        "./pokeballRarityPresentation"
+      ],
+      "exported_symbols": [
+        "BallCollectibleCard"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/components/pokeballs/CinematicBallPreview.tsx",
+      "role": "component",
+      "feature_id": null,
+      "sha256": "4785e37d5cd0c524f23d184764c6475a586ff3100e4781572a8d9318b0fb23b1",
+      "loc": 54,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "../../data/pokeballs",
+        "../../motion/motionPrefs"
+      ],
+      "exported_symbols": [
+        "CinematicBallPreview"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/components/pokeballs/pokeballRarityPresentation.ts",
+      "role": "component",
+      "feature_id": null,
+      "sha256": "8df6741c9608526a4a362b20a681fb19df616eca51778d73e5e91fa7e6527e0d",
+      "loc": 31,
+      "is_test": false,
+      "imports": [
+        "../../data/pokeballs"
+      ],
+      "exported_symbols": [
+        "rarityTierAccentClass",
+        "rarityTierLabel"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -999,6 +957,99 @@
       "parser_ok": true
     },
     {
+      "path": "src/engine/catchRateFormula.test.ts",
+      "role": "test",
+      "feature_id": null,
+      "sha256": "b6b9af18f58db51af40777d2f26eb1f5a1843cc6a9e3f83342df43847e0b90b0",
+      "loc": 63,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./catchRateFormula"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/engine/catchRateFormula.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "63a1507a0b63c6c938b24a433c759fe7d48b0197f8de707cf40e2fdd628e5056",
+      "loc": 64,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "CatchStatusMode",
+        "ModifiedCatchRateInput",
+        "catchProbabilityFourShakes",
+        "computeModifiedCatchRate",
+        "computeShakeThresholdB",
+        "expectedBallsToCatch",
+        "statusMultiplier"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/engine/pokeballCatchSnapshot.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "e0bbb1d94f5911ca142fd38c9cf38b8bac1797a5bac643789b90e63c6b38d8d6",
+      "loc": 84,
+      "is_test": false,
+      "imports": [
+        "../data/pokeballs",
+        "./catchRateFormula",
+        "./pokeballContextualBonus"
+      ],
+      "exported_symbols": [
+        "BallCatchSnapshot",
+        "buildBallCatchSnapshot",
+        "rankPokeBallsForScenario"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/engine/pokeballContextualBonus.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "a795791f26c490ca469e91ee6a43493824bdf7666e7817f720dfcf09ebe598e0",
+      "loc": 104,
+      "is_test": false,
+      "imports": [
+        "../data/pokeballs",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "BallBonusContext",
+        "BallBonusResult",
+        "resolveContextualBallBonus"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/engine/pokemonHpEstimate.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "ea334269e1c06dd60e409869410060c020879b77c307a31e9cc61b7f567f3d0c",
+      "loc": 8,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "estimateMaxHpAtLevel"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/battle-sim/BattleSimulatorModal.tsx",
       "role": "component",
       "feature_id": "battle_sim",
@@ -1105,14 +1156,15 @@
       "path": "src/features/carousel/PokeBallCarousel.tsx",
       "role": "component",
       "feature_id": "carousel",
-      "sha256": "11543fb3498107217ab654c015036f622497bcde5c38a86aba1dfa648e18eb4e",
-      "loc": 143,
+      "sha256": "8e10a7e85b528aeef19ae466ae1784f7bebdccdcbb3acc7f6264779f8aaba2e2",
+      "loc": 153,
       "is_test": false,
       "imports": [
         "react",
         "@tanstack/react-query",
         "../../data/pokeballs",
         "../../hooks/usePokeBallCarousel",
+        "../../hooks/usePerformanceTier",
         "../../query/prefetch",
         "../../store/uiStore"
       ],
@@ -2032,6 +2084,56 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/pokeballs/BallCatchLaboratory.tsx",
+      "role": "component",
+      "feature_id": "pokeballs",
+      "sha256": "cfebe12c858677809b0b3f7e038020f968bf0683b94ee88bc82547cbbda518bb",
+      "loc": 312,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../components/pokeballs/BallCollectibleCard",
+        "../../components/pokeballs/CinematicBallPreview",
+        "../../data/pokeballs",
+        "../../engine/catchRateFormula",
+        "../../engine/pokeballCatchSnapshot",
+        "../../engine/pokeballContextualBonus",
+        "../../engine/pokemonHpEstimate",
+        "../../types/pokemon"
+      ],
+      "exported_symbols": [
+        "BallCatchLaboratory"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/pokeballs/PokemonBallFitSection.tsx",
+      "role": "component",
+      "feature_id": "pokeballs",
+      "sha256": "345b31f23524340b5386c8fbebb30749fbf45e6467b719afffe5943314d0e3b0",
+      "loc": 232,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../components/pokeballs/BallCollectibleCard",
+        "../../components/pokeballs/CinematicBallPreview",
+        "../../data/pokeballs",
+        "../../engine/catchRateFormula",
+        "../../engine/pokeballCatchSnapshot",
+        "../../engine/pokeballContextualBonus",
+        "../../engine/pokemonHpEstimate",
+        "../../types/pokemon"
+      ],
+      "exported_symbols": [
+        "PokemonBallFitSection"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/region-explorer/RegionExplorerAmbient.tsx",
       "role": "component",
       "feature_id": "region_explorer",
@@ -2432,8 +2534,8 @@
       "path": "src/features/soundscape/SoundscapeOrchestrator.tsx",
       "role": "component",
       "feature_id": "soundscape",
-      "sha256": "1a72e3a1fea3eef8866338b39142a940a014caa546c90611ebf31b7c42bf5a56",
-      "loc": 147,
+      "sha256": "e30c8a93df8dbe0344ad681258c208705a39e9b37a88c639137dd21adc748904",
+      "loc": 158,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
@@ -2441,12 +2543,14 @@
         "../../audio/soundscapeEngine",
         "../../audio/soundscapeTypes",
         "../discovery/discoveryUiStore",
+        "../../hooks/useDocumentVisibility",
         "../../hooks/usePrefersReducedMotion",
         "../../query/keys",
         "../../query/staleTimes",
         "../../services/pokeapi/detailedPokemon",
         "../../store/battleSimulatorStore",
         "../../store/comparisonStore",
+        "../../store/discoveryRecommendationStore",
         "../../store/regionExplorerStore",
         "../../store/soundscapeStore",
         "../../store/teamBuilderStore",
@@ -2458,6 +2562,7 @@
       "referenced_stores": [
         "useBattleSimulatorStore",
         "useComparisonStore",
+        "useDiscoveryRecommendationStore",
         "useDiscoveryUiStore",
         "useRegionExplorerStore",
         "useSoundscapeStore",
@@ -2680,14 +2785,16 @@
       "path": "src/hooks/usePokeBallCarousel.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "9d693820ef854c62a210f00a1b2ab270f176caec10a37f64d71336856fe0fea3",
-      "loc": 168,
+      "sha256": "186b1e05cd9ce78ccb4d5f3765ffc3d31a8083a5532342316449248f680af8b4",
+      "loc": 213,
       "is_test": false,
       "imports": [
         "react",
         "../a11y/carouselAngle",
+        "../features/carousel/carouselAngleSession",
         "./useMediaQuery",
-        "./usePrefersReducedMotion"
+        "./usePrefersReducedMotion",
+        "./usePerformanceTier"
       ],
       "exported_symbols": [
         "PokeBallTransform",
@@ -2738,8 +2845,8 @@
       "path": "src/index.css",
       "role": "style",
       "feature_id": null,
-      "sha256": "3c8181dfab96f5d0e78531b08865746e2aaaf0b65c90ff32dbd85d7ee8c6f72f",
-      "loc": 120,
+      "sha256": "c9c8609e988e7735cbf425ebd10b376bcf4fdc917772c29609e859a9fa415d80",
+      "loc": 140,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -2790,12 +2897,13 @@
       "path": "src/providers/AppAtmosphere.tsx",
       "role": "provider",
       "feature_id": null,
-      "sha256": "785829e57591ad74b4c96714b6d1a66b54dc23b8090d189508fa5f1ecc6c2c12",
-      "loc": 88,
+      "sha256": "e833c4e9893805c92ab804d84b54dda415035cbafc3957af987cca23e6bf632d",
+      "loc": 91,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
         "react",
+        "../hooks/useDocumentVisibility",
         "../query/keys",
         "../query/staleTimes",
         "../services/pokeapi/detailedPokemon",

@@ -14,6 +14,8 @@ export interface SoundscapeScene {
   readonly regionId: RegionId | null;
   readonly battleOpen: boolean;
   readonly compareOpen: boolean;
+  /** Discovery mix / recommendation lab modal */
+  readonly discoveryRecoOpen: boolean;
   readonly discoveryOpen: boolean;
   readonly teamBuilderOpen: boolean;
   readonly overlayOpen: boolean;

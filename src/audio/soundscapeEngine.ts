@@ -63,6 +63,7 @@ const DEFAULT_DRIVER: SoundscapeDriverState = {
     regionId: null,
     battleOpen: false,
     compareOpen: false,
+    discoveryRecoOpen: false,
     discoveryOpen: false,
     teamBuilderOpen: false,
     overlayOpen: false,
@@ -366,6 +367,7 @@ export class SoundscapeEngine {
     }
 
     const discoveryDim = scene.discoveryOpen ? 0.82 : 1;
+    const recoDim = scene.discoveryRecoOpen ? 0.9 : 1;
     const teamDim = scene.teamBuilderOpen ? 0.88 : 1;
 
     const typeTarget =
@@ -374,31 +376,36 @@ export class SoundscapeEngine {
           0.055 *
           breath *
           discoveryDim *
+          recoDim *
           teamDim *
           (scene.overlayPanel === 'pokemon' ? 1 : 0.55)
         : d.ctxAllowed && scene.overlayOpen && scene.overlayPanel === 'ball'
-          ? d.masterLinear * 0.028 * breath
+          ? d.masterLinear * 0.028 * breath * recoDim
           : d.ctxAllowed
-            ? d.masterLinear * 0.018 * breath
+            ? d.masterLinear * 0.018 * breath * recoDim
             : 0;
 
     const regionTarget =
-      d.ctxAllowed && regionActive ? d.masterLinear * 0.05 * breath * discoveryDim * teamDim : 0;
+      d.ctxAllowed && regionActive
+        ? d.masterLinear * 0.05 * breath * discoveryDim * recoDim * teamDim
+        : 0;
 
     const battleTarget = d.ctxAllowed
       ? battleActive
-        ? d.masterLinear * 0.07 * breath
+        ? d.masterLinear * 0.07 * breath * recoDim
         : compareActive
-          ? d.masterLinear * 0.045 * breath
+          ? d.masterLinear * 0.045 * breath * recoDim
           : 0
       : 0;
 
     const evoTarget =
-      d.ctxAllowed && d.layers.evolution ? d.masterLinear * 0.09 * evo * breath * discoveryDim : 0;
+      d.ctxAllowed && d.layers.evolution
+        ? d.masterLinear * 0.09 * evo * breath * discoveryDim * recoDim
+        : 0;
 
     const envTarget =
       d.ctxAllowed && d.layers.environment
-        ? d.masterLinear * 0.035 * breath * discoveryDim * teamDim * (regionActive ? 0.75 : 1)
+        ? d.masterLinear * 0.035 * breath * discoveryDim * recoDim * teamDim * (regionActive ? 0.75 : 1)
         : 0;
 
     const ct = ctx.currentTime;

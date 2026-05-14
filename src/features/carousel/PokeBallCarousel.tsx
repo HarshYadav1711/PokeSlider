@@ -3,10 +3,11 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { POKEBALLS } from '../../data/pokeballs';
 import { usePokeBallCarousel } from '../../hooks/usePokeBallCarousel';
+import type { PerformanceTier } from '../../hooks/usePerformanceTier';
 import { prefetchBallSuggestions } from '../../query/prefetch';
 import { useUiStore } from '../../store/uiStore';
 
-export function PokeBallCarousel() {
+export function PokeBallCarousel({ performanceTier }: { readonly performanceTier: PerformanceTier }) {
   const qc = useQueryClient();
   const openBall = useUiStore((s) => s.openBall);
   const headingId = useId();
@@ -16,7 +17,7 @@ export function PokeBallCarousel() {
   const balls = POKEBALLS;
   const ballCount = balls.length;
   const { transforms, carouselProps, reducedMotion, activeIndex, angleStep, rotateBy, snapToIndex } =
-    usePokeBallCarousel(ballCount);
+    usePokeBallCarousel(ballCount, { performanceTier });
 
   const activeBall = balls[activeIndex] ?? balls[0]!;
 
@@ -51,6 +52,21 @@ export function PokeBallCarousel() {
     [angleStep, activeIndex, ballCount, balls, openBall, rotateBy, snapToIndex],
   );
 
+  const lightMotion = reducedMotion || performanceTier === 'low';
+  const haloClasses = [
+    'pointer-events-none absolute rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.06)_0%,transparent_68%)] max-md:size-[min(300px,85vw)]',
+    lightMotion
+      ? 'size-[min(420px,90vw)] opacity-40'
+      : performanceTier === 'mid'
+        ? 'motion-carousel-halo size-[min(450px,91vw)]'
+        : 'motion-carousel-halo size-[min(480px,92vw)]',
+  ].join(' ');
+
+  const ballMotionExtras =
+    lightMotion || performanceTier === 'mid'
+      ? 'z-[1] scale-100 [filter:drop-shadow(0_6px_14px_rgb(0_0_0/0.35))]'
+      : 'z-[1] scale-100 hover:scale-105 active:scale-[1.02] [filter:drop-shadow(0_6px_14px_rgb(0_0_0/0.35))] hover:[filter:drop-shadow(0_8px_18px_rgb(0_0_0/0.4))]';
+
   return (
     <section
       className="relative z-10 flex w-full max-w-[min(100%,72rem)] flex-col items-center px-[var(--space-section-x)]"
@@ -76,13 +92,7 @@ export function PokeBallCarousel() {
         onKeyDown={onCarouselKeyDown}
         className="app-focus-ring relative flex h-[min(600px,72dvh)] w-full max-w-4xl items-center justify-center outline-none [perspective:2000px] max-md:h-[min(420px,58dvh)] max-sm:h-[min(360px,52dvh)]"
       >
-        <div
-          className={[
-            'pointer-events-none absolute rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.06)_0%,transparent_68%)] max-md:size-[min(300px,85vw)]',
-            reducedMotion ? 'size-[min(420px,90vw)] opacity-40' : 'motion-carousel-halo size-[min(480px,92vw)]',
-          ].join(' ')}
-          aria-hidden
-        />
+        <div className={haloClasses} aria-hidden />
         <div
           className="relative z-[1] size-[min(200px,42vw)] [transform-style:preserve-3d] max-md:size-[min(150px,38vw)] max-sm:size-[min(120px,36vw)]"
           onPointerEnter={carouselProps.onPointerEnter}
@@ -115,7 +125,7 @@ export function PokeBallCarousel() {
                   'motion-reduce:transition-none',
                   t.active
                     ? 'z-10 scale-[1.22] [filter:drop-shadow(0_10px_22px_rgb(0_0_0/0.45))]'
-                    : 'z-[1] scale-100 hover:scale-105 active:scale-[1.02] [filter:drop-shadow(0_6px_14px_rgb(0_0_0/0.35))] hover:[filter:drop-shadow(0_8px_18px_rgb(0_0_0/0.4))]',
+                    : ballMotionExtras,
                   t.active ? 'shadow-[var(--shadow-carousel-active)]' : 'shadow-none',
                 ].join(' ')}
                 style={{ transform: t.transform, willChange: 'transform' }}
@@ -128,7 +138,7 @@ export function PokeBallCarousel() {
                   decoding="async"
                   className={[
                     'size-full object-contain [image-rendering:-webkit-optimize-contrast] [image-rendering:pixelated]',
-                    reducedMotion
+                    lightMotion
                       ? ''
                       : 'transition-transform duration-[var(--duration-normal)] [transition-timing-function:var(--ease-out)] hover:rotate-[2deg]',
                   ].join(' ')}

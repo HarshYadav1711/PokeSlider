@@ -19,7 +19,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 | Area | Status |
 |------|--------|
 | Build / lint / unit tests | `npm run build`, `npm run lint`, `npm run test` (Vitest + a11y/math tests) |
-| Carousel | Pointer drag, auto-rotate (respects reduced motion), keyboard region, live region for front ball |
+| Carousel | Pointer drag, auto-rotate (respects reduced motion + **adaptive tier**), keyboard region, live region for front ball; **unmounts** when overlay / My Dex / modals / journey block the home hero |
 | Ball overlay | Catch Lab + collectible card + cinematic preview + suggestions grid; prefetch on interaction |
 | Pokémon overlay | Detail + extras queries (type chart + **evolution timeline stages**: chain, stats/types per stage, species lore), cry, mega compare modal, locations |
 | My Dex | Tabs (browse / favorites / recents), filters, listbox + keyboard, compare A/B slots, focus trap |
@@ -37,7 +37,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 3. **Single QueryClient** in `AppProviders` — no per-modal clients.
 4. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
 5. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.
-6. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`.
+6. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`. **`usePerformanceTier()`** sets `html[data-performance-tier]` for lighter glass blur / calmer global motion on mid–low devices.
 7. **Pure helpers** (`a11y/carouselAngle.ts`, `getFocusable.ts`, `utils/evolutionTriggerSummary.ts`, `features/team-builder/teamBuilderEngine.ts`, etc.) unit-tested; heavy UI tested incrementally as needed.
 8. **Pokémon detail extras** (`qk.pokemon.detailExtras`) returns type effectiveness, the resolved **evolution chain** (with stats/types and full `evolution_details`), and **`timelineStages`** (chain + English flavor + genus per stage) so the UI does not double-fetch chain members.
 

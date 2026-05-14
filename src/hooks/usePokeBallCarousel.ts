@@ -2,17 +2,28 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 
 import { addRotation, angleStepForCount, angleToSnapIndexToFront } from '../a11y/carouselAngle';
+import { persistCarouselAngle, takeInitialCarouselAngle } from '../features/carousel/carouselAngleSession';
 import { useMediaQuery } from './useMediaQuery';
 import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+import type { PerformanceTier } from './usePerformanceTier';
 
 export interface PokeBallTransform {
   readonly transform: string;
   readonly active: boolean;
 }
 
-const AUTO_SPEED = 0.5;
+const BASE_AUTO_SPEED = 0.5;
 
-export function usePokeBallCarousel(ballCount: number): {
+function autoSpeedForTier(tier: PerformanceTier, narrow: boolean): number {
+  if (tier === 'low') return narrow ? 0.22 : 0.3;
+  if (tier === 'mid') return narrow ? 0.35 : 0.42;
+  return narrow ? 0.42 : BASE_AUTO_SPEED;
+}
+
+export function usePokeBallCarousel(
+  ballCount: number,
+  opts: { readonly performanceTier: PerformanceTier },
+): {
   transforms: PokeBallTransform[];
   carouselProps: {
     onPointerEnter: () => void;
@@ -29,20 +40,43 @@ export function usePokeBallCarousel(ballCount: number): {
   const reducedMotion = usePrefersReducedMotion();
   const radius = isNarrow ? 180 : 250;
 
-  const [angle, setAngle] = useState(0);
-  const angleRef = useRef(0);
+  const [angle, setAngle] = useState(takeInitialCarouselAngle);
+  const angleRef = useRef(angle);
   const draggingRef = useRef(false);
   const autoRotateRef = useRef(true);
   const startXRef = useRef(0);
   const startAngleRef = useRef(0);
   const pointerIdRef = useRef<number | null>(null);
   const resumeTimerRef = useRef(0);
+  const tabVisibleRef = useRef(typeof document === 'undefined' ? true : document.visibilityState === 'visible');
+  const pointerSessionRef = useRef<AbortController | null>(null);
 
-  const angleStep = useMemo(() => angleStepForCount(ballCount), [ballCount]);
+  const autoSpeed = useMemo(
+    () => autoSpeedForTier(opts.performanceTier, isNarrow),
+    [opts.performanceTier, isNarrow],
+  );
+
+  useEffect(() => {
+    const onVis = () => {
+      tabVisibleRef.current = document.visibilityState === 'visible';
+    };
+    document.addEventListener('visibilitychange', onVis);
+    onVis();
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
 
   useEffect(() => {
     angleRef.current = angle;
   }, [angle]);
+
+  useEffect(
+    () => () => {
+      persistCarouselAngle(angleRef.current);
+      pointerSessionRef.current?.abort();
+      pointerSessionRef.current = null;
+    },
+    [],
+  );
 
   const scheduleResumeAuto = useCallback(() => {
     if (reducedMotion) return;
@@ -55,7 +89,11 @@ export function usePokeBallCarousel(ballCount: number): {
   const rotateBy = useCallback(
     (deltaDegrees: number) => {
       autoRotateRef.current = false;
-      setAngle((a) => addRotation(a, deltaDegrees));
+      setAngle((a) => {
+        const next = addRotation(a, deltaDegrees);
+        angleRef.current = next;
+        return next;
+      });
       scheduleResumeAuto();
     },
     [scheduleResumeAuto],
@@ -64,7 +102,9 @@ export function usePokeBallCarousel(ballCount: number): {
   const snapToIndex = useCallback(
     (index: number) => {
       autoRotateRef.current = false;
-      setAngle(angleToSnapIndexToFront(index, ballCount));
+      const next = angleToSnapIndexToFront(index, ballCount);
+      angleRef.current = next;
+      setAngle(next);
       scheduleResumeAuto();
     },
     [ballCount, scheduleResumeAuto],
@@ -74,9 +114,10 @@ export function usePokeBallCarousel(ballCount: number): {
     if (reducedMotion) return;
     let raf = 0;
     const tick = () => {
-      if (autoRotateRef.current && !draggingRef.current) {
+      const allowSpin = tabVisibleRef.current && !document.hidden;
+      if (allowSpin && autoRotateRef.current && !draggingRef.current) {
         setAngle((prev) => {
-          const next = prev + AUTO_SPEED;
+          const next = prev + autoSpeed;
           angleRef.current = next;
           return next;
         });
@@ -85,10 +126,15 @@ export function usePokeBallCarousel(ballCount: number): {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reducedMotion]);
+  }, [reducedMotion, autoSpeed]);
 
   const onPointerDown = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
+    pointerSessionRef.current?.abort();
+    const ac = new AbortController();
+    pointerSessionRef.current = ac;
+    const { signal } = ac;
+
     draggingRef.current = true;
     autoRotateRef.current = false;
     pointerIdRef.current = event.pointerId;
@@ -110,21 +156,20 @@ export function usePokeBallCarousel(ballCount: number): {
       if (pointerIdRef.current !== e.pointerId) return;
       draggingRef.current = false;
       pointerIdRef.current = null;
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-      window.removeEventListener('pointercancel', onUp);
+      ac.abort();
+      pointerSessionRef.current = null;
       window.setTimeout(() => {
         autoRotateRef.current = true;
       }, 2000);
     };
 
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
-    window.addEventListener('pointercancel', onUp);
+    window.addEventListener('pointermove', onMove, { signal });
+    window.addEventListener('pointerup', onUp, { signal });
+    window.addEventListener('pointercancel', onUp, { signal });
   }, []);
 
   const transforms: PokeBallTransform[] = useMemo(() => {
-    const step = angleStep;
+    const step = angleStepForCount(ballCount);
     return Array.from({ length: ballCount }, (_, index) => {
       const currentAngle = angle + index * step;
       const radian = (currentAngle * Math.PI) / 180;
@@ -137,7 +182,7 @@ export function usePokeBallCarousel(ballCount: number): {
       const active = distanceFromFront < 20;
       return { transform, active };
     });
-  }, [angle, ballCount, radius, angleStep]);
+  }, [angle, ballCount, radius]);
 
   useEffect(() => {
     return () => window.clearTimeout(resumeTimerRef.current);
@@ -152,7 +197,7 @@ export function usePokeBallCarousel(ballCount: number): {
     transforms,
     reducedMotion,
     activeIndex,
-    angleStep,
+    angleStep: angleStepForCount(ballCount),
     rotateBy,
     snapToIndex,
     carouselProps: {

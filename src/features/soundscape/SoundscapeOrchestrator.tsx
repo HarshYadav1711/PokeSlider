@@ -4,12 +4,14 @@ import { useEffect, useMemo, useRef } from 'react';
 import { SoundscapeEngine } from '../../audio/soundscapeEngine';
 import type { SoundscapeDriverState, SoundscapeScene } from '../../audio/soundscapeTypes';
 import { useDiscoveryUiStore } from '../discovery/discoveryUiStore';
+import { useDocumentVisibility } from '../../hooks/useDocumentVisibility';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { qk } from '../../query/keys';
 import { STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { fetchDetailedPokemon } from '../../services/pokeapi/detailedPokemon';
 import { useBattleSimulatorStore } from '../../store/battleSimulatorStore';
 import { useComparisonStore } from '../../store/comparisonStore';
+import { useDiscoveryRecommendationStore } from '../../store/discoveryRecommendationStore';
 import { useRegionExplorerStore } from '../../store/regionExplorerStore';
 import { useSoundscapeStore } from '../../store/soundscapeStore';
 import { useTeamBuilderStore } from '../../store/teamBuilderStore';
@@ -27,6 +29,7 @@ function pickBrowserAudioSupported(): boolean {
 export function SoundscapeOrchestrator() {
   const engineRef = useRef<SoundscapeEngine | null>(null);
   const reducedMotion = usePrefersReducedMotion();
+  const tabVisible = useDocumentVisibility();
 
   const ambientEnabled = useSoundscapeStore((s) => s.ambientEnabled);
   const audioUnlocked = useSoundscapeStore((s) => s.audioUnlocked);
@@ -45,6 +48,7 @@ export function SoundscapeOrchestrator() {
 
   const battleOpen = useBattleSimulatorStore((s) => s.open);
   const compareOpen = useComparisonStore((s) => s.open);
+  const discoveryRecoOpen = useDiscoveryRecommendationStore((s) => s.open);
   const discoveryOpen = useDiscoveryUiStore((s) => s.panelOpen);
   const teamBuilderOpen = useTeamBuilderStore((s) => s.open);
 
@@ -71,6 +75,7 @@ export function SoundscapeOrchestrator() {
       regionId: regionExplorerOpen ? regionId : null,
       battleOpen,
       compareOpen,
+      discoveryRecoOpen,
       discoveryOpen,
       teamBuilderOpen,
       overlayOpen,
@@ -83,6 +88,7 @@ export function SoundscapeOrchestrator() {
       regionId,
       battleOpen,
       compareOpen,
+      discoveryRecoOpen,
       discoveryOpen,
       teamBuilderOpen,
       overlayOpen,
@@ -96,7 +102,12 @@ export function SoundscapeOrchestrator() {
   const browserAudio = pickBrowserAudioSupported();
 
   const ctxAllowed = Boolean(
-    ambientEnabled && !muted && !blockedByMotion && audioUnlocked && browserAudio,
+    tabVisible &&
+      ambientEnabled &&
+      !muted &&
+      !blockedByMotion &&
+      audioUnlocked &&
+      browserAudio,
   );
 
   const driver: SoundscapeDriverState = useMemo(
@@ -126,7 +137,7 @@ export function SoundscapeOrchestrator() {
   }, []);
 
   useEffect(() => {
-    if (!ambientEnabled || !audioUnlocked || blockedByMotion || !browserAudio) {
+    if (!ambientEnabled || !audioUnlocked || blockedByMotion || !browserAudio || !tabVisible) {
       engineRef.current?.setPaused(true);
       return;
     }
@@ -135,7 +146,7 @@ export function SoundscapeOrchestrator() {
     if (!eng.isSupported()) return;
     eng.start();
     eng.setPaused(false);
-  }, [ambientEnabled, audioUnlocked, blockedByMotion, browserAudio]);
+  }, [ambientEnabled, audioUnlocked, blockedByMotion, browserAudio, tabVisible]);
 
   useEffect(() => {
     const eng = engineRef.current;

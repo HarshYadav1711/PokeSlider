@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED-START -->
 _Auto-generated AI/contributor onboarding snapshot. Reflects on-disk state, not aspiration._
 
-_Scan: 2026-05-14T19:19:03+00:00 · commit `3ed1cb8d3f`_
+_Scan: 2026-05-14T19:26:20+00:00 · commit `865d3bfdee`_
 
 ## Identity
 

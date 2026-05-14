@@ -27,7 +27,7 @@ alwaysApply: false
 
 ## Composition rules
 
-- **App** orchestrates layout + skip link + `main`; it should not accumulate business logic.
+- **App** orchestrates layout + skip link + `main` + **home-hero mount gate** (`useHomeHeroSurfaceActive`, `usePerformanceTier`); it should not accumulate business logic.
 - **Overlays** own their focus trap container ref; do not mount a second QueryClient per modal.
 - **Discovery** keeps list virtualization optional — current list is client-filtered; if virtualizing, isolate in a sub-component.
 

@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Home hero isolation + adaptive performance
+
+**Decision:** Gate the **Poké Ball carousel** with `useHomeHeroSurfaceActive()` so the hero **unmounts** whenever an immersive surface is open (details overlay, My Dex panel, compare, team builder, battle simulator, region explorer, discovery mix, journey dashboard/onboarding). Persist orbit **angle** in `carouselAngleSession` across remounts. Introduce **`usePerformanceTier()`** (`high` / `mid` / `low`) from viewport, pointer, `deviceMemory` / `hardwareConcurrency`, and reduced motion; drive `html[data-performance-tier]` for CSS (blur tokens, slower halo, calmer body gradient) and pass tier into **`usePokeBallCarousel`** for gentler auto-spin on phones. **Route-level code split** heavy modals via `React.lazy` + one `Suspense`. **Soundscape:** extend scene with `discoveryRecoOpen`; **pause Web Audio** when the tab is hidden (`useDocumentVisibility` + `setPaused`); **AppAtmosphere** time-of-day tick only while visible. **Dev-only** FPS readout behind `import.meta.env.DEV` + `lazy`. Pointer drag uses **AbortController** so listeners never leak on unmount.
+
+**Why:** The carousel’s always-on RAF + 3D transforms were competing with full-screen feature UIs on mobile, causing jank and wasted battery/audio work. Unmounting is the strongest isolation; tiered degradation keeps desktop premium while phones stay smooth.
+
+**Alternatives rejected:** CSS `visibility:hidden` on the carousel (still paid React reconciliation + hook work); a single global “mode” store duplicating every modal’s truth (more drift than subscribing to existing Zustand flags).
+
+---
+
 ## 2026-05 — Poké Ball Intelligence (local catch estimates)
 
 **Decision:** Centralize extended Poké Ball metadata in `src/data/pokeballs.ts` (rarity tier, collectibility score, heritage copy, `mechanic` discriminant). Add pure **`src/engine/*`** helpers: neutral-HP estimate, contextual ball multipliers (Net/Dive/Nest/Repeat/Timer/Master), modified catch rate + **Gen III–IV style four-shake** probability, snapshot + ranking builders. Surface **Catch Lab** on ball overlay (`BallCatchLaboratory`) and **Poké Ball fit** on Pokémon detail (`PokemonBallFitSection`) with Motion **cinematic previews** gated by reduced motion. Thread **`speciesCatchRate`** through `PokemonSpeciesResponse`, `mapPokemonSummary`, and `DetailedPokemon` from PokéAPI `capture_rate`.

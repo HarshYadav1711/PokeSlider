@@ -1,13 +1,13 @@
 <!-- AUTO-GENERATED-START -->
 _Auto-generated from `project-metadata/features/*.yaml`._
 
-_Scan: 2026-05-14T19:19:03+00:00_
+_Scan: 2026-05-14T19:26:20+00:00_
 
 ## Shipped
 
 | Feature | Confidence | Files | Tests | Description |
 |---|---|---|---|---|
-| **3D Poké Ball carousel** | `verified` | 3 | 1 | Hero 3D carousel with pointer drag, keyboard navigation, and auto-rotate gated by `prefers-reduced-motion`. Front-ball selection drives the overlay. |
+| **3D Poké Ball carousel** | `verified` | 4 | 1 | Hero 3D carousel with pointer drag, keyboard navigation, and auto-rotate gated by `prefers-reduced-motion`. Front-ball selection drives the overlay. |
 | **Battle Simulator** | `verified` | 4 | 1 | Local, rule-based battle simulator presented as a modal surface. |
 | **Details overlay (ball + Pokémon)** | `verified` | 7 | 1 | Two-panel overlay: ball lore + suggested species, and full Pokémon detail (stats, type matchups, evolution timeline explorer, locations, cry, mega). |
 | **My Dex discovery** | `partial` | 6 | 0 | Browse, filter, favorites, recents, and compare-from-row affordances. Bottom sheet on narrow viewports, side panel on `md+`. |

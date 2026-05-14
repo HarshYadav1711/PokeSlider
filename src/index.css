@@ -55,6 +55,12 @@
     body {
       animation: gradient-shift var(--motion-gradient-shift-duration) ease-in-out infinite;
     }
+    html[data-performance-tier='low'] body {
+      animation: none;
+    }
+    html[data-performance-tier='mid'] body {
+      animation-duration: 48s;
+    }
   }
 
   body::before {
@@ -104,6 +110,20 @@
     .motion-carousel-halo {
       animation: none;
     }
+  }
+
+  html[data-performance-tier='low'] {
+    --blur-glass: 6px;
+    --blur-overlay: 9px;
+  }
+
+  html[data-performance-tier='mid'] {
+    --blur-glass: 8px;
+    --blur-overlay: 11px;
+  }
+
+  html[data-performance-tier='mid'] .motion-carousel-halo {
+    animation-duration: 9s;
   }
 }
 

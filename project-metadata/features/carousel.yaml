@@ -13,6 +13,7 @@ dependencies: []
 source_files:
 - src/a11y/carouselAngle.ts
 - src/features/carousel/PokeBallCarousel.tsx
+- src/features/carousel/carouselAngleSession.ts
 - src/hooks/usePokeBallCarousel.ts
 tests:
 - src/a11y/carouselAngle.test.ts
