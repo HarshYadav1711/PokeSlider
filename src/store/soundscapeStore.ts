@@ -12,6 +12,9 @@ const DEFAULT_LAYERS: SoundscapeLayerToggles = {
 };
 
 interface SoundscapeState {
+  /** Ephemeral UI — not persisted; gates home hero mount with other immersive surfaces. */
+  settingsPanelOpen: boolean;
+  setSettingsPanelOpen: (open: boolean) => void;
   /** User opt-in — avoids autoplay policy issues and surprise audio. */
   ambientEnabled: boolean;
   /** Session flag: set after first user gesture once ambient is enabled. */
@@ -33,6 +36,8 @@ interface SoundscapeState {
 export const useSoundscapeStore = create<SoundscapeState>()(
   persist(
     (set) => ({
+      settingsPanelOpen: false,
+      setSettingsPanelOpen: (settingsPanelOpen) => set({ settingsPanelOpen }),
       ambientEnabled: false,
       audioUnlocked: false,
       masterVolume: 0.42,

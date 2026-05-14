@@ -7,6 +7,7 @@ import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
+import { APP_FULLSCREEN_MODAL_BACKDROP } from '../../ui/appModalChrome';
 import { useDexListsStore } from '../../store/dexListsStore';
 import { useJourneyProgressStore } from '../../store/journeyProgressStore';
 import { useTeamBuilderStore } from '../../store/teamBuilderStore';
@@ -136,7 +137,7 @@ export function TeamBuilderModal() {
       {open ? (
         <motion.div
           key="team-builder"
-          className="fixed inset-0 z-[1006] flex items-end justify-center bg-[rgb(4_6_12/0.78)] p-3 backdrop-blur-[var(--blur-overlay)] md:items-center"
+          className={`fixed inset-0 z-[1006] flex items-end justify-center p-3 md:items-center ${APP_FULLSCREEN_MODAL_BACKDROP}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

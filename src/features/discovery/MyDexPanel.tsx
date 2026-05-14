@@ -141,6 +141,15 @@ export function MyDexPanel() {
         </button>
       </div>
 
+      {panelOpen ? (
+        <button
+          type="button"
+          className="pointer-events-auto fixed inset-0 z-[883] bg-[rgb(2_3_8/0.78)] max-md:bg-[rgb(2_3_8/0.92)] backdrop-blur-[var(--blur-overlay)] max-md:backdrop-blur-none"
+          aria-label="Dismiss My Dex"
+          onClick={() => setPanelOpen(false)}
+        />
+      ) : null}
+
       <AnimatePresence>
         {panelOpen ? (
           <motion.div
@@ -153,7 +162,7 @@ export function MyDexPanel() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 16 }}
             transition={sheetSpringTransition(reduced)}
-            className="pointer-events-auto fixed inset-x-0 bottom-0 top-[min(12dvh,120px)] z-[895] flex flex-col rounded-t-[var(--radius-3xl)] border border-white/12 bg-[rgb(10_14_26/0.96)] p-[var(--space-4)] shadow-[var(--shadow-lg)] backdrop-blur-[var(--blur-overlay)] max-md:top-[10vh] md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-[var(--radius-3xl)] md:p-[var(--space-5)]"
+            className="pointer-events-auto fixed inset-x-0 bottom-0 top-[min(12dvh,120px)] z-[895] flex flex-col rounded-t-[var(--radius-3xl)] border border-white/12 bg-[rgb(10_14_26/0.98)] p-[var(--space-4)] shadow-[var(--shadow-lg)] backdrop-blur-[var(--blur-overlay)] max-md:top-[10vh] max-md:backdrop-blur-none md:inset-y-4 md:right-4 md:left-auto md:w-[min(100vw-2rem,440px)] md:rounded-[var(--radius-3xl)] md:p-[var(--space-5)]"
           >
             <div ref={trapRef} className="flex min-h-0 flex-1 flex-col">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">

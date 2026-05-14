@@ -5,6 +5,7 @@ import { useFocusTrap } from '../../a11y/useFocusTrap';
 import { POKEBALLS } from '../../data/pokeballs';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
+import { APP_FULLSCREEN_MODAL_BACKDROP } from '../../ui/appModalChrome';
 import { useUiStore } from '../../store/uiStore';
 import { BallDetailPanel } from './BallDetailPanel';
 import { PokemonDetailPanel } from './PokemonDetailPanel';
@@ -52,7 +53,7 @@ export function DetailsOverlay() {
       {overlayOpen && ball ? (
         <motion.div
           key="overlay"
-          className="fixed inset-0 z-[1000] flex items-center justify-center bg-[rgb(4_6_12/0.88)] p-[var(--space-4)] backdrop-blur-[var(--blur-overlay)] sm:p-[var(--space-6)]"
+          className={`fixed inset-0 z-[1000] flex items-center justify-center p-[var(--space-4)] sm:p-[var(--space-6)] ${APP_FULLSCREEN_MODAL_BACKDROP}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

@@ -4,6 +4,7 @@ import { useEffect, useId, useMemo, useRef, type CSSProperties } from 'react';
 import { useFocusTrap } from '../../a11y/useFocusTrap';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
+import { APP_FULLSCREEN_MODAL_BACKDROP } from '../../ui/appModalChrome';
 import { useRegionExplorerStore } from '../../store/regionExplorerStore';
 import { useUiStore } from '../../store/uiStore';
 import { REGIONS, getRegionDefinition } from './data/regions';
@@ -65,7 +66,7 @@ export default function RegionExplorerModal() {
       {open ? (
         <motion.div
           key="region-explorer"
-          className="fixed inset-0 z-[1010] flex items-end justify-center bg-[rgb(4_6_12/0.82)] p-3 backdrop-blur-[var(--blur-overlay)] md:items-center"
+          className={`fixed inset-0 z-[1010] flex items-end justify-center p-3 md:items-center ${APP_FULLSCREEN_MODAL_BACKDROP}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

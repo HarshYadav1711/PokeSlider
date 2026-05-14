@@ -1,82 +1,128 @@
 {
-  "generated_at": "2026-05-14T19:40:49.386220Z",
-  "git_commit": "50f77c0cf23beb3faf35be408e7031d5c9d74e56",
+  "generated_at": "2026-05-14T19:51:36.931563Z",
+  "git_commit": "a2b12b6d1b86b5c73e7a9456191926b2924731b7",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/features/pwa/PwaClientChrome.tsx",
-      "role": "component",
-      "feature_id": "pwa",
-      "sha256": "2aea5c71316ebb5a4f7d6203d363ee08301925d3f12ed974cc4362f0cc8ca52f",
-      "loc": 88,
+      "path": "src/experience/appExperienceTypes.ts",
+      "role": "types",
+      "feature_id": null,
+      "sha256": "79e47c1d1afad9d794a4474fe5bae0b5029aa2a1ab42b0639eabb52bea4ed442",
+      "loc": 27,
       "is_test": false,
-      "imports": [
-        "virtual:pwa-register/react",
-        "../../hooks/useOnlineStatus"
-      ],
+      "imports": [],
       "exported_symbols": [
-        "PwaClientChrome"
+        "AppExperienceFlags",
+        "AppExperienceSurface"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/hooks/useOnlineStatus.ts",
-      "role": "hook",
+      "path": "src/experience/selectAppExperienceSurface.test.ts",
+      "role": "test",
       "feature_id": null,
-      "sha256": "3225ff17ccd8f53f1ba8d6895716772a72355153867163c5101787705110bbeb",
-      "loc": 24,
-      "is_test": false,
+      "sha256": "ff773aa56e8cef254be25f73f29b1dc3b7a075d8c0a4a2bfc3ad39c3331f9c3e",
+      "loc": 52,
+      "is_test": true,
       "imports": [
-        "react"
+        "vitest",
+        "./appExperienceTypes",
+        "./selectAppExperienceSurface"
       ],
-      "exported_symbols": [
-        "useOnlineStatus"
-      ],
-      "referenced_stores": [
-        "useSyncExternalStore"
-      ],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/query/queryPersister.ts",
-      "role": "query",
-      "feature_id": null,
-      "sha256": "7b7c4dabfad315edfba5d25ef2449f32b6d77112fab43e8477b4d342fd7f855c",
-      "loc": 63,
-      "is_test": false,
-      "imports": [
-        "@tanstack/query-async-storage-persister",
-        "@tanstack/query-core",
-        "@tanstack/query-persist-client-core",
-        "@tanstack/react-query",
-        "idb-keyval"
-      ],
-      "exported_symbols": [
-        "QUERY_PERSIST_MAX_AGE_MS",
-        "createQueryPersister",
-        "shouldPersistPokemonQuery"
-      ],
+      "exported_symbols": [],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/test/pwaRegisterStub.ts",
+      "path": "src/experience/selectAppExperienceSurface.ts",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "d96d3287fab30f95062804bd13bc06e144f1f67759385b3107adad0965ef530e",
-      "loc": 14,
+      "sha256": "2969ba588ba1ab7a158f34712a6905afa2f495ffd4eed583d66463de12408652",
+      "loc": 26,
       "is_test": false,
       "imports": [
-        "react"
+        "./appExperienceTypes"
       ],
       "exported_symbols": [
-        "useRegisterSW"
+        "isHomeCarouselSurface",
+        "selectAppExperienceSurface"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/experience/useAppExperienceSurface.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "7ca4d30e8aeff64b48700224a514a1c2cc6f695dd79857b98deb8a96ff91cfab",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../features/discovery/discoveryUiStore",
+        "../store/battleSimulatorStore",
+        "../store/comparisonStore",
+        "../store/discoveryRecommendationStore",
+        "../store/journeyUiStore",
+        "../store/regionExplorerStore",
+        "../store/soundscapeStore",
+        "../store/teamBuilderStore",
+        "../store/uiStore",
+        "./appExperienceTypes",
+        "./selectAppExperienceSurface"
+      ],
+      "exported_symbols": [
+        "AppExperienceSnapshot",
+        "useAppExperienceSurface"
+      ],
+      "referenced_stores": [
+        "useBattleSimulatorStore",
+        "useComparisonStore",
+        "useDiscoveryRecommendationStore",
+        "useDiscoveryUiStore",
+        "useJourneyUiStore",
+        "useRegionExplorerStore",
+        "useSoundscapeStore",
+        "useTeamBuilderStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/hooks/useImmersionChromeLock.ts",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "ea315824c05643f1df1ad8a6c4e9c1d6eafa0ca9e159f2b5c272cd7d7027d6f0",
+      "loc": 25,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../experience/appExperienceTypes"
+      ],
+      "exported_symbols": [
+        "useImmersionChromeLock"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/ui/appModalChrome.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "5471dbb7c8c5b784029c250546a8016acfdeed8de4d549e805286008ce2f3ce4",
+      "loc": 6,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "APP_FULLSCREEN_MODAL_BACKDROP"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -155,7 +201,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "a689e96c83a76a0b143e00622de22662c99131a9c494636218d751e4af1486cb",
+      "sha256": "193e351123735f76ed3520bd1823d90aa3bea18967ab4d0b274346b3bb27c9a0",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -233,7 +279,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "6e88a2d94b1b938b346885cc87ab7d6e5f922c7929a399f65aeb995740a9c993",
+      "sha256": "bea4122cee8d1f3e97fda7694e9661fa89f6b9b088833c233a30a4d172df8ceb",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -311,8 +357,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "83d1f40c017a69e73377601660581c114defa2c85d7f260bd8682d1b738f1620",
-      "loc": 4157,
+      "sha256": "8b81b4cca08a0e7e7823b3da607f4a94485073a7a65421244323ca311a4844f6",
+      "loc": 4239,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -415,8 +461,8 @@
       "path": "src/App.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "072f336f209a3df7914d112afb2f119025ce09b991f5507a513a3bcda79f565e",
-      "loc": 144,
+      "sha256": "49833883391c08f6febd69ec15442faa935c50c14082bc170ecc531cf4c9565c",
+      "loc": 155,
       "is_test": false,
       "imports": [
         "react",
@@ -426,8 +472,9 @@
         "./features/journey/JourneyBootstrap",
         "./features/journey/JourneyEntryButton",
         "./features/soundscape/SoundscapeControls",
+        "./experience/useAppExperienceSurface",
         "./hooks/useAppKeyboardShortcuts",
-        "./hooks/useHomeHeroSurfaceActive",
+        "./hooks/useImmersionChromeLock",
         "./hooks/usePerformanceTier",
         "./store/discoveryRecommendationStore",
         "./store/regionExplorerStore",
@@ -1042,8 +1089,8 @@
       "path": "src/features/battle-sim/BattleSimulatorModal.tsx",
       "role": "component",
       "feature_id": "battle_sim",
-      "sha256": "079270f34786be28c3c97c18638d12ee2078c21ba6b2d9b95d2f205618ed7686",
-      "loc": 460,
+      "sha256": "0945d212573854125a86679b92d9ce8286b2f6ae4b66b0fbeb2f0cb42fb4a97f",
+      "loc": 461,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1054,6 +1101,7 @@
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
         "../../query/keys",
+        "../../ui/appModalChrome",
         "../../query/staleTimes",
         "../../services/pokeapi/comparisonProfile",
         "../../services/pokeapi/typeMatchupChart",
@@ -1186,8 +1234,8 @@
       "path": "src/features/compare/ComparisonModal.tsx",
       "role": "component",
       "feature_id": "compare",
-      "sha256": "e5af4d86ff94a466a28aa926736f76f2e2442954f9c0bd48237f3b4a02c3d7a5",
-      "loc": 513,
+      "sha256": "b447d72d6ac836d3cb277b2b3cec5c3ca56cffdd8a869772224f2d4baaad1a1e",
+      "loc": 514,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1198,6 +1246,7 @@
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
         "../../query/keys",
+        "../../ui/appModalChrome",
         "../../query/staleTimes",
         "../../services/pokeapi/comparisonProfile",
         "../../services/pokeapi/typeEffectiveness",
@@ -1302,8 +1351,8 @@
       "path": "src/features/discovery-recommendation/DiscoveryEngineModal.tsx",
       "role": "component",
       "feature_id": "discovery_recommendation",
-      "sha256": "40455aa6aa5083501c932a2a344e92e028af5e9d64254cd3e85df0b8cd1cd90e",
-      "loc": 503,
+      "sha256": "2cdd1f2ff556fb5edb5f4b528394abe1a2d8d5b476e336c002b9ed367ee1b91f",
+      "loc": 504,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1315,6 +1364,7 @@
         "../../data/journeyRegions",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/dexListsStore",
         "../../store/discoveryRecommendationStore",
         "../../store/uiStore",
@@ -1498,8 +1548,8 @@
       "path": "src/features/discovery/MyDexPanel.tsx",
       "role": "component",
       "feature_id": "discovery",
-      "sha256": "b7b7f9e68cef4a4ad68af0cc63819cada19d8f07ced742053833591a21f657f2",
-      "loc": 545,
+      "sha256": "c1cd2ca78f7517adcc4a065303ca03899dbc54931ced12346c5b9063597134d8",
+      "loc": 554,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1661,8 +1711,8 @@
       "path": "src/features/journey/JourneyDashboardModal.tsx",
       "role": "component",
       "feature_id": "journey",
-      "sha256": "3dbe082d3cc204ea05c78825f1297825b01e3fb08be283251b988dd82a716ae9",
-      "loc": 273,
+      "sha256": "404dc536be64125f6b68996a5a3660dbf0b8efff484b16bc19581b4003b79dee",
+      "loc": 274,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1672,6 +1722,7 @@
         "./journeyAchievementTypes",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/journeyProgressStore",
         "../../store/journeyTrainerStore",
         "../../store/journeyUiStore",
@@ -1714,8 +1765,8 @@
       "path": "src/features/journey/JourneyOnboardingDialog.tsx",
       "role": "component",
       "feature_id": "journey",
-      "sha256": "30a9939ac2b5511dbb85811b30a4024ac51bab5d97ec3ac6d3647924ca52abc1",
-      "loc": 333,
+      "sha256": "85975d3910d71e763486a3541c530ae8467f7105ef79b64ffeec4ea2762c6939",
+      "loc": 334,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1725,6 +1776,7 @@
         "../../data/journeyStarters",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/journeyTrainerStore",
         "../../store/journeyUiStore",
         "./journeySpriteUrl"
@@ -1995,8 +2047,8 @@
       "path": "src/features/overlay/DetailsOverlay.tsx",
       "role": "overlay",
       "feature_id": "overlay",
-      "sha256": "158399e50b3310a21cbdb882fad5a2a7ea6614383f748fa089d295ccf53a3705",
-      "loc": 120,
+      "sha256": "5e5c3d674e9e2dee25f4568bea5523bdea854fef36aff0d3ace03588c3d32f34",
+      "loc": 121,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -2005,6 +2057,7 @@
         "../../data/pokeballs",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/uiStore",
         "./BallDetailPanel",
         "./PokemonDetailPanel"
@@ -2139,6 +2192,24 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/pwa/PwaClientChrome.tsx",
+      "role": "component",
+      "feature_id": "pwa",
+      "sha256": "2aea5c71316ebb5a4f7d6203d363ee08301925d3f12ed974cc4362f0cc8ca52f",
+      "loc": 88,
+      "is_test": false,
+      "imports": [
+        "virtual:pwa-register/react",
+        "../../hooks/useOnlineStatus"
+      ],
+      "exported_symbols": [
+        "PwaClientChrome"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/region-explorer/RegionExplorerAmbient.tsx",
       "role": "component",
       "feature_id": "region_explorer",
@@ -2178,8 +2249,8 @@
       "path": "src/features/region-explorer/RegionExplorerModal.tsx",
       "role": "component",
       "feature_id": "region_explorer",
-      "sha256": "2916a855bab7201a5bc43bc45ef8a4e4895b71e06cd8cd408b150f143936961b",
-      "loc": 200,
+      "sha256": "5d0f862a7bd6aa8e6fa757577b6e504137a2b3f4aeeb129c84b5b0293f24237f",
+      "loc": 201,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -2187,6 +2258,7 @@
         "../../a11y/useFocusTrap",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/regionExplorerStore",
         "../../store/uiStore",
         "./data/regions",
@@ -2519,8 +2591,8 @@
       "path": "src/features/soundscape/SoundscapeControls.tsx",
       "role": "component",
       "feature_id": "soundscape",
-      "sha256": "7ac844bda58ffa7828c34a8b9a2ce97206f15e3ba3304159fc321f75a926b66a",
-      "loc": 182,
+      "sha256": "7e0ba8fcbaf04036a018b5ff6352617ec370945c2de6acc348f04949ee7c3ad7",
+      "loc": 183,
       "is_test": false,
       "imports": [
         "react",
@@ -2583,8 +2655,8 @@
       "path": "src/features/team-builder/TeamBuilderModal.tsx",
       "role": "component",
       "feature_id": "team_builder",
-      "sha256": "dcb304e4c066ba91b5ce510b70149977a4740f7c456f6847ad76a1c94b9bfb8c",
-      "loc": 545,
+      "sha256": "6313d9623619f4f6946f259a51b9949ddf72db5efb3f77bf433beb136840e56d",
+      "loc": 546,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -2595,6 +2667,7 @@
         "../../data/pokemonTypes",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
+        "../../ui/appModalChrome",
         "../../store/dexListsStore",
         "../../store/journeyProgressStore",
         "../../store/teamBuilderStore",
@@ -2737,8 +2810,8 @@
       "path": "src/hooks/useAppKeyboardShortcuts.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "6d4c79eac2a93b1b1e427aa0a65484da943288a5ed4b408b684091e844df8224",
-      "loc": 99,
+      "sha256": "46cb3fd41b4a1b15b7f63c2e2e9dcfc0287d31cc6ebf9ef2f5fe43c37b9afcc9",
+      "loc": 106,
       "is_test": false,
       "imports": [
         "react",
@@ -2746,8 +2819,9 @@
         "../store/comparisonStore",
         "../features/discovery/discoveryUiStore",
         "../store/discoveryRecommendationStore",
-        "../store/regionExplorerStore",
         "../store/journeyUiStore",
+        "../store/regionExplorerStore",
+        "../store/soundscapeStore",
         "../store/teamBuilderStore",
         "../store/uiStore"
       ],
@@ -2761,6 +2835,7 @@
         "useDiscoveryUiStore",
         "useJourneyUiStore",
         "useRegionExplorerStore",
+        "useSoundscapeStore",
         "useTeamBuilderStore",
         "useUiStore"
       ],
@@ -2790,32 +2865,16 @@
       "path": "src/hooks/useHomeHeroSurfaceActive.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "579442fcc27c7d1598ee1d2ff2186286f82c402aa75aeb64bf043f9b92ad2343",
-      "loc": 36,
+      "sha256": "8c71b9648d686889fde563c1df86e9287e40814eaf48a1eea91cabbdad3b56ae",
+      "loc": 9,
       "is_test": false,
       "imports": [
-        "../features/discovery/discoveryUiStore",
-        "../store/battleSimulatorStore",
-        "../store/comparisonStore",
-        "../store/discoveryRecommendationStore",
-        "../store/journeyUiStore",
-        "../store/regionExplorerStore",
-        "../store/teamBuilderStore",
-        "../store/uiStore"
+        "../experience/useAppExperienceSurface"
       ],
       "exported_symbols": [
         "useHomeHeroSurfaceActive"
       ],
-      "referenced_stores": [
-        "useBattleSimulatorStore",
-        "useComparisonStore",
-        "useDiscoveryRecommendationStore",
-        "useDiscoveryUiStore",
-        "useJourneyUiStore",
-        "useRegionExplorerStore",
-        "useTeamBuilderStore",
-        "useUiStore"
-      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -2831,6 +2890,25 @@
       ],
       "exported_symbols": [
         "useMediaQuery"
+      ],
+      "referenced_stores": [
+        "useSyncExternalStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/hooks/useOnlineStatus.ts",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "3225ff17ccd8f53f1ba8d6895716772a72355153867163c5101787705110bbeb",
+      "loc": 24,
+      "is_test": false,
+      "imports": [
+        "react"
+      ],
+      "exported_symbols": [
+        "useOnlineStatus"
       ],
       "referenced_stores": [
         "useSyncExternalStore"
@@ -3113,6 +3191,29 @@
         "ball",
         "pokemon"
       ],
+      "parser_ok": true
+    },
+    {
+      "path": "src/query/queryPersister.ts",
+      "role": "query",
+      "feature_id": null,
+      "sha256": "7b7c4dabfad315edfba5d25ef2449f32b6d77112fab43e8477b4d342fd7f855c",
+      "loc": 63,
+      "is_test": false,
+      "imports": [
+        "@tanstack/query-async-storage-persister",
+        "@tanstack/query-core",
+        "@tanstack/query-persist-client-core",
+        "@tanstack/react-query",
+        "idb-keyval"
+      ],
+      "exported_symbols": [
+        "QUERY_PERSIST_MAX_AGE_MS",
+        "createQueryPersister",
+        "shouldPersistPokemonQuery"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
       "parser_ok": true
     },
     {
@@ -3767,8 +3868,8 @@
       "path": "src/store/soundscapeStore.ts",
       "role": "store",
       "feature_id": null,
-      "sha256": "94b970cb7dfde4bd54424353969e0b663969140c6fae1f96e15b323515d6f898",
-      "loc": 70,
+      "sha256": "3185b5730a1c2bf6627667daaaea5864e4ff1839a9192a812a0711354c64c59e",
+      "loc": 75,
       "is_test": false,
       "imports": [
         "zustand",
@@ -3850,6 +3951,23 @@
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/test/pwaRegisterStub.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "d96d3287fab30f95062804bd13bc06e144f1f67759385b3107adad0965ef530e",
+      "loc": 14,
+      "is_test": false,
+      "imports": [
+        "react"
+      ],
+      "exported_symbols": [
+        "useRegisterSW"
+      ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true

@@ -6,8 +6,9 @@ import { MyDexPanel } from './features/discovery/MyDexPanel';
 import { JourneyBootstrap } from './features/journey/JourneyBootstrap';
 import { JourneyEntryButton } from './features/journey/JourneyEntryButton';
 import { SoundscapeControls } from './features/soundscape/SoundscapeControls';
+import { useAppExperienceSurface } from './experience/useAppExperienceSurface';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
-import { useHomeHeroSurfaceActive } from './hooks/useHomeHeroSurfaceActive';
+import { useImmersionChromeLock } from './hooks/useImmersionChromeLock';
 import { usePerformanceTier } from './hooks/usePerformanceTier';
 import { useDiscoveryRecommendationStore } from './store/discoveryRecommendationStore';
 import { useRegionExplorerStore } from './store/regionExplorerStore';
@@ -44,7 +45,8 @@ const PerformanceDiagnostics = import.meta.env.DEV
 export function App() {
   useAppKeyboardShortcuts();
   const performanceTier = usePerformanceTier();
-  const homeHeroActive = useHomeHeroSurfaceActive();
+  const { surface, isHomeCarouselSurface: homeHeroActive } = useAppExperienceSurface();
+  useImmersionChromeLock(surface);
 
   return (
     <>
@@ -64,7 +66,15 @@ export function App() {
         className="relative z-[2] flex min-h-dvh w-full flex-col items-stretch text-[#f4f4f8] max-lg:pt-[env(safe-area-inset-top)]"
       >
         <div className="mx-auto flex w-full max-w-[min(100%,72rem)] flex-1 flex-col items-center px-[var(--space-section-x)] py-[var(--space-section-y)] max-md:items-stretch">
-          <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
+          <div
+            className={
+              homeHeroActive
+                ? 'flex w-full flex-1 flex-col items-center max-md:w-full max-md:items-stretch'
+                : 'flex w-full flex-1 flex-col items-center max-md:w-full max-md:items-stretch pointer-events-none select-none'
+            }
+            aria-hidden={homeHeroActive ? undefined : true}
+          >
+            <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
             <div className="mb-[var(--space-4)] flex flex-wrap justify-center gap-2">
               <JourneyEntryButton />
               <SoundscapeControls />
@@ -121,23 +131,24 @@ export function App() {
               </span>
             </p>
           ) : null}
+          </div>
+
+          <DetailsOverlay />
+
+          <MyDexPanel />
+
+          <Suspense fallback={null}>
+            <DiscoveryEngineModal />
+            <ComparisonModal />
+            <BattleSimulatorModal />
+            <TeamBuilderModal />
+            <RegionExplorerModal />
+            <JourneyDashboardModal />
+            <JourneyOnboardingDialog />
+          </Suspense>
+
+          <JourneyBootstrap />
         </div>
-
-        <DetailsOverlay />
-
-        <MyDexPanel />
-
-        <Suspense fallback={null}>
-          <DiscoveryEngineModal />
-          <ComparisonModal />
-          <BattleSimulatorModal />
-          <TeamBuilderModal />
-          <RegionExplorerModal />
-          <JourneyDashboardModal />
-          <JourneyOnboardingDialog />
-        </Suspense>
-
-        <JourneyBootstrap />
       </main>
     </>
   );

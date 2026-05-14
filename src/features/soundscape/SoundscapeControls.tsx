@@ -1,10 +1,11 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef } from 'react';
 
 import { useSoundscapeStore } from '../../store/soundscapeStore';
 
 export function SoundscapeControls() {
   const panelId = useId();
-  const [open, setOpen] = useState(false);
+  const open = useSoundscapeStore((s) => s.settingsPanelOpen);
+  const setSettingsPanelOpen = useSoundscapeStore((s) => s.setSettingsPanelOpen);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   const ambientEnabled = useSoundscapeStore((s) => s.ambientEnabled);
@@ -22,11 +23,11 @@ export function SoundscapeControls() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') setSettingsPanelOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
+  }, [open, setSettingsPanelOpen]);
 
   useEffect(() => {
     if (open) closeBtnRef.current?.focus();
@@ -48,7 +49,7 @@ export function SoundscapeControls() {
         aria-expanded={open ? 'true' : 'false'}
         aria-controls={open ? panelId : undefined}
         aria-describedby={`${panelId}-hint`}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setSettingsPanelOpen(!open)}
       >
         Soundscape
       </button>
@@ -60,16 +61,16 @@ export function SoundscapeControls() {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-[80] cursor-default bg-black/20"
+            className="pointer-events-auto fixed inset-0 z-[80] cursor-default bg-[rgb(2_3_8/0.72)] max-md:bg-[rgb(2_3_8/0.88)] max-md:backdrop-blur-none backdrop-blur-sm"
             aria-label="Close soundscape settings"
-            onClick={() => setOpen(false)}
+            onClick={() => setSettingsPanelOpen(false)}
           />
           <div
             id={panelId}
             role="dialog"
             aria-modal="true"
             aria-labelledby={`${panelId}-title`}
-            className="app-surface-glass fixed left-1/2 top-[min(12rem,18svh)] z-[90] w-[min(22rem,calc(100vw-1.5rem))] -translate-x-1/2 rounded-[var(--radius-2xl)] border border-white/14 p-[var(--space-5)] shadow-[var(--shadow-md)] backdrop-blur-[var(--blur-glass)]"
+            className="pointer-events-auto app-surface-glass fixed left-1/2 top-[min(12rem,18svh)] z-[90] w-[min(22rem,calc(100vw-1.5rem))] -translate-x-1/2 rounded-[var(--radius-2xl)] border border-white/14 p-[var(--space-5)] shadow-[var(--shadow-md)] backdrop-blur-[var(--blur-glass)]"
           >
             <div className="mb-4 flex items-start justify-between gap-3">
               <h2 id={`${panelId}-title`} className="text-base font-bold text-white">
@@ -79,7 +80,7 @@ export function SoundscapeControls() {
                 ref={closeBtnRef}
                 type="button"
                 className="app-focus-ring rounded-full border border-white/18 bg-white/8 px-2.5 py-1 text-sm text-white/85 hover:bg-white/14"
-                onClick={() => setOpen(false)}
+                onClick={() => setSettingsPanelOpen(false)}
               >
                 <span aria-hidden>×</span>
                 <span className="sr-only">Close</span>

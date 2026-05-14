@@ -4,14 +4,15 @@ import { useBattleSimulatorStore } from '../store/battleSimulatorStore';
 import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
 import { useDiscoveryRecommendationStore } from '../store/discoveryRecommendationStore';
-import { useRegionExplorerStore } from '../store/regionExplorerStore';
 import { useJourneyUiStore } from '../store/journeyUiStore';
+import { useRegionExplorerStore } from '../store/regionExplorerStore';
+import { useSoundscapeStore } from '../store/soundscapeStore';
 import { useTeamBuilderStore } from '../store/teamBuilderStore';
 import { useUiStore } from '../store/uiStore';
 
 /**
  * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` walks modals
- * (team builder → battle → compare → journey onboarding → journey dashboard → region explorer → discovery mix → My Dex → overlay).
+ * (team builder → battle → compare → journey onboarding → journey dashboard → region explorer → discovery mix → My Dex → soundscape → overlay).
  */
 export function useAppKeyboardShortcuts() {
   useEffect(() => {
@@ -63,6 +64,12 @@ export function useAppKeyboardShortcuts() {
         const dexOpen = useDiscoveryUiStore.getState().panelOpen;
         if (dexOpen) {
           useDiscoveryUiStore.getState().setPanelOpen(false);
+          e.preventDefault();
+          return;
+        }
+        const soundscapePanelOpen = useSoundscapeStore.getState().settingsPanelOpen;
+        if (soundscapePanelOpen) {
+          useSoundscapeStore.getState().setSettingsPanelOpen(false);
           e.preventDefault();
           return;
         }

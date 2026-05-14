@@ -11,6 +11,7 @@ import {
   overlayBackdropTransition,
 } from '../../motion/motionPrefs';
 import { qk } from '../../query/keys';
+import { APP_FULLSCREEN_MODAL_BACKDROP } from '../../ui/appModalChrome';
 import { STALE_POKEMON_DETAIL_EXTRAS_MS, STALE_POKEMON_DETAIL_MS } from '../../query/staleTimes';
 import { fetchPokemonComparisonProfile } from '../../services/pokeapi/comparisonProfile';
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
@@ -193,7 +194,7 @@ export function ComparisonModal() {
       {open ? (
         <motion.div
           key="compare"
-          className="fixed inset-0 z-[1005] flex items-end justify-center bg-[rgb(4_6_12/0.78)] p-3 backdrop-blur-[var(--blur-overlay)] md:items-center"
+          className={`fixed inset-0 z-[1005] flex items-end justify-center p-3 md:items-center ${APP_FULLSCREEN_MODAL_BACKDROP}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -216,7 +217,7 @@ export function ComparisonModal() {
             className="max-h-[94dvh] w-full max-w-5xl overflow-y-auto rounded-t-[var(--radius-3xl)] border border-white/12 shadow-[var(--shadow-lg)] md:max-h-[92dvh] md:rounded-[var(--radius-3xl)]"
             style={{ background: bg }}
           >
-            <div className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-white/10 bg-[rgb(6_8_14/0.55)] px-4 py-3 backdrop-blur-[var(--blur-glass)] md:px-6">
+            <div className="sticky top-0 z-[1] flex items-center justify-between gap-2 border-b border-white/10 bg-[rgb(6_8_14/0.72)] px-4 py-3 backdrop-blur-[var(--blur-glass)] max-md:backdrop-blur-none md:px-6">
               <h2
                 tabIndex={-1}
                 data-compare-initial-focus

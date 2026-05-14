@@ -8,6 +8,7 @@ import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { JOURNEY_REGIONS } from '../../data/journeyRegions';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
+import { APP_FULLSCREEN_MODAL_BACKDROP } from '../../ui/appModalChrome';
 import { useDexListsStore } from '../../store/dexListsStore';
 import { useDiscoveryRecommendationStore } from '../../store/discoveryRecommendationStore';
 import { useUiStore } from '../../store/uiStore';
@@ -172,7 +173,7 @@ export function DiscoveryEngineModal() {
       {open ? (
         <motion.div
           key="discovery-engine"
-          className="fixed inset-0 z-[1005] flex items-end justify-center bg-[rgb(3_5_12/0.82)] p-3 backdrop-blur-[var(--blur-overlay)] md:items-center"
+          className={`fixed inset-0 z-[1005] flex items-end justify-center p-3 md:items-center ${APP_FULLSCREEN_MODAL_BACKDROP}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
