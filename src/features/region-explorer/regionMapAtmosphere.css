@@ -1,0 +1,41 @@
+@keyframes region-map-cloud-a {
+  0%,
+  100% {
+    transform: translate3d(-2%, 0, 0);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translate3d(3%, -1%, 0);
+    opacity: 0.2;
+  }
+}
+
+@keyframes region-map-cloud-b {
+  0%,
+  100% {
+    transform: translate3d(2%, 1%, 0);
+    opacity: 0.08;
+  }
+  50% {
+    transform: translate3d(-4%, 0, 0);
+    opacity: 0.14;
+  }
+}
+
+.region-map-atmosphere__cloud-a {
+  animation: region-map-cloud-a 48s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.region-map-atmosphere__cloud-b {
+  animation: region-map-cloud-b 62s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .region-map-atmosphere__cloud-a,
+  .region-map-atmosphere__cloud-b {
+    animation: none;
+    opacity: 0.1;
+  }
+}

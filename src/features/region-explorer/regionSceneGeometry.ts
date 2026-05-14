@@ -57,3 +57,14 @@ export function buildRouteNetworkPath(routes: readonly RegionRoute[]): string | 
   }
   return d;
 }
+
+/** Polyline from the first route anchor through the active route (for guided route glow). */
+export function buildRouteNetworkPathThrough(
+  routes: readonly RegionRoute[],
+  activeRouteId: string | null,
+): string | null {
+  if (routes.length === 0 || !activeRouteId) return null;
+  const idx = routes.findIndex((r) => r.id === activeRouteId);
+  if (idx < 0) return null;
+  return buildRouteNetworkPath(routes.slice(0, idx + 1));
+}

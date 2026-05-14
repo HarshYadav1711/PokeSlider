@@ -24,7 +24,8 @@ export type RegionHotspotKind =
 
 /**
  * Stylized canonical SVG map layers (normalized viewBox 0 0 100 60).
- * Vector-only — no embedded rasters; paths are optimized recreations, not ROM-derived art.
+ * Vector paths are optimized recreations, not ROM-derived art. Optional painterly rasters
+ * (see `regionAtlasRasterManifest.ts`) composite underneath this layer when shipped.
  */
 export interface RegionMapArt {
   /** Primary land masses (filled). */

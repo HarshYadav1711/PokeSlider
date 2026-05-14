@@ -4,7 +4,12 @@ import { resolveRegionMapArt } from './data/regionLayerAtlas';
 import { KANTO } from './data/regions/kanto';
 import { ALOLA } from './data/regions/alola';
 import { buildRegionHotspots } from './regionHotspots';
-import { buildRouteNetworkPath, buildSmoothedRoutePath, REGION_SILHOUETTES } from './regionSceneGeometry';
+import {
+  buildRouteNetworkPath,
+  buildRouteNetworkPathThrough,
+  buildSmoothedRoutePath,
+  REGION_SILHOUETTES,
+} from './regionSceneGeometry';
 
 describe('regionSceneGeometry', () => {
   it('buildRouteNetworkPath joins route order', () => {
@@ -17,6 +22,14 @@ describe('regionSceneGeometry', () => {
     const d = buildSmoothedRoutePath(KANTO.routes);
     expect(d).toContain('M');
     expect(d).toContain('C');
+  });
+
+  it('buildRouteNetworkPathThrough stops at the active route anchor', () => {
+    const full = buildRouteNetworkPath(KANTO.routes);
+    const partial = buildRouteNetworkPathThrough(KANTO.routes, 'kanto-route-5');
+    expect(full && partial).toBeTruthy();
+    expect(partial!.length).toBeLessThan(full!.length);
+    expect(partial).toContain('48');
   });
 
   it('has a silhouette per canonical region id', () => {

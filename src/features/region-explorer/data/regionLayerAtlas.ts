@@ -1,9 +1,9 @@
 import type { RegionDefinition, RegionId, RegionMapArt } from './regionTypes';
 
 /**
- * Canonical stylized SVG atlas (0–100 × 0–60 viewBox). Vector-only recreation —
- * not ROM-derived pixels. Loaded with the explorer scene chunk; inactive regions
- * never mount separate raster pipelines.
+ * Canonical stylized SVG atlas (0–100 × 0–60 viewBox). Vector recreation — not ROM-derived pixels.
+ * Loaded with the explorer scene chunk. Optional AVIF/WebP artwork (see `regionAtlasRasterManifest.ts`)
+ * composites under these paths per region; vectors stay as the zero-asset fallback.
  */
 export const REGION_LAYER_ATLAS: Readonly<Record<RegionId, RegionMapArt>> = {
   kanto: {
