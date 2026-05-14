@@ -1,55 +1,40 @@
 {
-  "generated_at": "2026-05-14T19:26:20.184587Z",
-  "git_commit": "865d3bfdee35e07515fccfbb6f269c3a862a69e4",
+  "generated_at": "2026-05-14T19:40:49.386220Z",
+  "git_commit": "50f77c0cf23beb3faf35be408e7031d5c9d74e56",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/dev/PerformanceDiagnostics.tsx",
+      "path": "src/features/pwa/PwaClientChrome.tsx",
       "role": "component",
-      "feature_id": null,
-      "sha256": "be538f87d6f24d899b90a020be14094501248afb191cea4a210168587cdcf6be",
-      "loc": 38,
+      "feature_id": "pwa",
+      "sha256": "2aea5c71316ebb5a4f7d6203d363ee08301925d3f12ed974cc4362f0cc8ca52f",
+      "loc": 88,
       "is_test": false,
       "imports": [
-        "react"
+        "virtual:pwa-register/react",
+        "../../hooks/useOnlineStatus"
       ],
       "exported_symbols": [
-        "PerformanceDiagnostics"
+        "PwaClientChrome"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/carousel/carouselAngleSession.ts",
-      "role": "util",
-      "feature_id": "carousel",
-      "sha256": "ac9266bdb0f711b2adedccb6c5dd22c224379f9da7446325869e1a28b7ae13a3",
-      "loc": 10,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [
-        "persistCarouselAngle",
-        "takeInitialCarouselAngle"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/hooks/useDocumentVisibility.ts",
+      "path": "src/hooks/useOnlineStatus.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "9040cc0c777815cdba86d1dfedbae01fcc0e67c5885735658f5df8342994d139",
-      "loc": 20,
+      "sha256": "3225ff17ccd8f53f1ba8d6895716772a72355153867163c5101787705110bbeb",
+      "loc": 24,
       "is_test": false,
       "imports": [
         "react"
       ],
       "exported_symbols": [
-        "useDocumentVisibility"
+        "useOnlineStatus"
       ],
       "referenced_stores": [
         "useSyncExternalStore"
@@ -58,53 +43,40 @@
       "parser_ok": true
     },
     {
-      "path": "src/hooks/useHomeHeroSurfaceActive.ts",
-      "role": "hook",
+      "path": "src/query/queryPersister.ts",
+      "role": "query",
       "feature_id": null,
-      "sha256": "579442fcc27c7d1598ee1d2ff2186286f82c402aa75aeb64bf043f9b92ad2343",
-      "loc": 36,
+      "sha256": "7b7c4dabfad315edfba5d25ef2449f32b6d77112fab43e8477b4d342fd7f855c",
+      "loc": 63,
       "is_test": false,
       "imports": [
-        "../features/discovery/discoveryUiStore",
-        "../store/battleSimulatorStore",
-        "../store/comparisonStore",
-        "../store/discoveryRecommendationStore",
-        "../store/journeyUiStore",
-        "../store/regionExplorerStore",
-        "../store/teamBuilderStore",
-        "../store/uiStore"
+        "@tanstack/query-async-storage-persister",
+        "@tanstack/query-core",
+        "@tanstack/query-persist-client-core",
+        "@tanstack/react-query",
+        "idb-keyval"
       ],
       "exported_symbols": [
-        "useHomeHeroSurfaceActive"
+        "QUERY_PERSIST_MAX_AGE_MS",
+        "createQueryPersister",
+        "shouldPersistPokemonQuery"
       ],
-      "referenced_stores": [
-        "useBattleSimulatorStore",
-        "useComparisonStore",
-        "useDiscoveryRecommendationStore",
-        "useDiscoveryUiStore",
-        "useJourneyUiStore",
-        "useRegionExplorerStore",
-        "useTeamBuilderStore",
-        "useUiStore"
-      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/hooks/usePerformanceTier.ts",
-      "role": "hook",
+      "path": "src/test/pwaRegisterStub.ts",
+      "role": "unknown",
       "feature_id": null,
-      "sha256": "e4d7d1ebe5b435b0b1ed06da81aff7aac112af616a2499fed07b687f4ecc13f2",
-      "loc": 49,
+      "sha256": "d96d3287fab30f95062804bd13bc06e144f1f67759385b3107adad0965ef530e",
+      "loc": 14,
       "is_test": false,
       "imports": [
-        "react",
-        "./useMediaQuery",
-        "./usePrefersReducedMotion"
+        "react"
       ],
       "exported_symbols": [
-        "PerformanceTier",
-        "usePerformanceTier"
+        "useRegisterSW"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -183,7 +155,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "5db168ba7c229b8a991347124dae42a5138bfa46d037a14e559e225183f168f4",
+      "sha256": "a689e96c83a76a0b143e00622de22662c99131a9c494636218d751e4af1486cb",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -196,8 +168,8 @@
       "path": ".cursor/rules/frontend-architecture.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "1798385ba66584e1819bb918889c3071163a7903e255d8f1b53cb47b20747138",
-      "loc": 46,
+      "sha256": "d04b1825476e893c9c2fb0524d5c187a46b24fb8d8b0f319f5730c0c12ad5d8d",
+      "loc": 47,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -222,8 +194,8 @@
       "path": ".cursor/rules/project-context.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "507922336739e979bcce81aa98a8e234ae8b958ac69d13ebc403dd766542de64",
-      "loc": 305,
+      "sha256": "ab36158a3f210d4b87bc8455e189e475643ff08f2df9468ff63c1410516f1251",
+      "loc": 306,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -261,7 +233,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "7ffc9299edf39b1010fb50ee52d6335be018a69dea9bb03c824c0ca8cc28fc36",
+      "sha256": "6e88a2d94b1b938b346885cc87ab7d6e5f922c7929a399f65aeb995740a9c993",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -274,8 +246,8 @@
       "path": "DECISIONS_LOG.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "72b5c41b87a8d711481a4789a807b438b2b016ff712ada931b1231d07c6320a1",
-      "loc": 139,
+      "sha256": "89f5efec1fb5aa55715a3bf092f83822741626c3c125f3136e85f7a044bf8c26",
+      "loc": 149,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -287,7 +259,7 @@
       "path": "FEATURE_TRACKER.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "b549998286310064745d320a3d64e70c3b1936801cf9908028aace2ab95975f1",
+      "sha256": "e213d2817ef188ad7f8ef409a1f99b650e413508ec8707a84f4a1006906f0b95",
       "loc": 59,
       "is_test": false,
       "imports": [],
@@ -300,8 +272,8 @@
       "path": "PROJECT_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "3b3e4070d2beeea32d77fca913e07e843d45760fec4479b72b401a844c5b7992",
-      "loc": 115,
+      "sha256": "1c891358be852d87107e548d34b92250ef2f5e0e6f78a244674ce3e4e34c677d",
+      "loc": 116,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -326,8 +298,8 @@
       "path": "package.json",
       "role": "config",
       "feature_id": null,
-      "sha256": "4a73e779441ecb819102dbe05d34ba716e941f7349a8b4d78bbbf1c265d8e2d2",
-      "loc": 41,
+      "sha256": "6273c520543598a8f48ddf8efce0c6afb4c326e33b0ab3ab9cb1e4ef6e2609f8",
+      "loc": 45,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -339,8 +311,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "6fe1aa5a6b8517c86cd75e7a8ebd6791811a3e53c91f35764ecfb447610026c3",
-      "loc": 4049,
+      "sha256": "83d1f40c017a69e73377601660581c114defa2c85d7f260bd8682d1b738f1620",
+      "loc": 4157,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -365,8 +337,8 @@
       "path": "project-metadata/features/carousel.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "8337b312d0920c009ed181ed0717edca680059b8c2c29d2db2b0a61355bb94c6",
-      "loc": 22,
+      "sha256": "0b804be2a6273a1ec928d0036720d448b2d33c67f33554e640c66aaf915b55fe",
+      "loc": 23,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -957,6 +929,23 @@
       "parser_ok": true
     },
     {
+      "path": "src/dev/PerformanceDiagnostics.tsx",
+      "role": "component",
+      "feature_id": null,
+      "sha256": "be538f87d6f24d899b90a020be14094501248afb191cea4a210168587cdcf6be",
+      "loc": 38,
+      "is_test": false,
+      "imports": [
+        "react"
+      ],
+      "exported_symbols": [
+        "PerformanceDiagnostics"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/engine/catchRateFormula.test.ts",
       "role": "test",
       "feature_id": null,
@@ -1174,6 +1163,22 @@
       "referenced_stores": [
         "useUiStore"
       ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/carousel/carouselAngleSession.ts",
+      "role": "util",
+      "feature_id": "carousel",
+      "sha256": "ac9266bdb0f711b2adedccb6c5dd22c224379f9da7446325869e1a28b7ae13a3",
+      "loc": 10,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "persistCarouselAngle",
+        "takeInitialCarouselAngle"
+      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -2763,6 +2768,58 @@
       "parser_ok": true
     },
     {
+      "path": "src/hooks/useDocumentVisibility.ts",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "9040cc0c777815cdba86d1dfedbae01fcc0e67c5885735658f5df8342994d139",
+      "loc": 20,
+      "is_test": false,
+      "imports": [
+        "react"
+      ],
+      "exported_symbols": [
+        "useDocumentVisibility"
+      ],
+      "referenced_stores": [
+        "useSyncExternalStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/hooks/useHomeHeroSurfaceActive.ts",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "579442fcc27c7d1598ee1d2ff2186286f82c402aa75aeb64bf043f9b92ad2343",
+      "loc": 36,
+      "is_test": false,
+      "imports": [
+        "../features/discovery/discoveryUiStore",
+        "../store/battleSimulatorStore",
+        "../store/comparisonStore",
+        "../store/discoveryRecommendationStore",
+        "../store/journeyUiStore",
+        "../store/regionExplorerStore",
+        "../store/teamBuilderStore",
+        "../store/uiStore"
+      ],
+      "exported_symbols": [
+        "useHomeHeroSurfaceActive"
+      ],
+      "referenced_stores": [
+        "useBattleSimulatorStore",
+        "useComparisonStore",
+        "useDiscoveryRecommendationStore",
+        "useDiscoveryUiStore",
+        "useJourneyUiStore",
+        "useRegionExplorerStore",
+        "useTeamBuilderStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/hooks/useMediaQuery.ts",
       "role": "hook",
       "feature_id": null,
@@ -2778,6 +2835,26 @@
       "referenced_stores": [
         "useSyncExternalStore"
       ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/hooks/usePerformanceTier.ts",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "e4d7d1ebe5b435b0b1ed06da81aff7aac112af616a2499fed07b687f4ecc13f2",
+      "loc": 49,
+      "is_test": false,
+      "imports": [
+        "react",
+        "./useMediaQuery",
+        "./usePrefersReducedMotion"
+      ],
+      "exported_symbols": [
+        "PerformanceTier",
+        "usePerformanceTier"
+      ],
+      "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -2930,13 +3007,15 @@
       "path": "src/providers/AppProviders.tsx",
       "role": "provider",
       "feature_id": null,
-      "sha256": "e43d6f23057fd8fc2b7e93b666e709167f658b5195ddf017f755d69ef92a3607",
-      "loc": 17,
+      "sha256": "2be3f162b7a3d7e81b364b75f0dedd37748ebf98cb94bec4095c9df10494250d",
+      "loc": 40,
       "is_test": false,
       "imports": [
-        "@tanstack/react-query",
+        "@tanstack/react-query-persist-client",
         "react",
+        "../features/pwa/PwaClientChrome",
         "../features/soundscape/SoundscapeOrchestrator",
+        "../query/queryPersister",
         "../query/createQueryClient",
         "./AppAtmosphere"
       ],
@@ -4068,8 +4147,8 @@
       "path": "src/vite-env.d.ts",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "424faf9241dd699dda995b367ed36665732da1e6ec1f33b2fd40394488ecac92",
-      "loc": 1,
+      "sha256": "ffeb5cf16ba995322c36af0baba2f81546fc4355162a517d537ba7bc80cc6809",
+      "loc": 4,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -4120,14 +4199,17 @@
       "path": "vite.config.ts",
       "role": "config",
       "feature_id": null,
-      "sha256": "ad29c8bd67921d10bf1eeaa45522ee112d6581b92cb9df7d361ddb57c4354cf9",
-      "loc": 16,
+      "sha256": "ede7ddc3dcfdf300a7bfaf8e1ba0e9e5ea14f99f523c09a74a8263c9db7c45e1",
+      "loc": 133,
       "is_test": false,
       "imports": [
         "node:path",
+        "node:fs",
+        "node:url",
         "@tailwindcss/vite",
         "@vitejs/plugin-react",
-        "vite"
+        "vite",
+        "vite-plugin-pwa"
       ],
       "exported_symbols": [],
       "referenced_stores": [],
@@ -4138,8 +4220,8 @@
       "path": "vitest.config.ts",
       "role": "config",
       "feature_id": null,
-      "sha256": "ebb8e48ef3a4c78793ab8b3e5c7d38373bf884eb5843c963c205952822ead024",
-      "loc": 18,
+      "sha256": "339c97c6acda3cba728f933c33e9e257171152b64b6b537277b101a9d50db397",
+      "loc": 19,
       "is_test": false,
       "imports": [
         "node:path",

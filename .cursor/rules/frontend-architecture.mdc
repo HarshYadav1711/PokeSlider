@@ -24,6 +24,7 @@ alwaysApply: false
 | Compare | `features/compare/*`, `store/comparisonStore.ts` |
 | Team Builder | `features/team-builder/*` (modal, `teamBuilderEngine.ts`, `useTeamBuilderData.ts`, `typeMatchupChart.ts`), `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts` |
 | Atmosphere | `providers/AppAtmosphere.tsx` (reads species types into `html[data-atmosphere]`) |
+| PWA / offline shell | `features/pwa/PwaClientChrome.tsx`, `query/queryPersister.ts`, root `vite.config.ts` (`VitePWA`) |
 
 ## Composition rules
 
@@ -33,7 +34,7 @@ alwaysApply: false
 
 ## Providers
 
-- `AppProviders`: single `QueryClient` instance (stable via `useState` initializer).
+- `AppProviders`: single `QueryClient` (stable via `useState` initializer) wrapped in **`PersistQueryClientProvider`** (IndexedDB persistence for selected query roots) plus **`PwaClientChrome`** for service worker registration and offline/update messaging.
 - Do not add Context providers unless more than one consumer needs the same mutable instance without Zustand.
 
 ## Assets & public

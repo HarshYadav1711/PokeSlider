@@ -37,6 +37,7 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 | A11y foundation | Trap, carousel keyboard, tests | `useFocusTrap.ts`, `getFocusable.ts`, `carouselAngle.ts`, `*.test.ts` | Vitest | Maintenance | Completed |
 | Team Builder | Local deterministic party of six; goals, risk, gen, locks; coverage/gaps/swaps; PNG card | `features/team-builder/*`, `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts`, `query/keys.ts` (`qk.teamBuilder`), `PokemonSummary.baseStats` in `types/pokemon.ts` + `mapSummary.ts` | PokéAPI, **`html-to-image`** | Pool sampling for "Any gen"; API etiquette | Completed |
 | Journey Mode | Local trainer profile, starter + region, glass trainer card, dashboard (achievements, discovery/favorite/team history); Zustand persist + Motion onboarding | `features/journey/*`, `store/journeyTrainerStore.ts`, `store/journeyProgressStore.ts`, `store/journeyUiStore.ts`, `data/journeyRegions.ts`, `data/journeyStarters.ts`, `achievementEngine.ts` (+ test), `App.tsx`, `useAppKeyboardShortcuts.ts`, `dexListsStore.ts`, `uiStore.ts`, `ComparisonModal.tsx`, `TeamBuilderModal.tsx` | Zustand persist, Motion | Storage quota on huge histories → capped lists | Completed |
+| PWA / offline | Installable app, precache + bounded runtime caching (PokéAPI JSON, sprites, cries, fonts), IndexedDB query persistence, prompt-based SW updates, intentional offline/update copy | `vite.config.ts`, `features/pwa/PwaClientChrome.tsx`, `query/queryPersister.ts`, `providers/AppProviders.tsx`, `hooks/useOnlineStatus.ts`, `public/icons/*`, `index.html` | `vite-plugin-pwa`, `@tanstack/react-query-persist-client`, `idb-keyval` | Cache / storage quota → caps + purgeOnQuotaError + persist trim retry | Completed |
 | Keyboard shortcuts | `/`, `Esc` stack (team builder → battle sim → compare → journey onboarding → journey dashboard → My Dex → overlay) | `useAppKeyboardShortcuts.ts` | — | Conflicts with inputs | Completed |
 
 ---
@@ -53,7 +54,6 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 
 | Idea | Value | Notes |
 |------|--------|------|
-| PWA / offline dex slice | Retention | Large scope; needs caching strategy ADR |
 | User accounts / cloud saves | Cross-device | Out of scope unless product pivots |
 | Battle damage calculator | Engagement | Different product surface; evaluate fit |
 | OG / social preview | Growth | Static hosting implications |

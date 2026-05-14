@@ -19,6 +19,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 | Area | Status |
 |------|--------|
 | Build / lint / unit tests | `npm run build`, `npm run lint`, `npm run test` (Vitest + a11y/math tests) |
+| PWA / offline | Installable web app (`vite-plugin-pwa` + Workbox precache + runtime caches for PokéAPI, sprites, cries, fonts). TanStack Query dehydrates selected keys to IndexedDB (buster + max age). In-app offline + update messaging via `PwaClientChrome`. |
 | Carousel | Pointer drag, auto-rotate (respects reduced motion + **adaptive tier**), keyboard region, live region for front ball; **unmounts** when overlay / My Dex / modals / journey block the home hero |
 | Ball overlay | Catch Lab + collectible card + cinematic preview + suggestions grid; prefetch on interaction |
 | Pokémon overlay | Detail + extras queries (type chart + **evolution timeline stages**: chain, stats/types per stage, species lore), cry, mega compare modal, locations |
@@ -34,7 +35,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 
 1. **TanStack Query** owns server state; **Zustand** owns UI navigation and small client-only lists (favorites/recents, compare slots, discovery UI, **team builder open + locks**).
 2. **`PokemonSummary`** includes **`baseStats`** and **`speciesCatchRate`** (from species `capture_rate`) via `mapPokemonSummary` for stat-aware + catch-simulation features without a second fetch shape.
-3. **Single QueryClient** in `AppProviders` — no per-modal clients.
+3. **Single QueryClient** in `AppProviders` behind **`PersistQueryClientProvider`** (IndexedDB persistence for API-shaped queries only) — no per-modal clients.
 4. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
 5. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.
 6. **Motion** only where it improves comprehension (overlays, sheets); springs gated by `usePrefersReducedMotion`. **`usePerformanceTier()`** sets `html[data-performance-tier]` for lighter glass blur / calmer global motion on mid–low devices.

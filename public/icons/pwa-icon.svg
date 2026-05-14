@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PokeSlider">
+  <defs>
+    <radialGradient id="g" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="45%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </radialGradient>
+  </defs>
+  <circle cx="256" cy="256" r="248" fill="#0f172a"/>
+  <circle cx="256" cy="256" r="220" fill="url(#g)" stroke="#0f172a" stroke-width="8"/>
+  <path d="M256 120c75 0 136 61 136 136H120c0-75 61-136 136-136z" fill="#ef4444"/>
+  <path d="M120 256h272c0 75-61 136-136 136s-136-61-136-136z" fill="#f8fafc"/>
+  <circle cx="256" cy="256" r="48" fill="#0f172a" stroke="#f8fafc" stroke-width="10"/>
+  <circle cx="256" cy="256" r="22" fill="#f1f5f9"/>
+</svg>

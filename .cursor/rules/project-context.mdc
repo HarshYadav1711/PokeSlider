@@ -9,8 +9,8 @@ alwaysApply: true
 
 | Field | Current state |
 |--------|----------------|
-| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** (catch lab, collectible ball cards, suggestions) + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Pokémon overlay includes **Poké Ball fit** (ranked ball recommendations) and a **cinematic evolution timeline** (triggers, per-stage Pokédex flavor, stat deltas). Data from **PokéAPI**. |
-| **Stack** | React **19**, Vite **8**, TypeScript **5.9**, Tailwind **4** (`@tailwindcss/vite`), **Motion** 12, **TanStack Query v5**, **Zustand** 5, **`html-to-image`** (export). Tests: **Vitest** + jsdom + **Testing Library**. |
+| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** (catch lab, collectible ball cards, suggestions) + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Pokémon overlay includes **Poké Ball fit** (ranked ball recommendations) and a **cinematic evolution timeline** (triggers, per-stage Pokédex flavor, stat deltas). Data from **PokéAPI**. **Installable PWA** with offline shell, bounded API/media caches, and IndexedDB-backed query persistence for prior-session Pokémon payloads. |
+| **Stack** | React **19**, Vite **8**, TypeScript **5.9**, Tailwind **4** (`@tailwindcss/vite`), **Motion** 12, **TanStack Query v5** (+ **`@tanstack/react-query-persist-client`**, **`idb-keyval`** for offline cache), **Zustand** 5, **`html-to-image`** (export), **`vite-plugin-pwa`** / Workbox (PWA). Tests: **Vitest** + jsdom + **Testing Library**. |
 | **Priorities** | Premium calm UI, **a11y** (focus trap, keyboard, SR), **reduced motion**, performance (prefetch, stale times), maintainable small modules. |
 | **Blockers** | None tracked in-repo. |
 | **Immediate next tasks** | See `FEATURE_TRACKER.md` → Planned / In progress. Optional: comparison **image export** (`data-comparison-export` surface exists). **Keep context docs in sync** when changing behavior (see §26)—same PR as code for non-trivial work. |
@@ -169,7 +169,7 @@ Avoid duplicating Query cache into Zustand.
 
 - Near: comparison export / share polish (surface exists); Team Builder export path **shipped**.
 - Mid: deep links or URL state for compare/dex (if product wants).
-- Long: offline/PWA, richer retention loops — only with `DECISIONS_LOG.md` entry.
+- Long: richer retention loops beyond local stores — evaluate with product (PWA baseline **shipped**; see `DECISIONS_LOG.md`).
 
 ---
 
@@ -180,6 +180,7 @@ Avoid duplicating Query cache into Zustand.
 - My Dex browse/favorites/recents + filters + compare A/B from rows.
 - Compare modal + scoring + stat bars + duel-themed background.
 - Team Builder modal + deterministic engine + type matrix query + Vitest for engine/pool filters.
+- **PWA:** `vite-plugin-pwa` + Workbox precache/runtime caches; Query persistence to IndexedDB; install + offline UX (`features/pwa/PwaClientChrome.tsx`).
 - Design tokens, atmosphere, focus trap, Vitest for pure a11y/math helpers.
 
 ---

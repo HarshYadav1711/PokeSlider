@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Installable PWA (Workbox + Query persistence)
+
+**Decision:** Ship **`vite-plugin-pwa`** (Workbox `generateSW`) with **`registerType: 'prompt'`** and **`injectRegister: null`** so registration flows only through **`virtual:pwa-register/react`** (`useRegisterSW`). Precache the Vite build shell; **runtime caches** for `pokeapi.co/api/v2` (**NetworkFirst**, bounded entries + TTL, purge on quota), **GitHub PokeAPI sprites/cries** (StaleWhileRevalidate / CacheFirst with caps), and **Google Fonts** (SWR). **TanStack Query** uses **`PersistQueryClientProvider`** + **`@tanstack/query-async-storage-persister`** backed by **idb-keyval** (dedicated store), **14-day `maxAge`**, **throttled writes**, **buster = app semver** from Vite `define`, and **`shouldDehydrateQuery`** limited to `pokeapi` / `discovery` / `team-builder` / `ball` roots so client-only noise is not persisted. **QuotaExceeded** retry trims dehydrated queries before giving up. **UX:** `PwaClientChrome` explains offline data (SW + IndexedDB), notes **favorites/recents** stay on-device (existing Zustand `persist`), optional “ready offline” toast, and a **reload-on-update** affordance instead of surprise refreshes.
+
+**Why:** Meets install + offline expectations with maintained tooling (no hand-written SW), caps cache growth on shared PokéAPI infrastructure, and separates “new build available” from “stale Pokémon JSON” so users are not confused.
+
+**Alternatives rejected:** `injectManifest` + custom SW (more maintenance); persisting the entire Query cache to IndexedDB (bloat + harder eviction); `skipWaiting: true` without UI (jarring mid-session); offline-only `CacheFirst` for JSON (too stale when back online without extra invalidation work).
+
+---
+
 ## 2026-05 — Home hero isolation + adaptive performance
 
 **Decision:** Gate the **Poké Ball carousel** with `useHomeHeroSurfaceActive()` so the hero **unmounts** whenever an immersive surface is open (details overlay, My Dex panel, compare, team builder, battle simulator, region explorer, discovery mix, journey dashboard/onboarding). Persist orbit **angle** in `carouselAngleSession` across remounts. Introduce **`usePerformanceTier()`** (`high` / `mid` / `low`) from viewport, pointer, `deviceMemory` / `hardwareConcurrency`, and reduced motion; drive `html[data-performance-tier]` for CSS (blur tokens, slower halo, calmer body gradient) and pass tier into **`usePokeBallCarousel`** for gentler auto-spin on phones. **Route-level code split** heavy modals via `React.lazy` + one `Suspense`. **Soundscape:** extend scene with `discoveryRecoOpen`; **pause Web Audio** when the tab is hidden (`useDocumentVisibility` + `setPaused`); **AppAtmosphere** time-of-day tick only while visible. **Dev-only** FPS readout behind `import.meta.env.DEV` + `lazy`. Pointer drag uses **AbortController** so listeners never leak on unmount.
