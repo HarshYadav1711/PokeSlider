@@ -8,15 +8,19 @@ interface RegionExplorerAmbientProps {
   readonly reducedMotion: boolean;
   readonly mistColor: string;
   readonly performanceTier: PerformanceTier;
+  readonly timeMood: 'day' | 'dusk' | 'night';
 }
 
 export const RegionExplorerAmbient = memo(function RegionExplorerAmbient({
   reducedMotion,
   mistColor,
   performanceTier,
+  timeMood,
 }: RegionExplorerAmbientProps) {
   const lite = performanceTier === 'low' || reducedMotion;
   const mid = performanceTier === 'mid';
+  const halo =
+    timeMood === 'night' ? 'circle at 72% 18%' : timeMood === 'dusk' ? 'circle at 38% 22%' : 'circle at 30% 20%';
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
@@ -27,7 +31,7 @@ export const RegionExplorerAmbient = memo(function RegionExplorerAmbient({
             : 'absolute -inset-[12%] rounded-full opacity-40 blur-3xl motion-safe:transition-opacity motion-safe:duration-300'
         }
         style={{
-          background: `radial-gradient(circle at 30% 20%, ${mistColor}, transparent 55%)`,
+          background: `radial-gradient(${halo}, ${mistColor}, transparent 55%)`,
         }}
       />
       {!lite && !mid ? (

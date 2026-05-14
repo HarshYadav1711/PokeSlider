@@ -162,6 +162,7 @@ export default function RegionExplorerModal() {
                 reducedMotion={reduced}
                 mistColor={region.atmosphere.mist}
                 performanceTier={performanceTier}
+                timeMood={timeMood}
               />
             ) : null}
 
@@ -243,6 +244,7 @@ export default function RegionExplorerModal() {
                       onSelectRoute={setRouteId}
                       onSelectHotspot={setHotspotId}
                       timeMood={timeMood}
+                      reducedMotion={reduced}
                     />
                     <div className="rounded-[var(--radius-xl)] border border-white/10 bg-[rgb(6_8_14/0.45)] p-4">
                       <div className="flex flex-wrap items-end justify-between gap-3">

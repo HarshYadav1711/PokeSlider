@@ -1,8 +1,9 @@
-import { memo, useCallback, useId, useMemo, type KeyboardEvent } from 'react';
+import { memo, useCallback, useEffect, useId, useMemo, useState, type KeyboardEvent, type WheelEvent } from 'react';
 
 import type { PerformanceTier } from '../../hooks/usePerformanceTier';
+import { resolveRegionMapArt } from './data/regionLayerAtlas';
 import type { RegionDefinition, RegionHotspot } from './data/regionTypes';
-import { buildRouteNetworkPath, REGION_SILHOUETTES } from './regionSceneGeometry';
+import { buildRouteNetworkPath, buildSmoothedRoutePath } from './regionSceneGeometry';
 
 interface RegionExplorerSceneProps {
   readonly region: RegionDefinition;
@@ -13,7 +14,12 @@ interface RegionExplorerSceneProps {
   readonly onSelectRoute: (id: string) => void;
   readonly onSelectHotspot: (id: string | null) => void;
   readonly timeMood: 'day' | 'dusk' | 'night';
+  readonly reducedMotion: boolean;
 }
+
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 1.28;
+const ZOOM_STEP = 0.07;
 
 function hotspotKindGlyph(kind: RegionHotspot['kind']): string {
   switch (kind) {
@@ -27,10 +33,62 @@ function hotspotKindGlyph(kind: RegionHotspot['kind']): string {
       return '✦';
     case 'landmark':
       return '◎';
+    case 'island':
+      return '◇';
+    case 'forest':
+      return '❧';
     case 'route':
     default:
       return '○';
   }
+}
+
+function useProgressiveMapLayers(
+  regionId: string,
+  performanceTier: PerformanceTier,
+  reducedMotion: boolean,
+): { readonly flora: boolean; readonly routes: boolean; readonly coast: boolean } {
+  const [flora, setFlora] = useState(false);
+  const [routes, setRoutes] = useState(false);
+  const [coast, setCoast] = useState(false);
+
+  useEffect(() => {
+    setFlora(false);
+    setRoutes(false);
+    setCoast(false);
+    if (reducedMotion) {
+      setFlora(true);
+      setRoutes(true);
+      return;
+    }
+
+    const schedule = (fn: () => void, timeout: number) => {
+      const ric = window.requestIdleCallback;
+      if (typeof ric === 'function') {
+        const id = ric(fn, { timeout });
+        return () => window.cancelIdleCallback(id);
+      }
+      const id = window.setTimeout(fn, timeout);
+      return () => window.clearTimeout(id);
+    };
+
+    const cancelFlora = schedule(() => setFlora(true), performanceTier === 'low' ? 200 : 90);
+    const cancelRoutes = schedule(() => setRoutes(true), performanceTier === 'low' ? 420 : 220);
+    const cancelCoast =
+      performanceTier === 'high' ? schedule(() => setCoast(true), 380) : undefined;
+
+    return () => {
+      cancelFlora();
+      cancelRoutes();
+      cancelCoast?.();
+    };
+  }, [regionId, performanceTier, reducedMotion]);
+
+  return {
+    flora: reducedMotion ? true : flora,
+    routes: reducedMotion ? true : routes,
+    coast: reducedMotion ? false : coast && performanceTier === 'high',
+  };
 }
 
 export const RegionExplorerScene = memo(function RegionExplorerScene({
@@ -42,16 +100,59 @@ export const RegionExplorerScene = memo(function RegionExplorerScene({
   onSelectRoute,
   onSelectHotspot,
   timeMood,
+  reducedMotion,
 }: RegionExplorerSceneProps) {
   const labelId = useId();
   const descId = useId();
-  const gradLand = useId().replaceAll(':', '');
   const gradSea = useId().replaceAll(':', '');
-  const silhouette = REGION_SILHOUETTES[region.id];
-  const routePath = useMemo(() => buildRouteNetworkPath(region.routes), [region.routes]);
+  const gradLand = useId().replaceAll(':', '');
+  const mapArt = useMemo(() => resolveRegionMapArt(region), [region]);
+  const layers = useProgressiveMapLayers(region.id, performanceTier, reducedMotion);
 
-  const showRouteFibers = performanceTier !== 'low';
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    setZoom(1);
+  }, [region.id]);
+
   const nightVeilOpacity = timeMood === 'night' ? 0.34 : timeMood === 'dusk' ? 0.18 : 0;
+
+  const routePathSmooth = useMemo(() => buildSmoothedRoutePath(region.routes), [region.routes]);
+  const routePathLite = useMemo(() => buildRouteNetworkPath(region.routes), [region.routes]);
+  const routePath =
+    performanceTier === 'low' || !layers.routes || !routePathSmooth ? routePathLite : routePathSmooth;
+
+  const showForestLayer = layers.flora;
+  const showWaterRoutes = layers.flora && performanceTier !== 'low';
+
+  const bumpZoom = useCallback((delta: number) => {
+    setZoom((z) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, Math.round((z + delta) * 100) / 100)));
+  }, []);
+
+  const onWheel = useCallback(
+    (e: WheelEvent<HTMLDivElement>) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      bumpZoom(e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP);
+    },
+    [bumpZoom],
+  );
+
+  const onMapKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        bumpZoom(ZOOM_STEP);
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault();
+        bumpZoom(-ZOOM_STEP);
+      } else if (e.key === '0') {
+        e.preventDefault();
+        setZoom(1);
+      }
+    },
+    [bumpZoom],
+  );
 
   const handleHotspotActivate = useCallback(
     (h: RegionHotspot) => {
@@ -88,6 +189,8 @@ export const RegionExplorerScene = memo(function RegionExplorerScene({
     [handleHotspotActivate, hotspots, selectedHotspotId],
   );
 
+  const waterFillRule = mapArt.waterFillRule;
+
   return (
     <section
       className="relative rounded-[var(--radius-xl)] border border-white/10 bg-[rgb(6_8_14/0.45)] p-3 md:p-4"
@@ -99,69 +202,185 @@ export const RegionExplorerScene = memo(function RegionExplorerScene({
             Region atlas
           </h3>
           <p id={descId} className="text-[var(--text-body-sm)] text-white/62">
-            SVG scene — tap a marker or focus the location list (Tab) and use arrows. Cities, routes, and landmarks
-            link into encounters when a route is attached.
+            Stylized SVG layers — zoom lightly (Ctrl + scroll or +/− while the map is focused). Markers stay sharp;
+            vectors scale cleanly on every device class.
           </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="text-[10px] font-semibold uppercase tracking-wide text-white/40">Zoom</span>
+          <button
+            type="button"
+            className="app-focus-ring min-h-9 min-w-9 rounded-lg border border-white/14 bg-white/[0.05] text-sm font-semibold text-white/85 hover:bg-white/[0.09]"
+            aria-label="Zoom out"
+            onClick={() => bumpZoom(-ZOOM_STEP)}
+          >
+            −
+          </button>
+          <button
+            type="button"
+            className="app-focus-ring min-h-9 min-w-9 rounded-lg border border-white/14 bg-white/[0.05] text-sm font-semibold text-white/85 hover:bg-white/[0.09]"
+            aria-label="Zoom in"
+            onClick={() => bumpZoom(ZOOM_STEP)}
+          >
+            +
+          </button>
+          <button
+            type="button"
+            className="app-focus-ring min-h-9 rounded-lg border border-white/12 bg-white/[0.04] px-2 text-xs font-semibold text-white/70 hover:bg-white/[0.08]"
+            aria-label="Reset map zoom"
+            onClick={() => setZoom(1)}
+          >
+            Reset
+          </button>
         </div>
       </div>
 
       <div
-        className="relative mx-auto aspect-[5/3] w-full max-w-xl touch-pan-y"
+        className="relative mx-auto aspect-[5/3] w-full max-w-xl touch-pan-y outline-none"
         data-region-scene-root
         data-time-mood={timeMood}
+        tabIndex={0}
+        role="application"
+        aria-label={`${region.name} map viewport. Use zoom buttons, or focus here and press plus, minus, or zero.`}
+        onKeyDown={onMapKeyDown}
       >
-        <svg
-          className="h-full w-full select-none"
-          viewBox="0 0 100 60"
-          role="img"
-          aria-label={`Stylized layered map of ${region.name}`}
+        <div
+          className="relative h-full w-full overflow-hidden rounded-[var(--radius-lg)] border border-white/[0.08] bg-[rgb(4_8_18/0.55)]"
+          onWheel={onWheel}
         >
-          <defs>
-            <linearGradient id={gradSea} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="rgb(255 255 255 / 0.05)" />
-              <stop offset="100%" stopColor="rgb(255 255 255 / 0.01)" />
-            </linearGradient>
-            <linearGradient id={gradLand} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="rgb(255 255 255 / 0.07)" />
-              <stop offset="100%" stopColor="rgb(255 255 255 / 0.02)" />
-            </linearGradient>
-          </defs>
+          <div
+            className="h-full w-full will-change-transform motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out"
+            style={{
+              transform: `scale(${zoom})`,
+              transformOrigin: '50% 50%',
+            }}
+          >
+            <svg className="h-full w-full select-none" viewBox="0 0 100 60" role="img" aria-hidden>
+              <defs>
+                <linearGradient id={gradSea} x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(96 165 250 / 0.14)" />
+                  <stop offset="100%" stopColor="rgb(30 58 95 / 0.35)" />
+                </linearGradient>
+                <linearGradient id={gradLand} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(255 255 255 / 0.09)" />
+                  <stop offset="100%" stopColor="rgb(255 255 255 / 0.03)" />
+                </linearGradient>
+              </defs>
 
-          <rect x="0" y="0" width="100" height="60" fill={`url(#${gradSea})`} />
+              {/* Atmosphere / deep water base */}
+              <rect x="0" y="0" width="100" height="60" fill={`url(#${gradSea})`} />
 
-          <path
-            d={silhouette}
-            fill={`url(#${gradLand})`}
-            stroke="rgb(255 255 255 / 0.14)"
-            strokeWidth="0.55"
-            vectorEffect="non-scaling-stroke"
-          />
+              {/* Water bodies */}
+              {mapArt.water.map((d, i) => (
+                    <path
+                      key={`water-${i}`}
+                      d={d}
+                      fill="rgb(96 165 250 / 0.32)"
+                      fillRule={waterFillRule === 'evenodd' ? 'evenodd' : undefined}
+                      stroke="none"
+                    />
+                  ))}
 
-          {showRouteFibers && routePath ? (
-            <path
-              d={routePath}
-              fill="none"
-              stroke="rgb(255 255 255 / 0.14)"
-              strokeWidth="0.85"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-              strokeDasharray="2.2 1.4"
-            />
-          ) : null}
+              {/* Terrain */}
+              {mapArt.terrain.map((d, i) => (
+                    <path
+                      key={`land-${i}`}
+                      d={d}
+                      fill={`url(#${gradLand})`}
+                      stroke="rgb(255 255 255 / 0.12)"
+                      strokeWidth="0.45"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))}
 
-          {nightVeilOpacity > 0 ? (
-            <rect
-              x="0"
-              y="0"
-              width="100"
-              height="60"
-              fill="rgb(8 12 28)"
-              opacity={nightVeilOpacity}
-              style={{ pointerEvents: 'none' }}
-            />
-          ) : null}
-        </svg>
+              {/* Archipelago / secondary land */}
+              {mapArt.islands
+                ? mapArt.islands.map((d, i) => (
+                    <path
+                      key={`island-${i}`}
+                      d={d}
+                      fill={`url(#${gradLand})`}
+                      stroke="rgb(255 255 255 / 0.14)"
+                      strokeWidth="0.4"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))
+                : null}
+
+              {/* Forest canopy */}
+              {showForestLayer
+                ? mapArt.forests.map((d, i) => (
+                    <path
+                      key={`forest-${i}`}
+                      d={d}
+                      fill="rgb(34 197 94 / 0.14)"
+                      stroke="rgb(74 222 128 / 0.18)"
+                      strokeWidth="0.35"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  ))
+                : null}
+
+              {/* Surf / water corridors */}
+              {showWaterRoutes && mapArt.waterRoutes
+                ? mapArt.waterRoutes.map((d, i) => (
+                    <path
+                      key={`wr-${i}`}
+                      d={d}
+                      fill="none"
+                      stroke="rgb(125 211 252 / 0.45)"
+                      strokeWidth="0.55"
+                      strokeLinecap="round"
+                      vectorEffect="non-scaling-stroke"
+                      strokeDasharray="1.8 1.2"
+                    />
+                  ))
+                : null}
+
+              {/* Route graph */}
+              {layers.routes && routePath ? (
+                <path
+                  d={routePath}
+                  fill="none"
+                  stroke="rgb(255 255 255 / 0.16)"
+                  strokeWidth={performanceTier === 'low' ? '0.55' : '0.75'}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  vectorEffect="non-scaling-stroke"
+                  strokeDasharray={performanceTier === 'low' ? '1.6 1.2' : '2.2 1.4'}
+                />
+              ) : null}
+
+              {/* Coast accents */}
+              {layers.coast && mapArt.coast && mapArt.coast.length > 0
+                ? mapArt.coast.map((d, i) => (
+                    <path
+                      key={`coast-${i}`}
+                      d={d}
+                      fill="none"
+                      stroke="rgb(255 255 255 / 0.22)"
+                      strokeWidth="0.35"
+                      vectorEffect="non-scaling-stroke"
+                      strokeLinecap="round"
+                    />
+                  ))
+                : null}
+
+              {/* Day / dusk / night veil inside SVG to reduce extra compositor layers */}
+              {nightVeilOpacity > 0 ? (
+                <rect
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="60"
+                  fill="rgb(8 12 28)"
+                  opacity={nightVeilOpacity}
+                  style={{ pointerEvents: 'none' }}
+                />
+              ) : null}
+            </svg>
+          </div>
+        </div>
 
         <div className="pointer-events-none absolute inset-0">
           {hotspots.map((h) => {
@@ -220,9 +439,12 @@ export const RegionExplorerScene = memo(function RegionExplorerScene({
           })}
         </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-end p-2">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-between gap-2 p-2">
           <span className="rounded-md bg-[rgb(4_6_12/0.55)] px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-white/45">
-            {performanceTier === 'low' ? 'Lite scene' : 'Vector scene'}
+            {performanceTier === 'low' ? 'Lite layers' : performanceTier === 'mid' ? 'Balanced' : 'Full detail'}
+          </span>
+          <span className="rounded-md bg-[rgb(4_6_12/0.55)] px-2 py-1 text-[10px] font-medium text-white/40">
+            {Math.round(zoom * 100)}%
           </span>
         </div>
       </div>

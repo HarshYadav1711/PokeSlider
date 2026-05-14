@@ -1,6 +1,28 @@
 import type { RegionId, RegionRoute } from './data/regionTypes';
 
 /**
+ * Smooth corridor through ordered route anchors (Catmull-Rom → cubic Bézier).
+ * Keeps polyline order for narrative flow without jagged zig-zags.
+ */
+export function buildSmoothedRoutePath(routes: readonly RegionRoute[]): string | null {
+  if (routes.length < 2) return null;
+  const pts = routes.map((r) => r.map);
+  let d = `M ${pts[0]!.x} ${pts[0]!.y}`;
+  for (let i = 0; i < pts.length - 1; i += 1) {
+    const p0 = pts[Math.max(0, i - 1)]!;
+    const p1 = pts[i]!;
+    const p2 = pts[i + 1]!;
+    const p3 = pts[Math.min(pts.length - 1, i + 2)]!;
+    const cp1x = p1.x + (p2.x - p0.x) / 6;
+    const cp1y = p1.y + (p2.y - p0.y) / 6;
+    const cp2x = p2.x - (p3.x - p1.x) / 6;
+    const cp2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C ${cp1x} ${cp1y} ${cp2x} ${cp2y} ${p2.x} ${p2.y}`;
+  }
+  return d;
+}
+
+/**
  * Stylized land silhouettes (normalized viewBox 0 0 100 60).
  * Kept as lightweight paths — no raster, no filters.
  */
