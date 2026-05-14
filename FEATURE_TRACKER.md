@@ -36,7 +36,8 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 | Design tokens & atmosphere | Premium visual system + type tint | `design-tokens.css`, `index.css`, `AppAtmosphere.tsx` | CSS `color-mix` | Older browsers | Completed |
 | A11y foundation | Trap, carousel keyboard, tests | `useFocusTrap.ts`, `getFocusable.ts`, `carouselAngle.ts`, `*.test.ts` | Vitest | Maintenance | Completed |
 | Team Builder | Local deterministic party of six; goals, risk, gen, locks; coverage/gaps/swaps; PNG card | `features/team-builder/*`, `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts`, `query/keys.ts` (`qk.teamBuilder`), `PokemonSummary.baseStats` in `types/pokemon.ts` + `mapSummary.ts` | PokéAPI, **`html-to-image`** | Pool sampling for "Any gen"; API etiquette | Completed |
-| Keyboard shortcuts | `/`, `Esc` stack (team builder → compare → My Dex → overlay) | `useAppKeyboardShortcuts.ts` | — | Conflicts with inputs | Completed |
+| Journey Mode | Local trainer profile, starter + region, glass trainer card, dashboard (achievements, discovery/favorite/team history); Zustand persist + Motion onboarding | `features/journey/*`, `store/journeyTrainerStore.ts`, `store/journeyProgressStore.ts`, `store/journeyUiStore.ts`, `data/journeyRegions.ts`, `data/journeyStarters.ts`, `achievementEngine.ts` (+ test), `App.tsx`, `useAppKeyboardShortcuts.ts`, `dexListsStore.ts`, `uiStore.ts`, `ComparisonModal.tsx`, `TeamBuilderModal.tsx` | Zustand persist, Motion | Storage quota on huge histories → capped lists | Completed |
+| Keyboard shortcuts | `/`, `Esc` stack (team builder → battle sim → compare → journey onboarding → journey dashboard → My Dex → overlay) | `useAppKeyboardShortcuts.ts` | — | Conflicts with inputs | Completed |
 
 ---
 

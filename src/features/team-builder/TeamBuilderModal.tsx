@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { toPng } from 'html-to-image';
 
 import { useFocusTrap } from '../../a11y/useFocusTrap';
@@ -8,6 +8,7 @@ import { ALL_POKEMON_TYPES } from '../../data/pokemonTypes';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { dialogSpringTransition, overlayBackdropTransition } from '../../motion/motionPrefs';
 import { useDexListsStore } from '../../store/dexListsStore';
+import { useJourneyProgressStore } from '../../store/journeyProgressStore';
 import { useTeamBuilderStore } from '../../store/teamBuilderStore';
 import type { PokemonTypeName } from '../../types/pokemon';
 
@@ -121,6 +122,14 @@ export function TeamBuilderModal() {
     containerRef: dialogRef,
     initialFocusSelector: '[data-team-builder-initial-focus]',
   });
+
+  const prevTeamOpenRef = useRef(open);
+  useEffect(() => {
+    if (prevTeamOpenRef.current && !open && lockedIds.length === 6) {
+      useJourneyProgressStore.getState().pushTeamSnapshotIfFull(lockedIds);
+    }
+    prevTeamOpenRef.current = open;
+  }, [open, lockedIds]);
 
   return (
     <AnimatePresence>

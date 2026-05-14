@@ -6,6 +6,9 @@ dist
 .env.*
 !.env.example
 
+# Cursor hook runtime (todo merge state per conversation)
+.cursor/hooks/cache/
+
 # Context Intelligence Engine
 project-metadata/.cache/
 tools/context-engine/.venv/

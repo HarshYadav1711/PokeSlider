@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { useJourneyProgressStore } from './journeyProgressStore';
+
 const MAX_RECENTS = 50;
 
 export interface RecentView {
@@ -24,6 +26,11 @@ export const useDexListsStore = create<DexListsState>()(
       toggleFavorite: (id) =>
         set((s) => {
           const has = s.favoriteIds.includes(id);
+          if (!has) {
+            queueMicrotask(() => {
+              useJourneyProgressStore.getState().recordFavoriteStarred(id);
+            });
+          }
           return {
             favoriteIds: has ? s.favoriteIds.filter((x) => x !== id) : [...s.favoriteIds, id],
           };

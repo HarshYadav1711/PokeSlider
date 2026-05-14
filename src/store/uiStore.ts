@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import type { PokeBallId } from '../data/pokeballs';
 import { useDexListsStore } from './dexListsStore';
+import { useJourneyProgressStore } from './journeyProgressStore';
 
 export type OverlayPanel = 'ball' | 'pokemon';
 
@@ -30,6 +31,7 @@ export const useUiStore = create<UiState>((set) => ({
     }),
   showPokemon: (pokemonId) => {
     useDexListsStore.getState().pushRecent(pokemonId);
+    useJourneyProgressStore.getState().recordPokemonDiscovered(pokemonId);
     set({
       panel: 'pokemon',
       selectedPokemonId: pokemonId,

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "node .cursor/hooks/run-context-engine-on-todos-done.mjs",
+        "matcher": "TodoWrite"
+      }
+    ]
+  }
+}

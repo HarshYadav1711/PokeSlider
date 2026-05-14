@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { useFocusTrap } from '../../a11y/useFocusTrap';
@@ -16,6 +16,7 @@ import { fetchPokemonComparisonProfile } from '../../services/pokeapi/comparison
 import { getTypeEffectiveness } from '../../services/pokeapi/typeEffectiveness';
 import { useBattleSimulatorStore } from '../../store/battleSimulatorStore';
 import { useComparisonStore } from '../../store/comparisonStore';
+import { useJourneyProgressStore } from '../../store/journeyProgressStore';
 import type { PokemonTypeName } from '../../types/pokemon';
 
 import { duelBackground } from './compareTheme';
@@ -107,6 +108,14 @@ export function ComparisonModal() {
   const swap = useComparisonStore((s) => s.swap);
   const idA = useComparisonStore((s) => s.idA);
   const idB = useComparisonStore((s) => s.idB);
+
+  const prevCompareOpenRef = useRef(false);
+  useEffect(() => {
+    if (open && !prevCompareOpenRef.current && idA !== null && idB !== null && idA !== idB) {
+      useJourneyProgressStore.getState().recordCompareSession();
+    }
+    prevCompareOpenRef.current = open;
+  }, [open, idA, idB]);
 
   const profileA = useQuery({
     queryKey: idA === null ? ['pokeapi', 'pokemon', 'compare-profile', 'idle-a'] : qk.pokemon.comparisonProfile(idA),

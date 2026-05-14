@@ -3,11 +3,12 @@ import { useEffect } from 'react';
 import { useBattleSimulatorStore } from '../store/battleSimulatorStore';
 import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
+import { useJourneyUiStore } from '../store/journeyUiStore';
 import { useTeamBuilderStore } from '../store/teamBuilderStore';
 import { useUiStore } from '../store/uiStore';
 
 /**
- * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` closes compare, My Dex, or the details overlay.
+ * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` walks modals then My Dex then overlay.
  */
 export function useAppKeyboardShortcuts() {
   useEffect(() => {
@@ -29,6 +30,18 @@ export function useAppKeyboardShortcuts() {
         const compareOpen = useComparisonStore.getState().open;
         if (compareOpen) {
           useComparisonStore.getState().closeModal();
+          e.preventDefault();
+          return;
+        }
+        const journeyOnboardingOpen = useJourneyUiStore.getState().onboardingOpen;
+        if (journeyOnboardingOpen) {
+          useJourneyUiStore.getState().setOnboardingOpen(false);
+          e.preventDefault();
+          return;
+        }
+        const journeyDashboardOpen = useJourneyUiStore.getState().dashboardOpen;
+        if (journeyDashboardOpen) {
+          useJourneyUiStore.getState().setDashboardOpen(false);
           e.preventDefault();
           return;
         }

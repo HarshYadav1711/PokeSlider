@@ -85,6 +85,16 @@ Persisted state:
 3. Run `context-engine scan && context-engine generate`.
 4. Commit code + manifests + generated docs together.
 
+### Cursor automation (optional)
+
+If you use **Cursor Agent** with the built-in todo list, the project hook in
+`.cursor/hooks.json` runs `context-engine scan` and `context-engine generate`
+automatically when a **TodoWrite** updates the list so that **every todo is
+completed** (detected on the transition into the all-done state). Requires
+Python 3.12+ and `pip` on `PATH` (the hook installs the editable package if
+`context-engine` is not already available). Cache files live under
+`.cursor/hooks/cache/` (gitignored).
+
 ## Validators
 
 | Code | Level | Meaning |
