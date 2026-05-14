@@ -1,98 +1,20 @@
 {
-  "generated_at": "2026-05-14T18:47:17.480620Z",
-  "git_commit": "d5361ed66da96eeb73bb40e8ad0d7617a09c958f",
+  "generated_at": "2026-05-14T19:01:32.779966Z",
+  "git_commit": "43bdcae3cb31325bcece802c2006a9b8b6b81c3a",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/features/lore/LoreDocumentCard.tsx",
-      "role": "component",
-      "feature_id": "lore",
-      "sha256": "54b81411dd624a3593d4557da1b40b08f8cc25f9bb098b1a93f328aa5716429b",
-      "loc": 68,
-      "is_test": false,
-      "imports": [
-        "motion/react",
-        "react",
-        "./pokemonLoreViewModel"
-      ],
-      "exported_symbols": [
-        "LoreDocumentCard",
-        "LoreDocumentCardProps"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/lore/LoreProgressiveReveal.tsx",
-      "role": "component",
-      "feature_id": "lore",
-      "sha256": "9c1b288090bf13371a103b67d106e1b45ff05e5929eaa8bfcb77b7aa0d2281a1",
-      "loc": 74,
-      "is_test": false,
-      "imports": [
-        "motion/react",
-        "react"
-      ],
-      "exported_symbols": [
-        "LoreProgressiveReveal",
-        "LoreProgressiveRevealProps"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/lore/PokemonLoreSection.tsx",
-      "role": "component",
-      "feature_id": "lore",
-      "sha256": "c9aae0b091edb763c35d4e25cdeae380393df4f74d25f436f2a2c47306796dff",
-      "loc": 241,
-      "is_test": false,
-      "imports": [
-        "motion/react",
-        "react",
-        "../../components/ui/PanelSkeletons",
-        "../../types/pokemon",
-        "./LoreDocumentCard",
-        "./LoreProgressiveReveal",
-        "./pokemonLoreViewModel",
-        "./pokemonLoreSection.css"
-      ],
-      "exported_symbols": [
-        "PokemonLoreSection",
-        "PokemonLoreSectionProps"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/lore/pokemonLoreSection.css",
-      "role": "style",
-      "feature_id": "lore",
-      "sha256": "21c01b9b5a15319ea1de7ad5382a04aafde80d9cab1a1d9ec1229ec586a20a1b",
-      "loc": 11,
-      "is_test": false,
-      "imports": [],
-      "exported_symbols": [],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/lore/pokemonLoreViewModel.test.ts",
+      "path": "src/audio/evolutionSoundPulse.test.ts",
       "role": "test",
-      "feature_id": "lore",
-      "sha256": "adf9bd4702f1ee575532eee041e7f251e493d38af0f951f8cd2443810735a15f",
-      "loc": 63,
+      "feature_id": null,
+      "sha256": "d89b2cc520dff807df3811220162b7e5b5980916613c1c498dfca37d74393a80",
+      "loc": 12,
       "is_test": true,
       "imports": [
         "vitest",
-        "../../types/pokemon",
-        "./pokemonLoreViewModel"
+        "./evolutionSoundPulse"
       ],
       "exported_symbols": [],
       "referenced_stores": [],
@@ -100,30 +22,208 @@
       "parser_ok": true
     },
     {
-      "path": "src/features/lore/pokemonLoreViewModel.ts",
-      "role": "util",
-      "feature_id": "lore",
-      "sha256": "5a8a72453c212f59a8ee14c8aaac429eced641904f2c7d0485605f9e3489b8bc",
-      "loc": 248,
+      "path": "src/audio/evolutionSoundPulse.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "9689ff08b31f947419300669379aeda42e7f7c1cebe884f66fa26cdb74597d53",
+      "loc": 15,
       "is_test": false,
-      "imports": [
-        "../../types/pokemon"
-      ],
+      "imports": [],
       "exported_symbols": [
-        "LoreCardTone",
-        "LoreTimelineBeat",
-        "PokemonLoreViewModel",
-        "buildEvolutionStory",
-        "buildMythologyInspirationLines",
-        "buildPokemonLoreViewModel",
-        "buildRegionalLoreLine",
-        "buildTimelineBeats",
-        "findDirectChildStages",
-        "findParentStage",
-        "flavorToParagraphs",
-        "pokeSlugDisplay"
+        "evolutionPulseLinear01",
+        "triggerEvolutionSoundPulse"
       ],
       "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeAssetLoader.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "f514d8c2444c3b5873c21e482ecef468d1f353d385b4b80df8b4395f96690888",
+      "loc": 28,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "clearAmbientBufferCache",
+        "loadAmbientBuffer"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeAssetRegistry.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "c7b114f142073d0d643ee415dfd30b0f4be2aba3303ae7e5108d776f8bfce9ed",
+      "loc": 10,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "SOUNDSCAPE_OPTIONAL_REGION_LOOPS",
+        "SOUNDSCAPE_OPTIONAL_TYPE_LOOPS"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeEngine.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "afc90e5e537532ddb1366804a9e531191c765109581605001ac190c8d251cac4",
+      "loc": 416,
+      "is_test": false,
+      "imports": [
+        "./evolutionSoundPulse",
+        "./soundscapeTypeProfile",
+        "./soundscapeTypes"
+      ],
+      "exported_symbols": [
+        "SoundscapeEngine"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypeProfile.test.ts",
+      "role": "test",
+      "feature_id": null,
+      "sha256": "7e341263fdf033b530bd70120263fa84ef6f1a85b209a9e18fe0063025306b0a",
+      "loc": 15,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./soundscapeTypeProfile"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypeProfile.ts",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "cd3bc1e2f8fd8c0f4d52286f13c0464ded87fc7904339e0b4e50fbac799aad1d",
+      "loc": 28,
+      "is_test": false,
+      "imports": [
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "TYPE_CARRIER_HZ",
+        "typeCarrierHz"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/audio/soundscapeTypes.ts",
+      "role": "types",
+      "feature_id": null,
+      "sha256": "ec41e17703bcb7566ec2730cd0c025ef2421345b16e7e789c8af2c1b52dea7a1",
+      "loc": 32,
+      "is_test": false,
+      "imports": [
+        "../features/region-explorer/data/regionTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "SoundscapeDriverState",
+        "SoundscapeLayerToggles",
+        "SoundscapeScene"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/soundscape/SoundscapeControls.tsx",
+      "role": "component",
+      "feature_id": "soundscape",
+      "sha256": "7ac844bda58ffa7828c34a8b9a2ce97206f15e3ba3304159fc321f75a926b66a",
+      "loc": 182,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../store/soundscapeStore"
+      ],
+      "exported_symbols": [
+        "SoundscapeControls"
+      ],
+      "referenced_stores": [
+        "useSoundscapeStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/soundscape/SoundscapeOrchestrator.tsx",
+      "role": "component",
+      "feature_id": "soundscape",
+      "sha256": "1a72e3a1fea3eef8866338b39142a940a014caa546c90611ebf31b7c42bf5a56",
+      "loc": 147,
+      "is_test": false,
+      "imports": [
+        "@tanstack/react-query",
+        "react",
+        "../../audio/soundscapeEngine",
+        "../../audio/soundscapeTypes",
+        "../discovery/discoveryUiStore",
+        "../../hooks/usePrefersReducedMotion",
+        "../../query/keys",
+        "../../query/staleTimes",
+        "../../services/pokeapi/detailedPokemon",
+        "../../store/battleSimulatorStore",
+        "../../store/comparisonStore",
+        "../../store/regionExplorerStore",
+        "../../store/soundscapeStore",
+        "../../store/teamBuilderStore",
+        "../../store/uiStore"
+      ],
+      "exported_symbols": [
+        "SoundscapeOrchestrator"
+      ],
+      "referenced_stores": [
+        "useBattleSimulatorStore",
+        "useComparisonStore",
+        "useDiscoveryUiStore",
+        "useRegionExplorerStore",
+        "useSoundscapeStore",
+        "useTeamBuilderStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [
+        "pokemon"
+      ],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/soundscapeStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "94b970cb7dfde4bd54424353969e0b663969140c6fae1f96e15b323515d6f898",
+      "loc": 70,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware",
+        "../audio/soundscapeTypes"
+      ],
+      "exported_symbols": [
+        "useSoundscapeStore"
+      ],
+      "referenced_stores": [
+        "useSoundscapeStore"
+      ],
       "referenced_query_keys": [],
       "parser_ok": true
     },
@@ -200,7 +300,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "3a5bf5c28090591907e6b32b79976d01dce2937cec95620c4ecf626f9e143e50",
+      "sha256": "d6d00bb0da43c812c3ac098a4428fe589561a71035a9c1836295e25710525535",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -278,7 +378,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "16c3c62ec277b519e16fa49aae329e8d6c6dd162223563e280296fd4e68e0307",
+      "sha256": "09c4c1a8f21403d088235560f90acbb04d6ecc8f5bf8a579c3df577ef8ae4558",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -356,8 +456,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "dba4fe075e5a5971651f83ea83e0a658484e4d5129876a8c7c1d46b60535a498",
-      "loc": 3341,
+      "sha256": "ce90d74c105e4794bce39ebda04efdfd5d3afc9d4e7445dac24ba7f3e842ade2",
+      "loc": 3465,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -460,8 +560,8 @@
       "path": "src/App.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "7a084eab28145be149c0c3b80744038fd2d93161ea04459b9b2cb8d335a1b4e3",
-      "loc": 112,
+      "sha256": "71bcda303f19c92abffa2ce49e3872366ee877fc17c728e04259a32848ac14a5",
+      "loc": 114,
       "is_test": false,
       "imports": [
         "react",
@@ -475,6 +575,7 @@
         "./features/journey/JourneyEntryButton",
         "./features/journey/JourneyOnboardingDialog",
         "./features/team-builder/TeamBuilderModal",
+        "./features/soundscape/SoundscapeControls",
         "./features/overlay/DetailsOverlay",
         "./hooks/useAppKeyboardShortcuts",
         "./store/discoveryRecommendationStore",
@@ -1564,6 +1665,128 @@
       "parser_ok": true
     },
     {
+      "path": "src/features/lore/LoreDocumentCard.tsx",
+      "role": "component",
+      "feature_id": "lore",
+      "sha256": "54b81411dd624a3593d4557da1b40b08f8cc25f9bb098b1a93f328aa5716429b",
+      "loc": 68,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "./pokemonLoreViewModel"
+      ],
+      "exported_symbols": [
+        "LoreDocumentCard",
+        "LoreDocumentCardProps"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/LoreProgressiveReveal.tsx",
+      "role": "component",
+      "feature_id": "lore",
+      "sha256": "9c1b288090bf13371a103b67d106e1b45ff05e5929eaa8bfcb77b7aa0d2281a1",
+      "loc": 74,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react"
+      ],
+      "exported_symbols": [
+        "LoreProgressiveReveal",
+        "LoreProgressiveRevealProps"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/PokemonLoreSection.tsx",
+      "role": "component",
+      "feature_id": "lore",
+      "sha256": "c9aae0b091edb763c35d4e25cdeae380393df4f74d25f436f2a2c47306796dff",
+      "loc": 241,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../components/ui/PanelSkeletons",
+        "../../types/pokemon",
+        "./LoreDocumentCard",
+        "./LoreProgressiveReveal",
+        "./pokemonLoreViewModel",
+        "./pokemonLoreSection.css"
+      ],
+      "exported_symbols": [
+        "PokemonLoreSection",
+        "PokemonLoreSectionProps"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/pokemonLoreSection.css",
+      "role": "style",
+      "feature_id": "lore",
+      "sha256": "21c01b9b5a15319ea1de7ad5382a04aafde80d9cab1a1d9ec1229ec586a20a1b",
+      "loc": 11,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/pokemonLoreViewModel.test.ts",
+      "role": "test",
+      "feature_id": "lore",
+      "sha256": "adf9bd4702f1ee575532eee041e7f251e493d38af0f951f8cd2443810735a15f",
+      "loc": 63,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "../../types/pokemon",
+        "./pokemonLoreViewModel"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/lore/pokemonLoreViewModel.ts",
+      "role": "util",
+      "feature_id": "lore",
+      "sha256": "5a8a72453c212f59a8ee14c8aaac429eced641904f2c7d0485605f9e3489b8bc",
+      "loc": 248,
+      "is_test": false,
+      "imports": [
+        "../../types/pokemon"
+      ],
+      "exported_symbols": [
+        "LoreCardTone",
+        "LoreTimelineBeat",
+        "PokemonLoreViewModel",
+        "buildEvolutionStory",
+        "buildMythologyInspirationLines",
+        "buildPokemonLoreViewModel",
+        "buildRegionalLoreLine",
+        "buildTimelineBeats",
+        "findDirectChildStages",
+        "findParentStage",
+        "flavorToParagraphs",
+        "pokeSlugDisplay"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/features/overlay/BallDetailPanel.tsx",
       "role": "overlay",
       "feature_id": "overlay",
@@ -1664,12 +1887,13 @@
       "path": "src/features/overlay/PokemonEvolutionTimeline.tsx",
       "role": "overlay",
       "feature_id": "overlay",
-      "sha256": "bb536da64560013e61723b752113980151193867e057cb048114df127c868296",
-      "loc": 432,
+      "sha256": "83cc5e983ca39988271e45a7fdb9a88fcf5def56938ceb309ae8fa20d65f6428",
+      "loc": 443,
       "is_test": false,
       "imports": [
         "motion/react",
         "react",
+        "../../audio/evolutionSoundPulse",
         "../../components/pokemon/TypeBadge",
         "../../components/ui/AsyncFeedback",
         "../../components/ui/PanelSkeletons",
@@ -2407,12 +2631,13 @@
       "path": "src/providers/AppProviders.tsx",
       "role": "provider",
       "feature_id": null,
-      "sha256": "e0f4fa8600d8b0d45d7e1b31b7ffb1f0e4c7ce012af4d1176efe798647293ea0",
-      "loc": 15,
+      "sha256": "e43d6f23057fd8fc2b7e93b666e709167f658b5195ddf017f755d69ef92a3607",
+      "loc": 17,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
         "react",
+        "../features/soundscape/SoundscapeOrchestrator",
         "../query/createQueryClient",
         "./AppAtmosphere"
       ],

@@ -10,6 +10,7 @@ import { JourneyDashboardModal } from './features/journey/JourneyDashboardModal'
 import { JourneyEntryButton } from './features/journey/JourneyEntryButton';
 import { JourneyOnboardingDialog } from './features/journey/JourneyOnboardingDialog';
 import { TeamBuilderModal } from './features/team-builder/TeamBuilderModal';
+import { SoundscapeControls } from './features/soundscape/SoundscapeControls';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
 import { useDiscoveryRecommendationStore } from './store/discoveryRecommendationStore';
@@ -34,6 +35,7 @@ export function App() {
         <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
           <div className="mb-[var(--space-4)] flex flex-wrap justify-center gap-2">
             <JourneyEntryButton />
+            <SoundscapeControls />
             <button
               type="button"
               className="app-focus-ring rounded-full border border-sky-400/35 bg-sky-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-sky-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-sky-500/25"

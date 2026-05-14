@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED-START -->
 _Auto-generated from `project-metadata/features/*.yaml`._
 
-_Scan: 2026-05-14T18:47:17+00:00_
+_Scan: 2026-05-14T19:01:32+00:00_
 
 ## Shipped
 

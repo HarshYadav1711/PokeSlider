@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 
+import { triggerEvolutionSoundPulse } from '../../audio/evolutionSoundPulse';
 import { TypeBadge } from '../../components/pokemon/TypeBadge';
 import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
 import { InlineRowSkeleton } from '../../components/ui/PanelSkeletons';
@@ -37,6 +38,16 @@ export function PokemonEvolutionTimeline({
   const [compareIndex, setCompareIndex] = useState<number | null>(null);
 
   const list = useMemo(() => stages ?? [], [stages]);
+
+  const evolutionSoundMountRef = useRef(false);
+  useEffect(() => {
+    if (!list.length || reduced) return;
+    if (!evolutionSoundMountRef.current) {
+      evolutionSoundMountRef.current = true;
+      return;
+    }
+    triggerEvolutionSoundPulse();
+  }, [focusIndex, list.length, reduced]);
 
   const defaultCompare = useMemo(() => {
     if (list.length < 2) return null;
