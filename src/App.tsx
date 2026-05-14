@@ -48,6 +48,8 @@ export function App() {
   const { surface, isHomeCarouselSurface: homeHeroActive } = useAppExperienceSurface();
   useImmersionChromeLock(surface);
 
+  const regionExplorerOpen = useRegionExplorerStore((s) => s.open);
+
   return (
     <>
       {import.meta.env.DEV && PerformanceDiagnostics ? (
@@ -142,10 +144,14 @@ export function App() {
             <ComparisonModal />
             <BattleSimulatorModal />
             <TeamBuilderModal />
-            <RegionExplorerModal />
             <JourneyDashboardModal />
             <JourneyOnboardingDialog />
           </Suspense>
+          {regionExplorerOpen ? (
+            <Suspense fallback={null}>
+              <RegionExplorerModal />
+            </Suspense>
+          ) : null}
 
           <JourneyBootstrap />
         </div>

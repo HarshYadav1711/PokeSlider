@@ -1,15 +1,16 @@
 import { memo, useId } from 'react';
 
-import type { RegionDefinition, RegionId } from './data/regionTypes';
+import type { RegionId } from './data/regionTypes';
+import type { RegionTabMeta } from './data/regionManifest';
 
 interface RegionExplorerSelectorProps {
-  readonly regions: readonly RegionDefinition[];
+  readonly tabs: readonly RegionTabMeta[];
   readonly value: RegionId;
   readonly onChange: (id: RegionId) => void;
 }
 
 export const RegionExplorerSelector = memo(function RegionExplorerSelector({
-  regions,
+  tabs,
   value,
   onChange,
 }: RegionExplorerSelectorProps) {
@@ -25,7 +26,7 @@ export const RegionExplorerSelector = memo(function RegionExplorerSelector({
         aria-labelledby={labelId}
         className="flex max-w-full gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {regions.map((r) => {
+        {tabs.map((r) => {
           const selected = r.id === value;
           return (
             <button

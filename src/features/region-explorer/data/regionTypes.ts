@@ -12,6 +12,22 @@ export const REGION_IDS = [
 
 export type RegionId = (typeof REGION_IDS)[number];
 
+export type RegionHotspotKind = 'city' | 'route' | 'gym' | 'cave' | 'legendary' | 'landmark';
+
+export interface RegionHotspot {
+  readonly id: string;
+  readonly kind: RegionHotspotKind;
+  readonly label: string;
+  /** Normalized map position (0–100) in the shared scene viewBox. */
+  readonly map: { readonly x: number; readonly y: number };
+  readonly lore: string;
+  readonly linkedRouteId?: string;
+  readonly progressionTease?: string;
+  readonly habitatTease?: string;
+  readonly atmosphereTease?: string;
+  readonly weatherHint?: string;
+}
+
 export interface RegionRoute {
   readonly id: string;
   readonly name: string;
@@ -34,6 +50,8 @@ export interface RegionAtmosphere {
   readonly accent: string;
   readonly accentSoft: string;
   readonly mist: string;
+  /** Short mood line for the scene chrome (optional). */
+  readonly weatherHint?: string;
 }
 
 export interface RegionDefinition {

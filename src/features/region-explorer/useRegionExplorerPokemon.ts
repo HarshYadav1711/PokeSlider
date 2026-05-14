@@ -11,19 +11,23 @@ import type { RegionDefinition } from './data/regionTypes';
 import type { RegionRoute } from './data/regionTypes';
 import { seededSampleUniqueIds } from './regionExplorerDiscovery';
 
-export function useRegionExplorerPokemon(open: boolean, region: RegionDefinition, route: RegionRoute | null) {
+export function useRegionExplorerPokemon(
+  open: boolean,
+  region: RegionDefinition | null,
+  route: RegionRoute | null,
+) {
   const [shuffleKey, setShuffleKey] = useState(0);
 
   const genQuery = useQuery({
-    queryKey: qk.pokemon.generationMembers(region.generation),
-    queryFn: ({ signal }) => fetchPokemonIdsForGeneration(region.generation, signal),
-    enabled: open,
+    queryKey: region ? qk.pokemon.generationMembers(region.generation) : ['region-explorer', 'generation', 'idle'],
+    queryFn: ({ signal }) => fetchPokemonIdsForGeneration(region!.generation, signal),
+    enabled: open && Boolean(region),
     staleTime: STALE_GENERATION_MS,
     gcTime: 1000 * 60 * 60 * 24,
   });
 
   const previewIds = useMemo(() => {
-    if (!route) return [];
+    if (!route || !region) return [];
     const pool = genQuery.data;
     const base = [...route.encounterSampleIds];
     if (pool && pool.length > 0) {
@@ -35,7 +39,7 @@ export function useRegionExplorerPokemon(open: boolean, region: RegionDefinition
       }
     }
     return base.slice(0, 12);
-  }, [genQuery.data, region.id, route, shuffleKey]);
+  }, [genQuery.data, region, route, shuffleKey]);
 
   const summaryQueries = useQueries({
     queries: previewIds.map((id) => ({
