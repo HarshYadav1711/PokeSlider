@@ -19,7 +19,7 @@ alwaysApply: false
 | Feature | Primary files |
 |---------|----------------|
 | Carousel | `features/carousel/PokeBallCarousel.tsx`, `hooks/usePokeBallCarousel.ts` |
-| Ball/Pokémon overlay | `features/overlay/DetailsOverlay.tsx`, `BallDetailPanel.tsx`, `PokemonDetailPanel.tsx`, `PokemonEvolutionTimeline.tsx` |
+| Ball/Pokémon overlay | `features/overlay/DetailsOverlay.tsx`, `BallDetailPanel.tsx` (+ `features/pokeballs/BallCatchLaboratory.tsx`), `PokemonDetailPanel.tsx` (+ `features/pokeballs/PokemonBallFitSection.tsx`), `PokemonEvolutionTimeline.tsx` |
 | My Dex | `features/discovery/MyDexPanel.tsx`, `discoveryEngine.ts`, `useMyDexDiscovery.ts`, `discoveryUiStore.ts` |
 | Compare | `features/compare/*`, `store/comparisonStore.ts` |
 | Team Builder | `features/team-builder/*` (modal, `teamBuilderEngine.ts`, `useTeamBuilderData.ts`, `typeMatchupChart.ts`), `store/teamBuilderStore.ts`, `services/pokeapi/typeMatchupChart.ts` |

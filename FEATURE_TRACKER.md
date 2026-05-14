@@ -28,8 +28,8 @@ Legend: **Status** matches section. **Risk**: Low / Med / High.
 | Feature | Goal | Files (representative) | Dependencies | Risks | Status |
 |---------|------|------------------------|----------------|-------|--------|
 | 3D carousel | Hero interaction, spin, front ball | `PokeBallCarousel.tsx`, `usePokeBallCarousel.ts` | Motion (CSS mostly), pointer | Motion sickness → mitigated by reduced motion | Completed |
-| Ball detail overlay | Lore + suggested Pokémon | `DetailsOverlay.tsx`, `BallDetailPanel.tsx`, ball queries | Query, pokeapi services | API rate | Completed |
-| Pokémon detail | Full dex page in overlay | `PokemonDetailPanel.tsx`, `detailedPokemon.ts`, extras query | Query | Large payloads | Completed |
+| Ball detail overlay | Catch Lab + lore + suggested Pokémon | `DetailsOverlay.tsx`, `BallDetailPanel.tsx`, `features/pokeballs/BallCatchLaboratory.tsx`, ball queries | Query, pokeapi services, `speciesCatchRate` on summaries | API rate | Completed |
+| Pokémon detail | Full dex page + ball fit in overlay | `PokemonDetailPanel.tsx`, `PokemonBallFitSection.tsx`, `detailedPokemon.ts`, extras query | Query | Large payloads | Completed |
 | Evolution timeline explorer | Cinematic chain UI: triggers, per-stage Pokédex flavor + genus, stat deltas vs baseline, Motion transitions, keyboard region; extras query returns `timelineStages` | `PokemonEvolutionTimeline.tsx`, `evolution.ts`, `evolutionSpeciesLore.ts`, `utils/evolutionTriggerSummary.ts` (+ test), `PokemonDetailPanel.tsx` | Query (`detailExtras`), PokéAPI | Extra parallel `/pokemon-species` calls per chain member; mitigated by extras `staleTime` | Completed |
 | My Dex | Browse/filter/favorites/recents | `MyDexPanel.tsx`, `discoveryEngine.ts`, `useMyDexDiscovery.ts` | Zustand discovery store | Client perf on huge lists | Completed |
 | Compare | Transparent multi-category scoring | `ComparisonModal.tsx`, `comparisonScoring.ts`, `ComparisonStatBars.tsx` | Query profiles + type chart | Misinterpretation of rules → mitigated by copy | Completed |

@@ -9,7 +9,7 @@ alwaysApply: true
 
 | Field | Current state |
 |--------|----------------|
-| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Pokémon overlay includes a **cinematic evolution timeline** (triggers, per-stage Pokédex flavor, stat deltas). Data from **PokéAPI**. |
+| **Product** | Interactive **3D Poké Ball carousel** (hero) + **ball detail overlay** (catch lab, collectible ball cards, suggestions) + **My Dex** discovery (browse / favorites / recents) + **Pokémon compare** modal + **Team Builder** (local rule-based party of six, PNG export). Pokémon overlay includes **Poké Ball fit** (ranked ball recommendations) and a **cinematic evolution timeline** (triggers, per-stage Pokédex flavor, stat deltas). Data from **PokéAPI**. |
 | **Stack** | React **19**, Vite **8**, TypeScript **5.9**, Tailwind **4** (`@tailwindcss/vite`), **Motion** 12, **TanStack Query v5**, **Zustand** 5, **`html-to-image`** (export). Tests: **Vitest** + jsdom + **Testing Library**. |
 | **Priorities** | Premium calm UI, **a11y** (focus trap, keyboard, SR), **reduced motion**, performance (prefetch, stale times), maintainable small modules. |
 | **Blockers** | None tracked in-repo. |

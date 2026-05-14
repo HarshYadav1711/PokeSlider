@@ -41,6 +41,8 @@ export interface PokemonSummary {
   types: PokemonTypeName[];
   baseStatTotal: number;
   baseStats: PokemonBaseStats;
+  /** From species `capture_rate` — used for catch math + ball fit. */
+  speciesCatchRate: number;
   isLegendary: boolean;
   isMythical: boolean;
   isPseudoLegendary: boolean;
@@ -80,6 +82,8 @@ export interface DetailedPokemon {
   types: PokemonTypeName[];
   stats: PokemonStatRow[];
   baseStatTotal: number;
+  /** Species capture_rate from PokéAPI (same field as summaries). */
+  speciesCatchRate: number;
   pokedexEntries: string[];
   /** Best English flavor line (version-priority), cleaned for UI. */
   primaryPokedexFlavor: string;

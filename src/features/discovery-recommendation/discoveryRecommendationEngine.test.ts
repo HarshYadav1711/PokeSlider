@@ -25,6 +25,7 @@ function fakeSummary(partial: Partial<PokemonSummary> & Pick<PokemonSummary, 'id
       specialDefense: 70,
       speed: 70,
     },
+    speciesCatchRate: 100,
     isLegendary: false,
     isMythical: false,
     isPseudoLegendary: false,

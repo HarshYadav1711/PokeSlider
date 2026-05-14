@@ -90,6 +90,7 @@ export async function fetchDetailedPokemon(
       types: mapTypes(data.types),
       stats: mapStats(data.stats),
       baseStatTotal,
+      speciesCatchRate: Math.max(1, Math.min(255, speciesData.capture_rate)),
       pokedexEntries,
       primaryPokedexFlavor,
       evolutionData,

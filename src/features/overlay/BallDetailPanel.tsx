@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import { AsyncFeedback } from '../../components/ui/AsyncFeedback';
 import { BallDetailSkeleton } from '../../components/ui/PanelSkeletons';
 import type { PokeBallDefinition } from '../../data/pokeballs';
+import { BallCatchLaboratory } from '../pokeballs/BallCatchLaboratory';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { prefetchPokemonDetail } from '../../query/prefetch';
 import { useBallSuggestionsQuery } from '../../query/useBallSuggestionsQuery';
 import { useUiStore } from '../../store/uiStore';
@@ -71,6 +73,7 @@ function PokemonThumb({ pokemon }: { pokemon: PokemonSummary }) {
 }
 
 export function BallDetailPanel({ ball }: BallDetailPanelProps) {
+  const reduced = usePrefersReducedMotion();
   const { data, isPending, isError, error, refetch, isFetching } = useBallSuggestionsQuery(ball);
 
   const pokemon = useMemo(() => data ?? [], [data]);
@@ -110,15 +113,17 @@ export function BallDetailPanel({ ball }: BallDetailPanelProps) {
           Refreshing…
         </p>
       ) : null}
+      <BallCatchLaboratory ball={ball} practicePool={pokemon} reducedMotion={reduced} />
       <div className="rounded-2xl border-l-4 border-white/30 bg-white/10 p-6 backdrop-blur-md">
+        <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-white/70">Official capsule lore</h3>
         <p className="text-base leading-relaxed text-white/95">{ball.description}</p>
         <p className="mt-4 text-sm text-white/90">
-          <span className="font-semibold">Catch Rate:</span> {ball.catchRate}
+          <span className="font-semibold">Catalog effectiveness label:</span> {ball.catchRate}
         </p>
       </div>
       <div>
         <h3 className="mb-4 text-xl font-bold tracking-tight text-white [font-family:var(--font-display)]">
-          Commonly Caught Pokémon:
+          Compatibility spotlight — Pokémon that vibe with this ball:
         </h3>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-4 max-md:grid-cols-[repeat(auto-fill,minmax(90px,1fr))]">
           {pokemon.map((p) => (

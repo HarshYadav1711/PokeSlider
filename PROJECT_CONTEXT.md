@@ -20,7 +20,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 |------|--------|
 | Build / lint / unit tests | `npm run build`, `npm run lint`, `npm run test` (Vitest + a11y/math tests) |
 | Carousel | Pointer drag, auto-rotate (respects reduced motion), keyboard region, live region for front ball |
-| Ball overlay | Suggestions grid, prefetch on interaction |
+| Ball overlay | Catch Lab + collectible card + cinematic preview + suggestions grid; prefetch on interaction |
 | Pokémon overlay | Detail + extras queries (type chart + **evolution timeline stages**: chain, stats/types per stage, species lore), cry, mega compare modal, locations |
 | My Dex | Tabs (browse / favorites / recents), filters, listbox + keyboard, compare A/B slots, focus trap |
 | Compare modal | Profiles, scoring table, stat bars, duel background, error + per-side retry |
@@ -33,7 +33,7 @@ Human- and AI-readable summary of **identity**, **architecture**, **status**, an
 ## Architecture decisions
 
 1. **TanStack Query** owns server state; **Zustand** owns UI navigation and small client-only lists (favorites/recents, compare slots, discovery UI, **team builder open + locks**).
-2. **`PokemonSummary`** includes **`baseStats`** (HP/Atk/Def/SpA/SpD/Spe) from `mapPokemonSummary` for stat-aware features (e.g. Team Builder) without a second fetch shape.
+2. **`PokemonSummary`** includes **`baseStats`** and **`speciesCatchRate`** (from species `capture_rate`) via `mapPokemonSummary` for stat-aware + catch-simulation features without a second fetch shape.
 3. **Single QueryClient** in `AppProviders` — no per-modal clients.
 4. **PokéAPI** access centralized in `services/pokeapi/client.ts` with typed errors and shared retry policy.
 5. **Query key factory** in `query/keys.ts` — no stringly-typed duplicate keys.

@@ -78,6 +78,7 @@ export function mapPokemonSummary(pokemon: PokemonResponse, species: PokemonSpec
     types: mapTypes(pokemon.types),
     baseStatTotal,
     baseStats: mapBaseStats(pokemon.stats),
+    speciesCatchRate: Math.max(1, Math.min(255, species.capture_rate)),
     isLegendary,
     isMythical,
     isPseudoLegendary: pseudo,

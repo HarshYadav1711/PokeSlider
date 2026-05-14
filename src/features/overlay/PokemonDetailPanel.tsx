@@ -26,6 +26,7 @@ import type {
   PokemonTypeName,
 } from '../../types/pokemon';
 import { PokemonLoreSection } from '../lore/PokemonLoreSection';
+import { PokemonBallFitSection } from '../pokeballs/PokemonBallFitSection';
 import { PokemonEvolutionTimeline } from './PokemonEvolutionTimeline';
 
 interface PokemonDetailPanelProps {
@@ -222,6 +223,8 @@ export function PokemonDetailPanel({ pokemonId }: PokemonDetailPanelProps) {
         reduced={reduced}
         onOpenSpecies={(id) => showPokemon(id)}
       />
+
+      <PokemonBallFitSection pokemon={pokemon} reducedMotion={reduced} />
 
       <section className="rounded-2xl bg-white/10 p-6 backdrop-blur-md">
         <h3 className="mb-4 text-xl font-bold text-white">Base Stats</h3>

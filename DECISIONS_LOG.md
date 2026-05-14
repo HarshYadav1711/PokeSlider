@@ -4,6 +4,16 @@ Short **why** log for architectural and product-technical choices. Newest first.
 
 ---
 
+## 2026-05 — Poké Ball Intelligence (local catch estimates)
+
+**Decision:** Centralize extended Poké Ball metadata in `src/data/pokeballs.ts` (rarity tier, collectibility score, heritage copy, `mechanic` discriminant). Add pure **`src/engine/*`** helpers: neutral-HP estimate, contextual ball multipliers (Net/Dive/Nest/Repeat/Timer/Master), modified catch rate + **Gen III–IV style four-shake** probability, snapshot + ranking builders. Surface **Catch Lab** on ball overlay (`BallCatchLaboratory`) and **Poké Ball fit** on Pokémon detail (`PokemonBallFitSection`) with Motion **cinematic previews** gated by reduced motion. Thread **`speciesCatchRate`** through `PokemonSpeciesResponse`, `mapPokemonSummary`, and `DetailedPokemon` from PokéAPI `capture_rate`.
+
+**Why:** Makes Poké Balls a first-class “intelligence” surface with explainable, deterministic math (no server RNG) while staying honest that modern titles tweak formulas — UI copy frames estimates explicitly.
+
+**Alternatives rejected:** Calling PokéAPI per throw simulation (no endpoint; would be fake anyway); hiding ball math entirely (missed product identity).
+
+---
+
 ## 2026-05 — Simplify the Context Engine (v0.2.0)
 
 **Decision:** Collapse the Context Intelligence Engine into a flat, ~1000-LOC Python package with 4 CLI commands (`scan`, `generate`, `validate`, `watch`), 4 generated artifacts (`PROJECT_CONTEXT.md`, `FEATURE_TRACKER.md`, `CURRENT_AI_CONTEXT.md`, `.cursor/rules/context-engine.mdc`), and 3 validators (`MISSING_FILE`, `SHIPPED_NO_EVIDENCE`, `UNKNOWN_DEPENDENCY`). Removed the dependency-graph layer (networkx + Mermaid/DOT exports + coupling hotspots), the libcst Python parser (never used in the pipeline), GitPython (subprocess `git` is enough), system / route / decision YAML registries (folded into free-form strings on a feature manifest), and the noisy validators (orphan components, dead routes, unused stores). Sub-packages collapsed into single-file modules (`schemas.py`, `scanner.py`, `parser.py`, `generator.py`, `validator.py`, `registry.py`, `cache.py`, `watcher.py`, `markers.py`, `cli.py`).

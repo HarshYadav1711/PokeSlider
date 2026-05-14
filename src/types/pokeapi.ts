@@ -66,6 +66,8 @@ export interface PokemonSpeciesResponse {
   evolves_from_species: NamedApiResource | null;
   is_legendary: boolean;
   is_mythical: boolean;
+  /** Species catch rate used in capture formulas (PokéAPI). */
+  capture_rate: number;
   habitat: NamedApiResource | null;
   varieties: { is_default: boolean; pokemon: NamedApiResource }[];
   /** Localized category line, e.g. "Seed Pokémon" */

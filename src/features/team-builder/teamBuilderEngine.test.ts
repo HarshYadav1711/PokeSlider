@@ -30,6 +30,7 @@ function fakeSummary(
     isMythical: partial.isMythical ?? false,
     isPseudoLegendary: partial.isPseudoLegendary ?? false,
     category: partial.category ?? 'regular',
+    speciesCatchRate: partial.speciesCatchRate ?? 100,
   };
 }
 
