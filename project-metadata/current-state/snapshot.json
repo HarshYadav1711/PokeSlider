@@ -1,97 +1,338 @@
 {
-  "generated_at": "2026-05-14T16:53:50.105448Z",
-  "git_commit": "5f537773322b71aef0e26155489039204fdddb79",
+  "generated_at": "2026-05-14T17:51:18.148655Z",
+  "git_commit": "3aa78814fbf60c833eee7fb2d0115456b31d1cb0",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
     {
-      "path": "src/features/discovery-recommendation/DiscoveryEngineModal.tsx",
+      "path": "src/features/region-explorer/RegionExplorerAmbient.tsx",
       "role": "component",
-      "feature_id": "discovery_recommendation",
-      "sha256": "40455aa6aa5083501c932a2a344e92e028af5e9d64254cd3e85df0b8cd1cd90e",
-      "loc": 503,
+      "feature_id": "region_explorer",
+      "sha256": "c674f9bc068907e0c52602a0213cc4857bb391b80ee972d434e78358f08c7862",
+      "loc": 39,
+      "is_test": false,
+      "imports": [
+        "./regionExplorerAmbient.css",
+        "react"
+      ],
+      "exported_symbols": [
+        "RegionExplorerAmbient"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerMap.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "6b50b029282f5e0fdbc75a7f4d1034503ff2752688836ebf64e38b6d640d3f45",
+      "loc": 153,
+      "is_test": false,
+      "imports": [
+        "react",
+        "./data/regionTypes"
+      ],
+      "exported_symbols": [
+        "RegionExplorerMap"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/RegionExplorerModal.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "2916a855bab7201a5bc43bc45ef8a4e4895b71e06cd8cd408b150f143936961b",
+      "loc": 200,
       "is_test": false,
       "imports": [
         "motion/react",
         "react",
         "../../a11y/useFocusTrap",
-        "../../components/pokemon/TypeBadge",
-        "../../components/ui/AsyncFeedback",
-        "../../data/pokemonTypes",
-        "../../data/journeyRegions",
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
-        "../../store/dexListsStore",
-        "../../store/discoveryRecommendationStore",
+        "../../store/regionExplorerStore",
         "../../store/uiStore",
-        "../../types/pokemon",
-        "./DiscoveryRelationshipOrbit",
-        "./discoveryRecommendationTypes",
-        "./useDiscoveryRecommendationData"
+        "./data/regions",
+        "./RegionExplorerAmbient",
+        "./RegionExplorerMap",
+        "./RegionExplorerPokemonRow",
+        "./RegionExplorerSelector",
+        "./useRegionExplorerPokemon"
       ],
       "exported_symbols": [
-        "DiscoveryEngineModal"
+        "default:RegionExplorerModal"
       ],
       "referenced_stores": [
-        "useDexListsStore",
-        "useDiscoveryRecommendationStore",
+        "useRegionExplorerStore",
         "useUiStore"
       ],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/discovery-recommendation/DiscoveryRelationshipOrbit.tsx",
+      "path": "src/features/region-explorer/RegionExplorerPokemonRow.tsx",
       "role": "component",
-      "feature_id": "discovery_recommendation",
-      "sha256": "eb07b263318d5d1f8a70be5e452ec55ca3f000461ba467a541892c1ddb4880cc",
-      "loc": 52,
+      "feature_id": "region_explorer",
+      "sha256": "47297bbfbfd77ef01f6b5944f8653f1b261265d638608139886cef11eda27b0d",
+      "loc": 69,
       "is_test": false,
       "imports": [
-        "./discoveryRecommendationTypes"
-      ],
-      "exported_symbols": [
-        "DiscoveryRelationshipOrbit"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/discovery-recommendation/aestheticTypeAffinity.ts",
-      "role": "util",
-      "feature_id": "discovery_recommendation",
-      "sha256": "f946b288ee5e478f4000df53fd3b75eeaaa098be16a60a790d0ef4b8dafd59c3",
-      "loc": 100,
-      "is_test": false,
-      "imports": [
-        "../../data/pokemonTypes",
+        "react",
         "../../types/pokemon",
-        "./discoveryRecommendationTypes"
+        "../journey/journeySpriteUrl"
       ],
       "exported_symbols": [
-        "aestheticPoolNudge",
-        "aestheticTypeWeight"
+        "RegionExplorerPokemonRow"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.test.ts",
+      "path": "src/features/region-explorer/RegionExplorerSelector.tsx",
+      "role": "component",
+      "feature_id": "region_explorer",
+      "sha256": "c4900a8ddc92e0207e537e9bb4dd3731451e43c52fdd0d4e007dbaa96f534449",
+      "loc": 59,
+      "is_test": false,
+      "imports": [
+        "react",
+        "./data/regionTypes"
+      ],
+      "exported_symbols": [
+        "RegionExplorerSelector"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regionTypes.ts",
+      "role": "types",
+      "feature_id": "region_explorer",
+      "sha256": "efa8efc6271533752fd78a26c9d3d9ac0cc91a9f1debd3b3e8f69e7015b631fc",
+      "loc": 48,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "REGION_IDS",
+        "RegionAtmosphere",
+        "RegionDefinition",
+        "RegionHabitat",
+        "RegionId",
+        "RegionRoute"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/alola.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "c2537d29797b53a0f1bc173fa80fa4023c1f587ea6b29411372d8fb7928ecbd9",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "ALOLA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/galar.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "f8c34d6ec5187bb467963c862fafbe4540a3f458ceb3acaf602b9b8186b90baa",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "GALAR"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/hoenn.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "71ceae2bca609ac581ff37595c8e11702d1dd8e3c80219d4e9eb43bbe6b25845",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "HOENN"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/index.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "d9199f7e9aeae1c6e63ab237ef2fe62d03a232d999fc9f0b24626eb7c4695295",
+      "loc": 39,
+      "is_test": false,
+      "imports": [
+        "../regionTypes",
+        "./alola",
+        "./galar",
+        "./hoenn",
+        "./johto",
+        "./kalos",
+        "./kanto",
+        "./paldea",
+        "./sinnoh",
+        "./unova"
+      ],
+      "exported_symbols": [
+        "REGIONS",
+        "getRegionDefinition"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/johto.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "3a1c583e03449e3ffdb0c3b211e1c61a23ac7fa079c99bfead4424a7fba17e76",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "JOHTO"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/kalos.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "c251e1977c095cb8e926addccee3af8295c566928c511ecb2a8b6d0687905067",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "KALOS"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/kanto.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "9efdfd0cf9fd38671a0b1b236f55dbaf97a4a2754149b653eda085673739a228",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "KANTO"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/paldea.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "61a85e1d2e664e7aa835529e50e771692dce8293ed80c7207febdb73ec0c87cf",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "PALDEA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/sinnoh.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "2ece7f7ec6e408f111bbd987b17a68671960a641c403e49d48ab5aa42369e09d",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "SINNOH"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/data/regions/unova.ts",
+      "role": "util",
+      "feature_id": "region_explorer",
+      "sha256": "6f77486192e9b0881554c6e36c47d8d8d51f426f75ec14780fdebc12ea09115a",
+      "loc": 66,
+      "is_test": false,
+      "imports": [
+        "../regionTypes"
+      ],
+      "exported_symbols": [
+        "UNOVA"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionExplorerAmbient.css",
+      "role": "style",
+      "feature_id": "region_explorer",
+      "sha256": "2628de3a6d6b0f2f8916c580a7bd6b511854f92aabc74eeb9de3ee4e53ced94d",
+      "loc": 38,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/region-explorer/regionExplorerDiscovery.test.ts",
       "role": "test",
-      "feature_id": "discovery_recommendation",
-      "sha256": "39b681aa73507e8dd4192a818cf51f9d80d3db07bf4130f0b1c6c427f9a84666",
-      "loc": 151,
+      "feature_id": "region_explorer",
+      "sha256": "8dc50a8bdbfa8f2ded07069e1f05bf6caa126ed9575a4861fbb5087badb82cd3",
+      "loc": 25,
       "is_test": true,
       "imports": [
         "vitest",
-        "../../types/pokemon",
-        "../team-builder/typeMatchupChart",
-        "./aestheticTypeAffinity",
-        "./discoveryRecommendationEngine",
-        "./regionToGeneration"
+        "./regionExplorerDiscovery"
       ],
       "exported_symbols": [],
       "referenced_stores": [],
@@ -99,145 +340,64 @@
       "parser_ok": true
     },
     {
-      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.ts",
-      "role": "engine",
-      "feature_id": "discovery_recommendation",
-      "sha256": "13f4e4480356f183b45fea033450bf8b9f58c545d3a2884cd858cf6c7ad7836b",
-      "loc": 418,
-      "is_test": false,
-      "imports": [
-        "../../types/pokemon",
-        "../team-builder/typeMatchupChart",
-        "./aestheticTypeAffinity",
-        "./discoveryRecommendationTypes"
-      ],
-      "exported_symbols": [
-        "buildDiscoveryRecommendations",
-        "mulberry32",
-        "seededShuffle"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/discovery-recommendation/discoveryRecommendationTypes.ts",
-      "role": "types",
-      "feature_id": "discovery_recommendation",
-      "sha256": "cda1680f9c0843fe4057737f9bd226841048ff2a6fa50e158353550c1dbd2db8",
-      "loc": 86,
-      "is_test": false,
-      "imports": [
-        "../../types/pokemon",
-        "../team-builder/typeMatchupChart"
-      ],
-      "exported_symbols": [
-        "DiscoveryAesthetic",
-        "DiscoveryEngineInput",
-        "DiscoveryEngineResult",
-        "DiscoveryPlaystyle",
-        "DiscoveryReasonLine",
-        "DiscoveryRecommendationKind",
-        "DiscoveryRecommendationPreferences",
-        "DiscoveryRelationship",
-        "DiscoveryRelationshipKind",
-        "DiscoveryScoredPick"
-      ],
-      "referenced_stores": [],
-      "referenced_query_keys": [],
-      "parser_ok": true
-    },
-    {
-      "path": "src/features/discovery-recommendation/regionToGeneration.ts",
+      "path": "src/features/region-explorer/regionExplorerDiscovery.ts",
       "role": "util",
-      "feature_id": "discovery_recommendation",
-      "sha256": "d8bf92176322100f6b1c8730af97e24de1b84b3841d453767b07dd06b33d76cd",
-      "loc": 26,
+      "feature_id": "region_explorer",
+      "sha256": "5699ea03769237530577e5a7ff8ef4fe1df845611c88e711d747953cd91bd3c1",
+      "loc": 38,
       "is_test": false,
       "imports": [],
       "exported_symbols": [
-        "regionKeysToGenerationIds"
+        "fnv1a32",
+        "seededSampleUniqueIds"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
       "parser_ok": true
     },
     {
-      "path": "src/features/discovery-recommendation/useDiscoveryRecommendationData.ts",
+      "path": "src/features/region-explorer/useRegionExplorerPokemon.ts",
       "role": "util",
-      "feature_id": "discovery_recommendation",
-      "sha256": "57d4dcf6cc8ab6faf75147041bf6f857acbf5c6eb6239731ecd88fb720581593",
-      "loc": 159,
+      "feature_id": "region_explorer",
+      "sha256": "a86e89c2811b19c996a5e09b75ff6c6f41f3e2474175501eaf11648273f240a6",
+      "loc": 68,
       "is_test": false,
       "imports": [
         "@tanstack/react-query",
         "react",
-        "../discovery/discoveryEngine",
-        "./discoveryRecommendationEngine",
-        "../team-builder/typeMatchupChart",
         "../../query/keys",
         "../../query/staleTimes",
-        "../../services/pokeapi/discoveryRecommendationIds",
-        "../../services/pokeapi/pokemonListResource",
+        "../../services/pokeapi/generation",
         "../../services/pokeapi/pokemonSummary",
-        "../../services/pokeapi/typeMatchupChart",
-        "../../store/dexListsStore",
-        "../../store/discoveryRecommendationStore",
-        "./discoveryRecommendationTypes",
         "../../types/pokemon",
-        "./regionToGeneration"
+        "./data/regionTypes",
+        "./regionExplorerDiscovery"
       ],
       "exported_symbols": [
-        "useDiscoveryRecommendationData"
-      ],
-      "referenced_stores": [
-        "useDexListsStore",
-        "useDiscoveryRecommendationStore"
-      ],
-      "referenced_query_keys": [
-        "discovery",
-        "pokemon",
-        "teamBuilder"
-      ],
-      "parser_ok": true
-    },
-    {
-      "path": "src/services/pokeapi/discoveryRecommendationIds.ts",
-      "role": "service",
-      "feature_id": null,
-      "sha256": "a0c9ea024e8ba478e40ef63e3f202dc14eb3dd93f9b92ee9faec937904b5cd61",
-      "loc": 19,
-      "is_test": false,
-      "imports": [
-        "./generation",
-        "./pokemonListResource"
-      ],
-      "exported_symbols": [
-        "fetchDiscoveryCandidateIds"
+        "useRegionExplorerPokemon"
       ],
       "referenced_stores": [],
-      "referenced_query_keys": [],
+      "referenced_query_keys": [
+        "pokemon"
+      ],
       "parser_ok": true
     },
     {
-      "path": "src/store/discoveryRecommendationStore.ts",
+      "path": "src/store/regionExplorerStore.ts",
       "role": "store",
       "feature_id": null,
-      "sha256": "af6dfbdde8af2af9da9ff6ef9946ce971d1a9eecdf9a87579d91506c4f1dda99",
-      "loc": 117,
+      "sha256": "0e05d98aa13ce68dac9cee0dcc6707bedcedb8fb56f941a5f253e05070bbf6b6",
+      "loc": 21,
       "is_test": false,
       "imports": [
         "zustand",
-        "zustand/middleware",
-        "../features/discovery-recommendation/discoveryRecommendationTypes",
-        "../types/pokemon"
+        "../features/region-explorer/data/regionTypes"
       ],
       "exported_symbols": [
-        "DiscoveryRecommendationState",
-        "useDiscoveryRecommendationStore"
+        "useRegionExplorerStore"
       ],
       "referenced_stores": [
-        "useDiscoveryRecommendationStore"
+        "useRegionExplorerStore"
       ],
       "referenced_query_keys": [],
       "parser_ok": true
@@ -315,7 +475,7 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "99926beca21167e43173bb4dc00fa4d159e2e152fed5d042d003cd52414a1c18",
+      "sha256": "a204d50f85f7a6f78f27f6fbe88a10387edd415941aa3e52fedc37234f133d0f",
       "loc": 34,
       "is_test": false,
       "imports": [],
@@ -393,7 +553,7 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "8704b342752292c85357b2a4eb586c1c9e344c8e432f485194ecf0f2b64716ab",
+      "sha256": "92ecd55d773ffd76af3998a807e6b585546a3e52d8835103e8b22debdd82f28d",
       "loc": 38,
       "is_test": false,
       "imports": [],
@@ -471,8 +631,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "b043d7843bc30cf7dd6afb6d8181a569f848797b084ebaefa241cd5972ed0060",
-      "loc": 2350,
+      "sha256": "e4832c7af601a303b578998a478ee2d6dfa68f9b6fabdcda915a394989da5f18",
+      "loc": 2939,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -510,8 +670,8 @@
       "path": "project-metadata/features/compare.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "604121fbdb0b9a5705833936c10448fc6cab0ef29992974bfffee61338df6fca",
-      "loc": 23,
+      "sha256": "613f8faf610cc149eebaad03766b98a2ad3d54f0b742930adc44bbc5bf7a4b8d",
+      "loc": 24,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -536,8 +696,8 @@
       "path": "project-metadata/features/discovery.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "b62f2a20d8c905e4bebd5854e16477f338e8fafff4e9e0c9a5baff5bf5aab68b",
-      "loc": 26,
+      "sha256": "497a3840cd059c35f01d11cbc72bdec4ff2a044ccf6668e1748a92ae52beeee5",
+      "loc": 27,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -562,8 +722,8 @@
       "path": "project-metadata/features/team_builder.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "902c5cdfbacbadbc9e5acd7907f818a5f0ae174da21e6c91b1009ef177699fff",
-      "loc": 28,
+      "sha256": "0646ab1ef9b11162ae29e8ce57f5cbb782916449de250d8a05bbe0f45b95310d",
+      "loc": 29,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -575,10 +735,11 @@
       "path": "src/App.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "4e0591fe7c5bf8828adc65f9e7b97a1689ec9caca78bce1e796ee216da5a09ca",
-      "loc": 96,
+      "sha256": "7a084eab28145be149c0c3b80744038fd2d93161ea04459b9b2cb8d335a1b4e3",
+      "loc": 112,
       "is_test": false,
       "imports": [
+        "react",
         "./features/carousel/PokeBallCarousel",
         "./features/battle-sim/BattleSimulatorModal",
         "./features/compare/ComparisonModal",
@@ -592,6 +753,7 @@
         "./features/overlay/DetailsOverlay",
         "./hooks/useAppKeyboardShortcuts",
         "./store/discoveryRecommendationStore",
+        "./store/regionExplorerStore",
         "./store/teamBuilderStore"
       ],
       "exported_symbols": [
@@ -599,6 +761,7 @@
       ],
       "referenced_stores": [
         "useDiscoveryRecommendationStore",
+        "useRegionExplorerStore",
         "useTeamBuilderStore"
       ],
       "referenced_query_keys": [],
@@ -1131,6 +1294,202 @@
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/DiscoveryEngineModal.tsx",
+      "role": "component",
+      "feature_id": "discovery_recommendation",
+      "sha256": "40455aa6aa5083501c932a2a344e92e028af5e9d64254cd3e85df0b8cd1cd90e",
+      "loc": 503,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../a11y/useFocusTrap",
+        "../../components/pokemon/TypeBadge",
+        "../../components/ui/AsyncFeedback",
+        "../../data/pokemonTypes",
+        "../../data/journeyRegions",
+        "../../hooks/usePrefersReducedMotion",
+        "../../motion/motionPrefs",
+        "../../store/dexListsStore",
+        "../../store/discoveryRecommendationStore",
+        "../../store/uiStore",
+        "../../types/pokemon",
+        "./DiscoveryRelationshipOrbit",
+        "./discoveryRecommendationTypes",
+        "./useDiscoveryRecommendationData"
+      ],
+      "exported_symbols": [
+        "DiscoveryEngineModal"
+      ],
+      "referenced_stores": [
+        "useDexListsStore",
+        "useDiscoveryRecommendationStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/DiscoveryRelationshipOrbit.tsx",
+      "role": "component",
+      "feature_id": "discovery_recommendation",
+      "sha256": "eb07b263318d5d1f8a70be5e452ec55ca3f000461ba467a541892c1ddb4880cc",
+      "loc": 52,
+      "is_test": false,
+      "imports": [
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "DiscoveryRelationshipOrbit"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/aestheticTypeAffinity.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "f946b288ee5e478f4000df53fd3b75eeaaa098be16a60a790d0ef4b8dafd59c3",
+      "loc": 100,
+      "is_test": false,
+      "imports": [
+        "../../data/pokemonTypes",
+        "../../types/pokemon",
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "aestheticPoolNudge",
+        "aestheticTypeWeight"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.test.ts",
+      "role": "test",
+      "feature_id": "discovery_recommendation",
+      "sha256": "39b681aa73507e8dd4192a818cf51f9d80d3db07bf4130f0b1c6c427f9a84666",
+      "loc": 151,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart",
+        "./aestheticTypeAffinity",
+        "./discoveryRecommendationEngine",
+        "./regionToGeneration"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.ts",
+      "role": "engine",
+      "feature_id": "discovery_recommendation",
+      "sha256": "13f4e4480356f183b45fea033450bf8b9f58c545d3a2884cd858cf6c7ad7836b",
+      "loc": 418,
+      "is_test": false,
+      "imports": [
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart",
+        "./aestheticTypeAffinity",
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "buildDiscoveryRecommendations",
+        "mulberry32",
+        "seededShuffle"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationTypes.ts",
+      "role": "types",
+      "feature_id": "discovery_recommendation",
+      "sha256": "cda1680f9c0843fe4057737f9bd226841048ff2a6fa50e158353550c1dbd2db8",
+      "loc": 86,
+      "is_test": false,
+      "imports": [
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart"
+      ],
+      "exported_symbols": [
+        "DiscoveryAesthetic",
+        "DiscoveryEngineInput",
+        "DiscoveryEngineResult",
+        "DiscoveryPlaystyle",
+        "DiscoveryReasonLine",
+        "DiscoveryRecommendationKind",
+        "DiscoveryRecommendationPreferences",
+        "DiscoveryRelationship",
+        "DiscoveryRelationshipKind",
+        "DiscoveryScoredPick"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/regionToGeneration.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "d8bf92176322100f6b1c8730af97e24de1b84b3841d453767b07dd06b33d76cd",
+      "loc": 26,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "regionKeysToGenerationIds"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/useDiscoveryRecommendationData.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "57d4dcf6cc8ab6faf75147041bf6f857acbf5c6eb6239731ecd88fb720581593",
+      "loc": 159,
+      "is_test": false,
+      "imports": [
+        "@tanstack/react-query",
+        "react",
+        "../discovery/discoveryEngine",
+        "./discoveryRecommendationEngine",
+        "../team-builder/typeMatchupChart",
+        "../../query/keys",
+        "../../query/staleTimes",
+        "../../services/pokeapi/discoveryRecommendationIds",
+        "../../services/pokeapi/pokemonListResource",
+        "../../services/pokeapi/pokemonSummary",
+        "../../services/pokeapi/typeMatchupChart",
+        "../../store/dexListsStore",
+        "../../store/discoveryRecommendationStore",
+        "./discoveryRecommendationTypes",
+        "../../types/pokemon",
+        "./regionToGeneration"
+      ],
+      "exported_symbols": [
+        "useDiscoveryRecommendationData"
+      ],
+      "referenced_stores": [
+        "useDexListsStore",
+        "useDiscoveryRecommendationStore"
+      ],
+      "referenced_query_keys": [
+        "discovery",
+        "pokemon",
+        "teamBuilder"
+      ],
       "parser_ok": true
     },
     {
@@ -1756,8 +2115,8 @@
       "path": "src/hooks/useAppKeyboardShortcuts.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "a33524784497d184f2a4df4b6203538732dfce9f1ac469bb9dc9a95b7b17e825",
-      "loc": 91,
+      "sha256": "6d4c79eac2a93b1b1e427aa0a65484da943288a5ed4b408b684091e844df8224",
+      "loc": 99,
       "is_test": false,
       "imports": [
         "react",
@@ -1765,6 +2124,7 @@
         "../store/comparisonStore",
         "../features/discovery/discoveryUiStore",
         "../store/discoveryRecommendationStore",
+        "../store/regionExplorerStore",
         "../store/journeyUiStore",
         "../store/teamBuilderStore",
         "../store/uiStore"
@@ -1778,6 +2138,7 @@
         "useDiscoveryRecommendationStore",
         "useDiscoveryUiStore",
         "useJourneyUiStore",
+        "useRegionExplorerStore",
         "useTeamBuilderStore",
         "useUiStore"
       ],
@@ -2200,6 +2561,24 @@
       "parser_ok": true
     },
     {
+      "path": "src/services/pokeapi/discoveryRecommendationIds.ts",
+      "role": "service",
+      "feature_id": null,
+      "sha256": "a0c9ea024e8ba478e40ef63e3f202dc14eb3dd93f9b92ee9faec937904b5cd61",
+      "loc": 19,
+      "is_test": false,
+      "imports": [
+        "./generation",
+        "./pokemonListResource"
+      ],
+      "exported_symbols": [
+        "fetchDiscoveryCandidateIds"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
       "path": "src/services/pokeapi/evolution.ts",
       "role": "service",
       "feature_id": null,
@@ -2546,6 +2925,29 @@
       "referenced_stores": [
         "useDexListsStore",
         "useJourneyProgressStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/discoveryRecommendationStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "af6dfbdde8af2af9da9ff6ef9946ce971d1a9eecdf9a87579d91506c4f1dda99",
+      "loc": 117,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware",
+        "../features/discovery-recommendation/discoveryRecommendationTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "DiscoveryRecommendationState",
+        "useDiscoveryRecommendationStore"
+      ],
+      "referenced_stores": [
+        "useDiscoveryRecommendationStore"
       ],
       "referenced_query_keys": [],
       "parser_ok": true

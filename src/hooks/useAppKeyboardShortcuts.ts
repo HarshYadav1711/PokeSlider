@@ -4,12 +4,14 @@ import { useBattleSimulatorStore } from '../store/battleSimulatorStore';
 import { useComparisonStore } from '../store/comparisonStore';
 import { useDiscoveryUiStore } from '../features/discovery/discoveryUiStore';
 import { useDiscoveryRecommendationStore } from '../store/discoveryRecommendationStore';
+import { useRegionExplorerStore } from '../store/regionExplorerStore';
 import { useJourneyUiStore } from '../store/journeyUiStore';
 import { useTeamBuilderStore } from '../store/teamBuilderStore';
 import { useUiStore } from '../store/uiStore';
 
 /**
- * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` walks modals then Discovery mix, My Dex, overlay.
+ * Global shortcuts: `/` focuses discovery search (and opens My Dex), `Escape` walks modals
+ * (team builder → battle → compare → journey onboarding → journey dashboard → region explorer → discovery mix → My Dex → overlay).
  */
 export function useAppKeyboardShortcuts() {
   useEffect(() => {
@@ -43,6 +45,12 @@ export function useAppKeyboardShortcuts() {
         const journeyDashboardOpen = useJourneyUiStore.getState().dashboardOpen;
         if (journeyDashboardOpen) {
           useJourneyUiStore.getState().setDashboardOpen(false);
+          e.preventDefault();
+          return;
+        }
+        const regionExplorerOpen = useRegionExplorerStore.getState().open;
+        if (regionExplorerOpen) {
+          useRegionExplorerStore.getState().setOpen(false);
           e.preventDefault();
           return;
         }

@@ -1,3 +1,5 @@
+import { lazy, Suspense } from 'react';
+
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
 import { BattleSimulatorModal } from './features/battle-sim/BattleSimulatorModal';
 import { ComparisonModal } from './features/compare/ComparisonModal';
@@ -11,7 +13,10 @@ import { TeamBuilderModal } from './features/team-builder/TeamBuilderModal';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
 import { useDiscoveryRecommendationStore } from './store/discoveryRecommendationStore';
+import { useRegionExplorerStore } from './store/regionExplorerStore';
 import { useTeamBuilderStore } from './store/teamBuilderStore';
+
+const RegionExplorerModal = lazy(() => import('./features/region-explorer/RegionExplorerModal'));
 
 export function App() {
   useAppKeyboardShortcuts();
@@ -29,6 +34,13 @@ export function App() {
         <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
           <div className="mb-[var(--space-4)] flex flex-wrap justify-center gap-2">
             <JourneyEntryButton />
+            <button
+              type="button"
+              className="app-focus-ring rounded-full border border-sky-400/35 bg-sky-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-sky-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-sky-500/25"
+              onClick={() => useRegionExplorerStore.getState().setOpen(true)}
+            >
+              Region explorer
+            </button>
             <button
               type="button"
               className="app-focus-ring rounded-full border border-violet-400/35 bg-violet-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-violet-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-violet-500/25"
@@ -90,6 +102,10 @@ export function App() {
       <JourneyBootstrap />
       <JourneyOnboardingDialog />
       <JourneyDashboardModal />
+
+      <Suspense fallback={null}>
+        <RegionExplorerModal />
+      </Suspense>
       </main>
     </>
   );

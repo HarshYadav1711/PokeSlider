@@ -1,0 +1,38 @@
+@keyframes region-explorer-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate3d(1.5%, -1.2%, 0) scale(1.04);
+    opacity: 0.55;
+  }
+}
+
+@keyframes region-explorer-shimmer {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.22;
+  }
+}
+
+.region-explorer-ambient__mist {
+  animation: region-explorer-drift 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.region-explorer-ambient__shimmer {
+  animation: region-explorer-shimmer 14s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .region-explorer-ambient__mist,
+  .region-explorer-ambient__shimmer {
+    animation: none;
+    opacity: 0.28;
+  }
+}
