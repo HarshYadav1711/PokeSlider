@@ -6,6 +6,7 @@ description: Transparent rule-based scoring between two Pokémon with stat bars 
 stores:
 - useBattleSimulatorStore
 - useComparisonStore
+- useJourneyProgressStore
 shared_systems:
 - query-layer
 - zustand-stores

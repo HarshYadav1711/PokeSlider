@@ -9,6 +9,7 @@ import { sheetSpringTransition } from '../../motion/motionPrefs';
 import { InlineRowSkeleton } from '../../components/ui/PanelSkeletons';
 import { useComparisonStore } from '../../store/comparisonStore';
 import { useDexListsStore } from '../../store/dexListsStore';
+import { useDiscoveryRecommendationStore } from '../../store/discoveryRecommendationStore';
 import { useUiStore } from '../../store/uiStore';
 import { useDiscoveryUiStore } from './discoveryUiStore';
 import { useAbilitySlugListQuery, useMyDexDiscovery, usePokedexSlugListQuery } from './useMyDexDiscovery';
@@ -160,6 +161,14 @@ export function MyDexPanel() {
                 My Dex
               </h2>
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => useDiscoveryRecommendationStore.getState().setOpen(true)}
+                  className="app-focus-ring rounded-[var(--radius-pill)] border border-cyan-400/35 bg-cyan-500/16 px-4 py-2 text-[var(--text-eyebrow)] font-semibold uppercase tracking-wide text-white transition-[background-color,border-color] duration-[var(--duration-fast)] [transition-timing-function:var(--ease-out)] hover:border-cyan-300/45 hover:bg-cyan-500/24 active:scale-[0.98]"
+                  aria-label="Open personalized discovery mix"
+                >
+                  Discovery
+                </button>
                 <button
                   type="button"
                   onClick={() => useComparisonStore.getState().openModal()}

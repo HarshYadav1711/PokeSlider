@@ -1,6 +1,7 @@
 import { PokeBallCarousel } from './features/carousel/PokeBallCarousel';
 import { BattleSimulatorModal } from './features/battle-sim/BattleSimulatorModal';
 import { ComparisonModal } from './features/compare/ComparisonModal';
+import { DiscoveryEngineModal } from './features/discovery-recommendation/DiscoveryEngineModal';
 import { MyDexPanel } from './features/discovery/MyDexPanel';
 import { JourneyBootstrap } from './features/journey/JourneyBootstrap';
 import { JourneyDashboardModal } from './features/journey/JourneyDashboardModal';
@@ -9,6 +10,7 @@ import { JourneyOnboardingDialog } from './features/journey/JourneyOnboardingDia
 import { TeamBuilderModal } from './features/team-builder/TeamBuilderModal';
 import { DetailsOverlay } from './features/overlay/DetailsOverlay';
 import { useAppKeyboardShortcuts } from './hooks/useAppKeyboardShortcuts';
+import { useDiscoveryRecommendationStore } from './store/discoveryRecommendationStore';
 import { useTeamBuilderStore } from './store/teamBuilderStore';
 
 export function App() {
@@ -27,6 +29,13 @@ export function App() {
         <header className="relative z-10 mb-[var(--space-hero-gap)] w-full max-w-2xl text-center lg:mb-[var(--space-10)]">
           <div className="mb-[var(--space-4)] flex flex-wrap justify-center gap-2">
             <JourneyEntryButton />
+            <button
+              type="button"
+              className="app-focus-ring rounded-full border border-violet-400/35 bg-violet-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-violet-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-violet-500/25"
+              onClick={() => useDiscoveryRecommendationStore.getState().setOpen(true)}
+            >
+              Discovery mix
+            </button>
             <button
               type="button"
               className="app-focus-ring rounded-full border border-indigo-400/35 bg-indigo-500/15 px-4 py-2 text-[var(--text-body-sm)] font-semibold text-indigo-100 shadow-[var(--shadow-sm)] backdrop-blur-[var(--blur-glass)] hover:bg-indigo-500/25"
@@ -69,6 +78,8 @@ export function App() {
       <DetailsOverlay />
 
       <MyDexPanel />
+
+      <DiscoveryEngineModal />
 
       <ComparisonModal />
 

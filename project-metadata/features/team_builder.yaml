@@ -6,6 +6,7 @@ description: Deterministic party-of-six recommender with goal weights, risk tole
   `html-to-image`.
 stores:
 - useDexListsStore
+- useJourneyProgressStore
 - useTeamBuilderStore
 shared_systems:
 - rules-engines

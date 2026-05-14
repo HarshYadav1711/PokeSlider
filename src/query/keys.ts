@@ -19,6 +19,8 @@ export const qk = {
   },
   discovery: {
     summaryBatch: (batchKey: string) => ['discovery', 'summary-batch', batchKey] as const,
+    recommendationCandidates: (genKey: string) => ['discovery', 'reco-candidates', genKey] as const,
+    recommendationSummaries: (batchKey: string) => ['discovery', 'reco-summaries', batchKey] as const,
   },
   teamBuilder: {
     typeMatchup: () => ['pokeapi', 'team-builder', 'type-matchup'] as const,

@@ -6,6 +6,7 @@ description: Browse, filter, favorites, recents, and compare-from-row affordance
 stores:
 - useComparisonStore
 - useDexListsStore
+- useDiscoveryRecommendationStore
 - useDiscoveryUiStore
 - useUiStore
 shared_systems:

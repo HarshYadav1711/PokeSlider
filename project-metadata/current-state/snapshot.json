@@ -1,10 +1,277 @@
 {
-  "generated_at": "2026-05-13T21:44:13.004881Z",
-  "git_commit": "d3a646bbd5fc2391a4b48bedaee15742a19b59f8",
+  "generated_at": "2026-05-14T16:53:50.105448Z",
+  "git_commit": "5f537773322b71aef0e26155489039204fdddb79",
   "git_branch": "main",
   "git_dirty": true,
   "root": "D:\\Fun\\PokeSlider",
   "files": [
+    {
+      "path": "src/features/discovery-recommendation/DiscoveryEngineModal.tsx",
+      "role": "component",
+      "feature_id": "discovery_recommendation",
+      "sha256": "40455aa6aa5083501c932a2a344e92e028af5e9d64254cd3e85df0b8cd1cd90e",
+      "loc": 503,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../a11y/useFocusTrap",
+        "../../components/pokemon/TypeBadge",
+        "../../components/ui/AsyncFeedback",
+        "../../data/pokemonTypes",
+        "../../data/journeyRegions",
+        "../../hooks/usePrefersReducedMotion",
+        "../../motion/motionPrefs",
+        "../../store/dexListsStore",
+        "../../store/discoveryRecommendationStore",
+        "../../store/uiStore",
+        "../../types/pokemon",
+        "./DiscoveryRelationshipOrbit",
+        "./discoveryRecommendationTypes",
+        "./useDiscoveryRecommendationData"
+      ],
+      "exported_symbols": [
+        "DiscoveryEngineModal"
+      ],
+      "referenced_stores": [
+        "useDexListsStore",
+        "useDiscoveryRecommendationStore",
+        "useUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/DiscoveryRelationshipOrbit.tsx",
+      "role": "component",
+      "feature_id": "discovery_recommendation",
+      "sha256": "eb07b263318d5d1f8a70be5e452ec55ca3f000461ba467a541892c1ddb4880cc",
+      "loc": 52,
+      "is_test": false,
+      "imports": [
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "DiscoveryRelationshipOrbit"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/aestheticTypeAffinity.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "f946b288ee5e478f4000df53fd3b75eeaaa098be16a60a790d0ef4b8dafd59c3",
+      "loc": 100,
+      "is_test": false,
+      "imports": [
+        "../../data/pokemonTypes",
+        "../../types/pokemon",
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "aestheticPoolNudge",
+        "aestheticTypeWeight"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.test.ts",
+      "role": "test",
+      "feature_id": "discovery_recommendation",
+      "sha256": "39b681aa73507e8dd4192a818cf51f9d80d3db07bf4130f0b1c6c427f9a84666",
+      "loc": 151,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart",
+        "./aestheticTypeAffinity",
+        "./discoveryRecommendationEngine",
+        "./regionToGeneration"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationEngine.ts",
+      "role": "engine",
+      "feature_id": "discovery_recommendation",
+      "sha256": "13f4e4480356f183b45fea033450bf8b9f58c545d3a2884cd858cf6c7ad7836b",
+      "loc": 418,
+      "is_test": false,
+      "imports": [
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart",
+        "./aestheticTypeAffinity",
+        "./discoveryRecommendationTypes"
+      ],
+      "exported_symbols": [
+        "buildDiscoveryRecommendations",
+        "mulberry32",
+        "seededShuffle"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/discoveryRecommendationTypes.ts",
+      "role": "types",
+      "feature_id": "discovery_recommendation",
+      "sha256": "cda1680f9c0843fe4057737f9bd226841048ff2a6fa50e158353550c1dbd2db8",
+      "loc": 86,
+      "is_test": false,
+      "imports": [
+        "../../types/pokemon",
+        "../team-builder/typeMatchupChart"
+      ],
+      "exported_symbols": [
+        "DiscoveryAesthetic",
+        "DiscoveryEngineInput",
+        "DiscoveryEngineResult",
+        "DiscoveryPlaystyle",
+        "DiscoveryReasonLine",
+        "DiscoveryRecommendationKind",
+        "DiscoveryRecommendationPreferences",
+        "DiscoveryRelationship",
+        "DiscoveryRelationshipKind",
+        "DiscoveryScoredPick"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/regionToGeneration.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "d8bf92176322100f6b1c8730af97e24de1b84b3841d453767b07dd06b33d76cd",
+      "loc": 26,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "regionKeysToGenerationIds"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/discovery-recommendation/useDiscoveryRecommendationData.ts",
+      "role": "util",
+      "feature_id": "discovery_recommendation",
+      "sha256": "57d4dcf6cc8ab6faf75147041bf6f857acbf5c6eb6239731ecd88fb720581593",
+      "loc": 159,
+      "is_test": false,
+      "imports": [
+        "@tanstack/react-query",
+        "react",
+        "../discovery/discoveryEngine",
+        "./discoveryRecommendationEngine",
+        "../team-builder/typeMatchupChart",
+        "../../query/keys",
+        "../../query/staleTimes",
+        "../../services/pokeapi/discoveryRecommendationIds",
+        "../../services/pokeapi/pokemonListResource",
+        "../../services/pokeapi/pokemonSummary",
+        "../../services/pokeapi/typeMatchupChart",
+        "../../store/dexListsStore",
+        "../../store/discoveryRecommendationStore",
+        "./discoveryRecommendationTypes",
+        "../../types/pokemon",
+        "./regionToGeneration"
+      ],
+      "exported_symbols": [
+        "useDiscoveryRecommendationData"
+      ],
+      "referenced_stores": [
+        "useDexListsStore",
+        "useDiscoveryRecommendationStore"
+      ],
+      "referenced_query_keys": [
+        "discovery",
+        "pokemon",
+        "teamBuilder"
+      ],
+      "parser_ok": true
+    },
+    {
+      "path": "src/services/pokeapi/discoveryRecommendationIds.ts",
+      "role": "service",
+      "feature_id": null,
+      "sha256": "a0c9ea024e8ba478e40ef63e3f202dc14eb3dd93f9b92ee9faec937904b5cd61",
+      "loc": 19,
+      "is_test": false,
+      "imports": [
+        "./generation",
+        "./pokemonListResource"
+      ],
+      "exported_symbols": [
+        "fetchDiscoveryCandidateIds"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/discoveryRecommendationStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "af6dfbdde8af2af9da9ff6ef9946ce971d1a9eecdf9a87579d91506c4f1dda99",
+      "loc": 117,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware",
+        "../features/discovery-recommendation/discoveryRecommendationTypes",
+        "../types/pokemon"
+      ],
+      "exported_symbols": [
+        "DiscoveryRecommendationState",
+        "useDiscoveryRecommendationStore"
+      ],
+      "referenced_stores": [
+        "useDiscoveryRecommendationStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": ".cursor/hooks.json",
+      "role": "unknown",
+      "feature_id": null,
+      "sha256": "18090ccc45456bd8da5acc1633d0ba3c353cb9f07c751d409adb8b7a326889ba",
+      "loc": 11,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": ".cursor/hooks/run-context-engine-on-todos-done.mjs",
+      "role": "hook",
+      "feature_id": null,
+      "sha256": "a3fc9831dd482da40dd26f4654bd8f58af473049fe4a341628f10ceac6e6ea33",
+      "loc": 132,
+      "is_test": false,
+      "imports": [
+        "node:child_process",
+        "node:fs",
+        "node:path"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
     {
       "path": ".cursor/rules/accessibility-rules.mdc",
       "role": "docs",
@@ -48,8 +315,8 @@
       "path": ".cursor/rules/context-engine.mdc",
       "role": "docs",
       "feature_id": null,
-      "sha256": "c82c66a6da5f4852dc524ac67b822933bae05f16110751607037e87e38b263fb",
-      "loc": 48,
+      "sha256": "99926beca21167e43173bb4dc00fa4d159e2e152fed5d042d003cd52414a1c18",
+      "loc": 34,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -126,8 +393,8 @@
       "path": "CURRENT_AI_CONTEXT.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "aa091a49e2c04805b1679fda1b65dcef7b74af12c15b601f58820499d5a28826",
-      "loc": 83,
+      "sha256": "8704b342752292c85357b2a4eb586c1c9e344c8e432f485194ecf0f2b64716ab",
+      "loc": 38,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -152,8 +419,8 @@
       "path": "FEATURE_TRACKER.md",
       "role": "docs",
       "feature_id": null,
-      "sha256": "f71c87f1a9d800fe5ae1373b84b6b205fe71a2920e38ba89bb40bb6388599329",
-      "loc": 58,
+      "sha256": "24ae8d1e234e1555e00ebe4b3bb55c9a1b7c8635d73b75626e8e09e4dac3f16e",
+      "loc": 59,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -204,8 +471,8 @@
       "path": "project-metadata/current-state/snapshot.json",
       "role": "unknown",
       "feature_id": null,
-      "sha256": "fc8924dff744611c01cdd4f1f621067ef3e8c6bf68c4a5d4bae685c3295872bb",
-      "loc": 8173,
+      "sha256": "b043d7843bc30cf7dd6afb6d8181a569f848797b084ebaefa241cd5972ed0060",
+      "loc": 2350,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -230,7 +497,7 @@
       "path": "project-metadata/features/carousel.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "8f4d599556f86e52fc0322a2c3fc222db2496315e69ae58f3a516eca95bcb8bc",
+      "sha256": "8337b312d0920c009ed181ed0717edca680059b8c2c29d2db2b0a61355bb94c6",
       "loc": 22,
       "is_test": false,
       "imports": [],
@@ -243,8 +510,8 @@
       "path": "project-metadata/features/compare.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "e26cec1f0bd507631948180d5c5df5d3cd26bb2cfd3801918548df5ad0e7f6d0",
-      "loc": 22,
+      "sha256": "604121fbdb0b9a5705833936c10448fc6cab0ef29992974bfffee61338df6fca",
+      "loc": 23,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -256,7 +523,7 @@
       "path": "project-metadata/features/comparison_card_export.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "91a2516349d83c3de1d8caff63839402fc6c7d1079548dc7c3e1929ad96cef7e",
+      "sha256": "0894c2851bd51a2baaf2924e5c748fc428c1e8029003af4f94ab202ef27caf67",
       "loc": 16,
       "is_test": false,
       "imports": [],
@@ -269,8 +536,8 @@
       "path": "project-metadata/features/discovery.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "23a45ac1b35b40fd99cae489d5bf8cdee159b3f43a9d6f12510a43cfeab504a8",
-      "loc": 24,
+      "sha256": "b62f2a20d8c905e4bebd5854e16477f338e8fafff4e9e0c9a5baff5bf5aab68b",
+      "loc": 26,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -282,8 +549,8 @@
       "path": "project-metadata/features/overlay.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "489b19b4012297045c7a677dd879972ed53bd7ae6523f686ba549e6580a97ebf",
-      "loc": 26,
+      "sha256": "2c041bd189ebbec9f240b348d16862765fde768b81b7ea62898dc1e5b29545ff",
+      "loc": 28,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -295,8 +562,8 @@
       "path": "project-metadata/features/team_builder.yaml",
       "role": "config",
       "feature_id": null,
-      "sha256": "18a24b625abea8d26601322c47a2ce8efbbcb72a4b808714f28f67d744f70d9f",
-      "loc": 27,
+      "sha256": "902c5cdfbacbadbc9e5acd7907f818a5f0ae174da21e6c91b1009ef177699fff",
+      "loc": 28,
       "is_test": false,
       "imports": [],
       "exported_symbols": [],
@@ -308,23 +575,30 @@
       "path": "src/App.tsx",
       "role": "component",
       "feature_id": null,
-      "sha256": "471dff2785070a30071f33bc55c8246fd9f967f0bb6a988e0dfc4e718d990ec7",
-      "loc": 76,
+      "sha256": "4e0591fe7c5bf8828adc65f9e7b97a1689ec9caca78bce1e796ee216da5a09ca",
+      "loc": 96,
       "is_test": false,
       "imports": [
         "./features/carousel/PokeBallCarousel",
         "./features/battle-sim/BattleSimulatorModal",
         "./features/compare/ComparisonModal",
+        "./features/discovery-recommendation/DiscoveryEngineModal",
         "./features/discovery/MyDexPanel",
+        "./features/journey/JourneyBootstrap",
+        "./features/journey/JourneyDashboardModal",
+        "./features/journey/JourneyEntryButton",
+        "./features/journey/JourneyOnboardingDialog",
         "./features/team-builder/TeamBuilderModal",
         "./features/overlay/DetailsOverlay",
         "./hooks/useAppKeyboardShortcuts",
+        "./store/discoveryRecommendationStore",
         "./store/teamBuilderStore"
       ],
       "exported_symbols": [
         "App"
       ],
       "referenced_stores": [
+        "useDiscoveryRecommendationStore",
         "useTeamBuilderStore"
       ],
       "referenced_query_keys": [],
@@ -511,6 +785,39 @@
         "getFeature",
         "listFeatures",
         "listShippedFeatures"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/data/journeyRegions.ts",
+      "role": "data",
+      "feature_id": null,
+      "sha256": "3b527066c590f55e0b750805b95506e8116db05233b3f1069185142a05e1a1e6",
+      "loc": 25,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "JOURNEY_REGIONS",
+        "JourneyRegionOption",
+        "journeyRegionLabel"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/data/journeyStarters.ts",
+      "role": "data",
+      "feature_id": null,
+      "sha256": "f41143698f2373453468456025991019932a0859983511c1dfa8edce78905a98",
+      "loc": 19,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "JOURNEY_STARTER_TRIPLETS",
+        "JourneyStarterTriplet"
       ],
       "referenced_stores": [],
       "referenced_query_keys": [],
@@ -714,8 +1021,8 @@
       "path": "src/features/compare/ComparisonModal.tsx",
       "role": "component",
       "feature_id": "compare",
-      "sha256": "b3aaef37cfe42b63bf2e32a0eca4454d94b0c9bcadcf709277d2578e1c023f5d",
-      "loc": 504,
+      "sha256": "e5af4d86ff94a466a28aa926736f76f2e2442954f9c0bd48237f3b4a02c3d7a5",
+      "loc": 513,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -731,6 +1038,7 @@
         "../../services/pokeapi/typeEffectiveness",
         "../../store/battleSimulatorStore",
         "../../store/comparisonStore",
+        "../../store/journeyProgressStore",
         "../../types/pokemon",
         "./compareTheme",
         "./comparisonScoring",
@@ -742,7 +1050,8 @@
       ],
       "referenced_stores": [
         "useBattleSimulatorStore",
-        "useComparisonStore"
+        "useComparisonStore",
+        "useJourneyProgressStore"
       ],
       "referenced_query_keys": [
         "pokemon"
@@ -828,8 +1137,8 @@
       "path": "src/features/discovery/MyDexPanel.tsx",
       "role": "component",
       "feature_id": "discovery",
-      "sha256": "61eb13faae9c356a5bfe89ccf1b8be0092d6f820f3426e2f938ee903f0db9695",
-      "loc": 536,
+      "sha256": "b7b7f9e68cef4a4ad68af0cc63819cada19d8f07ced742053833591a21f657f2",
+      "loc": 545,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -842,6 +1151,7 @@
         "../../components/ui/PanelSkeletons",
         "../../store/comparisonStore",
         "../../store/dexListsStore",
+        "../../store/discoveryRecommendationStore",
         "../../store/uiStore",
         "./discoveryUiStore",
         "./useMyDexDiscovery"
@@ -852,6 +1162,7 @@
       "referenced_stores": [
         "useComparisonStore",
         "useDexListsStore",
+        "useDiscoveryRecommendationStore",
         "useDiscoveryUiStore",
         "useUiStore"
       ],
@@ -961,6 +1272,211 @@
         "discovery",
         "pokemon"
       ],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/JourneyBootstrap.tsx",
+      "role": "component",
+      "feature_id": "journey",
+      "sha256": "837641eb83616d124f6fb9e791b306ad1fc860d9c49ad58785b70b239ff33b50",
+      "loc": 32,
+      "is_test": false,
+      "imports": [
+        "react",
+        "../../store/journeyTrainerStore",
+        "../../store/journeyUiStore"
+      ],
+      "exported_symbols": [
+        "JourneyBootstrap"
+      ],
+      "referenced_stores": [
+        "useJourneyTrainerStore",
+        "useJourneyUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/JourneyDashboardModal.tsx",
+      "role": "component",
+      "feature_id": "journey",
+      "sha256": "3dbe082d3cc204ea05c78825f1297825b01e3fb08be283251b988dd82a716ae9",
+      "loc": 273,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../a11y/useFocusTrap",
+        "./journeyAchievementCatalog",
+        "./journeyAchievementTypes",
+        "../../hooks/usePrefersReducedMotion",
+        "../../motion/motionPrefs",
+        "../../store/journeyProgressStore",
+        "../../store/journeyTrainerStore",
+        "../../store/journeyUiStore",
+        "./journeySpriteUrl",
+        "./TrainerCard"
+      ],
+      "exported_symbols": [
+        "JourneyDashboardModal"
+      ],
+      "referenced_stores": [
+        "useJourneyProgressStore",
+        "useJourneyTrainerStore",
+        "useJourneyUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/JourneyEntryButton.tsx",
+      "role": "component",
+      "feature_id": "journey",
+      "sha256": "2314c860183f6a0594b93697f84bf4657d609839bbebb3b52ac4505409f942ab",
+      "loc": 30,
+      "is_test": false,
+      "imports": [
+        "../../store/journeyTrainerStore",
+        "../../store/journeyUiStore"
+      ],
+      "exported_symbols": [
+        "JourneyEntryButton"
+      ],
+      "referenced_stores": [
+        "useJourneyTrainerStore",
+        "useJourneyUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/JourneyOnboardingDialog.tsx",
+      "role": "component",
+      "feature_id": "journey",
+      "sha256": "30a9939ac2b5511dbb85811b30a4024ac51bab5d97ec3ac6d3647924ca52abc1",
+      "loc": 333,
+      "is_test": false,
+      "imports": [
+        "motion/react",
+        "react",
+        "../../a11y/useFocusTrap",
+        "../../data/journeyRegions",
+        "../../data/journeyStarters",
+        "../../hooks/usePrefersReducedMotion",
+        "../../motion/motionPrefs",
+        "../../store/journeyTrainerStore",
+        "../../store/journeyUiStore",
+        "./journeySpriteUrl"
+      ],
+      "exported_symbols": [
+        "JourneyOnboardingDialog"
+      ],
+      "referenced_stores": [
+        "useJourneyTrainerStore",
+        "useJourneyUiStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/TrainerCard.tsx",
+      "role": "component",
+      "feature_id": "journey",
+      "sha256": "6e041d66d4fadade508391dd092b7065ee10c2329af293b2f974e9c9c4d8a721",
+      "loc": 79,
+      "is_test": false,
+      "imports": [
+        "../../data/journeyRegions",
+        "./journeySpriteUrl"
+      ],
+      "exported_symbols": [
+        "TrainerCard",
+        "TrainerCardProps"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/achievementEngine.test.ts",
+      "role": "test",
+      "feature_id": "journey",
+      "sha256": "ed411c4a1bbcc2fe7976401e1fc5c0572d4bbab57e529dbe63b2be7d4bf7d3c8",
+      "loc": 58,
+      "is_test": true,
+      "imports": [
+        "vitest",
+        "./achievementEngine"
+      ],
+      "exported_symbols": [],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/achievementEngine.ts",
+      "role": "engine",
+      "feature_id": "journey",
+      "sha256": "bb43d61804c659a06104d063cbe8394af73130a8b2984d43b2801876ff72042b",
+      "loc": 34,
+      "is_test": false,
+      "imports": [
+        "./journeyAchievementCatalog"
+      ],
+      "exported_symbols": [
+        "JourneyProgressSnapshot",
+        "evaluateNewJourneyAchievements"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/journeyAchievementCatalog.ts",
+      "role": "util",
+      "feature_id": "journey",
+      "sha256": "442a00b5d376f00f01da90425a5f35252b3451e872efb77757dd4b86f8f0c1c3",
+      "loc": 59,
+      "is_test": false,
+      "imports": [
+        "./journeyAchievementTypes"
+      ],
+      "exported_symbols": [
+        "JOURNEY_ACHIEVEMENTS"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/journeyAchievementTypes.ts",
+      "role": "types",
+      "feature_id": "journey",
+      "sha256": "8c302adb9232bf95a5a8ca778d192300aef352b679b4c049acb9517e90a35043",
+      "loc": 8,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "JourneyAchievementDef",
+        "JourneyAchievementTier"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/features/journey/journeySpriteUrl.ts",
+      "role": "util",
+      "feature_id": "journey",
+      "sha256": "8b68d2d0e80b500d65b3c1e9bb14d6414e5cc42797f7396343255afef1da959d",
+      "loc": 3,
+      "is_test": false,
+      "imports": [],
+      "exported_symbols": [
+        "journeyPokemonSpriteUrl"
+      ],
+      "referenced_stores": [],
+      "referenced_query_keys": [],
       "parser_ok": true
     },
     {
@@ -1086,8 +1602,8 @@
       "path": "src/features/team-builder/TeamBuilderModal.tsx",
       "role": "component",
       "feature_id": "team_builder",
-      "sha256": "f42d4d6381f3184d70f479566beef71046815bd2a8e1c4b4a696e60f04c453e6",
-      "loc": 536,
+      "sha256": "dcb304e4c066ba91b5ce510b70149977a4740f7c456f6847ad76a1c94b9bfb8c",
+      "loc": 545,
       "is_test": false,
       "imports": [
         "motion/react",
@@ -1099,6 +1615,7 @@
         "../../hooks/usePrefersReducedMotion",
         "../../motion/motionPrefs",
         "../../store/dexListsStore",
+        "../../store/journeyProgressStore",
         "../../store/teamBuilderStore",
         "../../types/pokemon",
         "./teamBuilderEngine",
@@ -1110,6 +1627,7 @@
       ],
       "referenced_stores": [
         "useDexListsStore",
+        "useJourneyProgressStore",
         "useTeamBuilderStore"
       ],
       "referenced_query_keys": [],
@@ -1238,14 +1756,16 @@
       "path": "src/hooks/useAppKeyboardShortcuts.ts",
       "role": "hook",
       "feature_id": null,
-      "sha256": "03fbab97fb0bd005abb2acceedf8710e85809d81d2e3915581b89e6f16649c31",
-      "loc": 71,
+      "sha256": "a33524784497d184f2a4df4b6203538732dfce9f1ac469bb9dc9a95b7b17e825",
+      "loc": 91,
       "is_test": false,
       "imports": [
         "react",
         "../store/battleSimulatorStore",
         "../store/comparisonStore",
         "../features/discovery/discoveryUiStore",
+        "../store/discoveryRecommendationStore",
+        "../store/journeyUiStore",
         "../store/teamBuilderStore",
         "../store/uiStore"
       ],
@@ -1255,7 +1775,9 @@
       "referenced_stores": [
         "useBattleSimulatorStore",
         "useComparisonStore",
+        "useDiscoveryRecommendationStore",
         "useDiscoveryUiStore",
+        "useJourneyUiStore",
         "useTeamBuilderStore",
         "useUiStore"
       ],
@@ -1489,8 +2011,8 @@
       "path": "src/query/keys.ts",
       "role": "query",
       "feature_id": null,
-      "sha256": "128d1c7ef63bd62dca3734f85bccd2119f820cf5b1ff9167ce448818c10a9de0",
-      "loc": 27,
+      "sha256": "352c100de8903d195786f84a4e0a5b846c5e52b5166919f9e52652c582406296",
+      "loc": 29,
       "is_test": false,
       "imports": [],
       "exported_symbols": [
@@ -2009,19 +2531,84 @@
       "path": "src/store/dexListsStore.ts",
       "role": "store",
       "feature_id": null,
-      "sha256": "47d1a36fc4ec6f31747987da0142d88ebac45dc32458e8b428a1b0381cb65650",
-      "loc": 42,
+      "sha256": "a238d5744e9e3ca1eb11a7271aedf830cdd09d9eeb73c5e2d04ec786e95f0c22",
+      "loc": 49,
       "is_test": false,
       "imports": [
         "zustand",
-        "zustand/middleware"
+        "zustand/middleware",
+        "./journeyProgressStore"
       ],
       "exported_symbols": [
         "RecentView",
         "useDexListsStore"
       ],
       "referenced_stores": [
-        "useDexListsStore"
+        "useDexListsStore",
+        "useJourneyProgressStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/journeyProgressStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "fd6241202b3b5de5647f882b5f853c5387b90d10ada408ef8f3ca366708ed9bf",
+      "loc": 92,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware",
+        "../features/journey/achievementEngine"
+      ],
+      "exported_symbols": [
+        "JourneyFavoriteEvent",
+        "JourneyTeamSnapshot",
+        "useJourneyProgressStore"
+      ],
+      "referenced_stores": [
+        "useJourneyProgressStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/journeyTrainerStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "43039728710a8f0d5fc6f2642cf5a25c0c8221c4eb04b1268a3df73431e12d87",
+      "loc": 63,
+      "is_test": false,
+      "imports": [
+        "zustand",
+        "zustand/middleware"
+      ],
+      "exported_symbols": [
+        "JourneyTrainerState",
+        "useJourneyTrainerStore"
+      ],
+      "referenced_stores": [
+        "useJourneyTrainerStore"
+      ],
+      "referenced_query_keys": [],
+      "parser_ok": true
+    },
+    {
+      "path": "src/store/journeyUiStore.ts",
+      "role": "store",
+      "feature_id": null,
+      "sha256": "035627313d75ab59b5370b3dcfee7aae0416be0dc5e1ed7093a3ce85dd7bb49b",
+      "loc": 28,
+      "is_test": false,
+      "imports": [
+        "zustand"
+      ],
+      "exported_symbols": [
+        "useJourneyUiStore"
+      ],
+      "referenced_stores": [
+        "useJourneyUiStore"
       ],
       "referenced_query_keys": [],
       "parser_ok": true
@@ -2049,13 +2636,14 @@
       "path": "src/store/uiStore.ts",
       "role": "store",
       "feature_id": null,
-      "sha256": "2567f6d94684b2cb7578d76d6b5f312d33cbb8752b3998c5858f22845d196037",
-      "loc": 50,
+      "sha256": "24c2876fa2d7d9e7d887cc51dee72c2f9cf400766b5363f6f206a182a3026362",
+      "loc": 52,
       "is_test": false,
       "imports": [
         "zustand",
         "../data/pokeballs",
-        "./dexListsStore"
+        "./dexListsStore",
+        "./journeyProgressStore"
       ],
       "exported_symbols": [
         "OverlayPanel",
@@ -2063,6 +2651,7 @@
       ],
       "referenced_stores": [
         "useDexListsStore",
+        "useJourneyProgressStore",
         "useUiStore"
       ],
       "referenced_query_keys": [],
